@@ -69,13 +69,20 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>D:\Proyectos\CPP\SuperMonacoGP\SDL2_mixer-2.0.2\include;D:\Proyectos\CPP\SuperMonacoGP\SDL2_ttf-2.0.14\include;D:\Proyectos\CPP\SuperMonacoGP\SDL2-2.0.7\include;D:\Proyectos\CPP\SuperMonacoGP\SDL2_image-2.0.2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Proyectos\CPP\SuperMonacoGP\SDL2_mixer-2.0.2\lib\x86;D:\Proyectos\CPP\SuperMonacoGP\SDL2_ttf-2.0.14\lib\x86;D:\Proyectos\CPP\SuperMonacoGP\SDL2-2.0.7\lib\x86;D:\Proyectos\CPP\SuperMonacoGP\SDL2_image-2.0.2\lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -110,8 +117,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
