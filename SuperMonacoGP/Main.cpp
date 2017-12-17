@@ -53,6 +53,11 @@ private:
 	int mHeight;
 };
 
+
+//customs
+
+int getPosition(int position);
+void printLine(int i, int &lineToPint, const int &z, SDL_Rect &topRoad, SDL_Rect &bottomRoad);
 //Starts up SDL and creates window
 bool init();
 
@@ -75,7 +80,7 @@ LTexture gSpriteSheetTexture;
 
 //Car
 LTexture car;
-
+SDL_Rect carRect;
 
 LTexture::LTexture()
 {
@@ -108,7 +113,7 @@ bool LTexture::loadFromFile(std::string path)
 	else
 	{
 		//Color key image
-		SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0, 0xFF, 0xFF));
+		SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0xFF, 0x00, 0xFF));
 
 		//Create texture from surface pixels
 		newTexture = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
@@ -276,7 +281,14 @@ bool loadMedia()
 		gSpriteClips[1].w = 1277;
 		gSpriteClips[1].h = 237;
 	}
-
+	if (!car.loadFromFile("Sprites/dummyCar.png"))
+	{
+		printf("Failed to load walking animation texture!\n");
+		success = false;
+	}
+	else
+	{
+	}
 	return success;
 }
 
@@ -296,6 +308,20 @@ void close()
 	SDL_Quit();
 }
 
+void printLine(int i, int &lineToPint, const int &z,  SDL_Rect &topRoad,  SDL_Rect &bottomRoad)
+{
+	if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
+	else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
+}
+
+int getHight(int position) {
+
+	if (position < 100000) return 0;
+	if (position < 200000) return 5;
+	if (position < 300000) return 0;
+	if (position < 400000) return -5;
+	if (position < 500000) return 0;
+}
 int main(int argc, char* args[])
 {
 	//Start up SDL and create window
@@ -320,7 +346,7 @@ int main(int argc, char* args[])
 
 			//Current animation frame
 			int frame = 0;
-
+			int lvlHill = 0;
 			//While application is running
 			while (!quit)
 			{
@@ -350,6 +376,8 @@ int main(int argc, char* args[])
 				int dz = 0;
 				int ddz = 0;
 				int lineToPint = SCREEN_HEIGHT;
+				int myPosition = distLine[0] + frame;
+				
 				for(int i = 0; i < (&gSpriteClips[1])->h; ++i)
 				{
 					dz += 1.2;
@@ -359,21 +387,67 @@ int main(int argc, char* args[])
 					topRoad.y = (&gSpriteClips[0])->y + (&gSpriteClips[0])->h - i;
 					bottomRoad.h = 1;
 					topRoad.h = 1;
-					if((z %6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
-					else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
-					//i = z + dz;*/
-					--lineToPint;
-					if(z > 100000 && z < 200000 && (i%3) == 0)
+					
+					/*if(getHight(myPosition) < getHight(z))
+					{
+						if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
+						else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
+						--lineToPint;
+						if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
+						else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
+						--lineToPint;
+					}
+					if (getHight(myPosition) == getHight(z))
 					{
 						if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
 						else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
 						--lineToPint;
 					}
-					if (z > 300000 && z < 400000 && (i % 2) == 0)
+					if (getHight(myPosition) > getHight(z))
 					{
-						++lineToPint;
+						if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
+						else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
+						lineToPint;
+					}*/
+					if((z %6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
+					else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
+					//i = z + dz;
+					--lineToPint;
+					if(z > 100000 && z < 125000 && (i%3) == 0)
+					{
+						if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
+						else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
+						--lineToPint;
 					}
+					if (z > 100000 && z < 150000 && (i % 3) == 0)
+					{
+						if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
+						else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
+						--lineToPint;
+						if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
+						else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
+						--lineToPint;
+					}
+					if (z > 300000 && z < 390000 && (i % 2) == 0)
+					{
+						if (z - myPosition > 20000) { break; }
+						else {
+							++lineToPint;
+						}
+					}if (z > 390000 && z < 400000 && (i % 2) == 0)
+					{
+
+							++lineToPint;
+
+					}
+				/*	if (z > 350000 && z < 400000 && (i % 3) == 0)
+					{
+					//	++lineToPint;
+					}*/
 				}
+
+				
+				car.render(SCREEN_WIDTH / 2 - car.getWidth()  / 2, SCREEN_HEIGHT - car.getHeight(), nullptr);
 
 				//Update screen
 				SDL_RenderPresent(gRenderer);
