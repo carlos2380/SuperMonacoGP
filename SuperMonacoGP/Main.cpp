@@ -349,6 +349,7 @@ int main(int argc, char* args[])
 				int z = frame;
 				int dz = 0;
 				int ddz = 0;
+				int lineToPint = SCREEN_HEIGHT;
 				for(int i = 0; i < (&gSpriteClips[1])->h; ++i)
 				{
 					dz += 1.2;
@@ -358,12 +359,19 @@ int main(int argc, char* args[])
 					topRoad.y = (&gSpriteClips[0])->y + (&gSpriteClips[0])->h - i;
 					bottomRoad.h = 1;
 					topRoad.h = 1;
-					if((z %6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, (SCREEN_HEIGHT - i), &topRoad);
-					else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, (SCREEN_HEIGHT - i), &bottomRoad);
+					if((z %6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
+					else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
 					//i = z + dz;*/
-					if(frame > 300000 && i > 150)
+					--lineToPint;
+					if(z > 100000 && z < 200000 && (i%3) == 0)
 					{
-						
+						if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
+						else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
+						--lineToPint;
+					}
+					if (z > 300000 && z < 400000 && (i % 2) == 0)
+					{
+						++lineToPint;
 					}
 				}
 
@@ -371,7 +379,7 @@ int main(int argc, char* args[])
 				SDL_RenderPresent(gRenderer);
 
 				//Go to next frame
-				frame+=00550;
+				frame+=01200;
 
 				//Cycle animation
 				/*if (frame / 2 >= WALKING_ANIMATION_FRAMES)
