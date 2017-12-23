@@ -7,6 +7,7 @@ and may not be redistributed without written permission.*/
 #include <stdio.h>
 #include <string>
 #include "vector"
+#include <iostream>
 using namespace std;
 //Screen dimension constants
 const int SCREEN_WIDTH = 1300;
@@ -348,6 +349,7 @@ int main(int argc, char* args[])
 			int frame = 0;
 			int lvlHill = 0;
 			//While application is running
+			int zfar = 22000;
 			while (!quit)
 			{
 				//Handle events on queue
@@ -376,6 +378,8 @@ int main(int argc, char* args[])
 				int dz = 0;
 				int ddz = 0;
 				int lineToPint = SCREEN_HEIGHT;
+				int lineToGetTop = (&gSpriteClips[0])->y + (&gSpriteClips[0])->h;
+				int lineToGetBottom = (&gSpriteClips[1])->y + (&gSpriteClips[1])->h;
 				int myPosition = distLine[0] + frame;
 				
 				for(int i = 0; i < (&gSpriteClips[1])->h; ++i)
@@ -383,8 +387,8 @@ int main(int argc, char* args[])
 					dz += 1.2;
 					//z += dz;
 					z = distLine[i] + frame;
-					bottomRoad.y = (&gSpriteClips[1])->y + (&gSpriteClips[1])->h - i;
-					topRoad.y = (&gSpriteClips[0])->y + (&gSpriteClips[0])->h - i;
+					bottomRoad.y = lineToGetBottom;
+					topRoad.y = lineToGetTop;
 					bottomRoad.h = 1;
 					topRoad.h = 1;
 					
@@ -409,44 +413,62 @@ int main(int argc, char* args[])
 						else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
 						lineToPint;
 					}*/
-					if((z %6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
-					else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
-					//i = z + dz;
-					--lineToPint;
-					if(z > 100000 && z < 125000 && (i%3) == 0)
+					if (distLine[i]  < zfar)
 					{
 						if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
 						else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
+						//i = z + dz;
 						--lineToPint;
-					}
-					if (z > 100000 && z < 150000 && (i % 3) == 0)
-					{
-						if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
-						else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
-						--lineToPint;
-						if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
-						else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
-						--lineToPint;
-					}
-					if (z > 300000 && z < 390000 && (i % 2) == 0)
-					{
-						if (z - myPosition > 20000) { break; }
-						else {
-							++lineToPint;
+						--lineToGetBottom;
+						--lineToGetTop;
+						if (z > 80000 && z < 150000 && (i % 2) == 0)
+						{
+							//zfar = 30000;
+							if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
+							else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
+							--lineToPint;
+							zfar += 2;
 						}
-					}if (z > 390000 && z < 400000 && (i % 2) == 0)
-					{
+						/*if (z > 100000 && z < 150000 && (i % 8) == 0)
+						{
+							if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
+							else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
+							--lineToPint;
+							if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
+							else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
+							--lineToPint;
+						}*/
 
+
+						//if (z > 100000 && z < 150000) zfar = 30000;
+						if (z > 150000 && z < 300000 && zfar > 22000) zfar -= 2;
+						if (z > 310000 && z < 390000 && (i % 3) == 0)
+						{
+							if(zfar ==310000) zfar = 12000;
+								++lineToPint;
+								zfar += 2;
+								//cout << zfar << endl;
+
+						}if (z > 390000 && z < 420000 && (i % 3) == 0)
+						{
+						//	zfar = 22000;
 							++lineToPint;
+							//if ( zfar < 22000) zfar += 2;
+							if ( zfar > 22000) zfar -= 2;
 
+						}
+						if(z > 420000 && zfar < 22000) zfar += 2;
+						if (z > 420000 && zfar > 22000) zfar -= 2;
 					}
 				/*	if (z > 350000 && z < 400000 && (i % 3) == 0)
 					{
 					//	++lineToPint;
 					}*/
 				}
-
-				
+				if (z > 650000) {
+					frame = 0;
+					zfar = 22000;
+				}
 				car.render(SCREEN_WIDTH / 2 - car.getWidth()  / 2, SCREEN_HEIGHT - car.getHeight(), nullptr);
 
 				//Update screen
