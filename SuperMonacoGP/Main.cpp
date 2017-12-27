@@ -317,11 +317,19 @@ void printLine(int i, int &lineToPint, const int &z,  SDL_Rect &topRoad,  SDL_Re
 
 int getHight(int position) {
 
-	if (position < 100000) return 0;
-	if (position < 200000) return 5;
-	if (position < 300000) return 0;
-	if (position < 400000) return -5;
-	if (position < 500000) return 0;
+	if (position < 80000) return 0;
+	if (position < 150000) return 1;
+	if (position < 160000) return 0;
+	if (position < 250000) return -1;
+	if (position < 300000) return -1;
+	if (position < 400000) return 0;
+	if (position < 500000) return 1;
+	if (position < 700000) return -1;
+	if (position < 800000) return 0;
+	if (position < 900000) return 1;
+	if (position < 1000000) return -1;
+	if (position < 1100000) return 1;
+	if (position < 1200000) return -1;
 }
 int main(int argc, char* args[])
 {
@@ -347,8 +355,8 @@ int main(int argc, char* args[])
 
 			//Current animation frame
 			int frame = 0;
-			int lvlHill = 0;
-			//While application is running
+
+			//Max distance to paint
 			int zfar = 22000;
 			while (!quit)
 			{
@@ -374,101 +382,101 @@ int main(int argc, char* args[])
 				vector<int> distLine = { 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78, 91, 105, 120, 136, 153, 171, 190, 210, 231, 253, 276, 300, 325, 351, 378, 406, 435, 465, 496, 528, 561, 595, 630, 666, 703, 741, 780, 820, 861, 903, 946, 990, 1035, 1081, 1128, 1176, 1225, 1275, 1326, 1378, 1431, 1485, 1540, 1596, 1653, 1711, 1770, 1830, 1891, 1953, 2016, 2080, 2145, 2211, 2278, 2346, 2415, 2485, 2556, 2628, 2701, 2775, 2850, 2926, 3003, 3081, 3160, 3240, 3321, 3403, 3486, 3570, 3655, 3741, 3828, 3916, 4005, 4095, 4186, 4278, 4371, 4465, 4560, 4656, 4753, 4851, 4950, 5050, 5151, 5253, 5356, 5460, 5565, 5671, 5778, 5886, 5995, 6105, 6216, 6328, 6441, 6555, 6670, 6786, 6903, 7021, 7140, 7260, 7381, 7503, 7626, 7750, 7875, 8001, 8128, 8256, 8385, 8515, 8646, 8778, 8911, 9045, 9180, 9316, 9453, 9591, 9730, 9870, 10011, 10153, 10296, 10440, 10585, 10731, 10878, 11026, 11175, 11325, 11476, 11628, 11781, 11935, 12090, 12246, 12403, 12561, 12720, 12880, 13041, 13203, 13366, 13530, 13695, 13861, 14028, 14196, 14365, 14535, 14706, 14878, 15051, 15225, 15400, 15576, 15753, 15931, 16110, 16290, 16471, 16653, 16836, 17020, 17205, 17391, 17578, 17766, 17955, 18145, 18336, 18528, 18721, 18915, 19110, 19306, 19503, 19701, 19900, 20100, 20301, 20503, 20706, 20910, 21115, 21321, 21528, 21736, 21945, 22155, 22366, 22578, 22791, 23005, 23220, 23436, 23653, 23871, 24090, 24310, 24531, 24753, 24976, 25200, 25425, 25651, 25878, 26106, 26335, 26565, 26796, 27028, 27261, 27495, 27730, 27966, 28203 };
 				SDL_Rect topRoad = gSpriteClips[0];
 				SDL_Rect bottomRoad = gSpriteClips[1];
-				int z = frame;
-				int dz = 0;
-				int ddz = 0;
-				int lineToPint = SCREEN_HEIGHT;
+				int thisDistance = frame;
+				int lineToPaint = SCREEN_HEIGHT;
 				int lineToGetTop = (&gSpriteClips[0])->y + (&gSpriteClips[0])->h;
 				int lineToGetBottom = (&gSpriteClips[1])->y + (&gSpriteClips[1])->h;
 				int myPosition = distLine[0] + frame;
-				
-				for(int i = 0; i < (&gSpriteClips[1])->h; ++i)
+				int myHight = getHight(myPosition);
+
+				for (int i = 0; i < (&gSpriteClips[1])->h; ++i)
 				{
-					dz += 1.2;
-					//z += dz;
-					z = distLine[i] + frame;
+					thisDistance = distLine[i] + frame;
 					bottomRoad.y = lineToGetBottom;
 					topRoad.y = lineToGetTop;
 					bottomRoad.h = 1;
 					topRoad.h = 1;
-					
-					/*if(getHight(myPosition) < getHight(z))
-					{
-						if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
-						else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
-						--lineToPint;
-						if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
-						else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
-						--lineToPint;
-					}
-					if (getHight(myPosition) == getHight(z))
-					{
-						if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
-						else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
-						--lineToPint;
-					}
-					if (getHight(myPosition) > getHight(z))
-					{
-						if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
-						else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
-						lineToPint;
-					}*/
-					if (distLine[i]  < zfar)
-					{
-						if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
-						else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
-						//i = z + dz;
-						--lineToPint;
-						--lineToGetBottom;
-						--lineToGetTop;
-						if (z > 80000 && z < 150000 && (i % 2) == 0)
-						{
-							//zfar = 30000;
-							if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
-							else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
-							--lineToPint;
-							zfar += 2;
+
+					if (distLine[i] < zfar) {
+
+						if (myHight == 0 && getHight(thisDistance) == 0) {
+							if (zfar < 22000) zfar += 200;
+							if (zfar > 22000) zfar -= 200;
+							printLine(i, lineToPaint, thisDistance, topRoad, bottomRoad);
+							--lineToPaint;
+							--lineToGetBottom;
+							--lineToGetTop;
 						}
-						/*if (z > 100000 && z < 150000 && (i % 8) == 0)
-						{
-							if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
-							else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
-							--lineToPint;
-							if ((z % 6000) < 800) gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[0])->w) / 2, lineToPint, &topRoad);
-							else gSpriteSheetTexture.render((SCREEN_WIDTH - (&gSpriteClips[1])->w) / 2, lineToPint, &bottomRoad);
-							--lineToPint;
+						else if (myHight == 1 && getHight(thisDistance) == 1) {
+							printLine(i, lineToPaint, thisDistance, topRoad, bottomRoad);
+							--lineToPaint;
+							--lineToGetBottom;
+							--lineToGetTop;
+							if ((i % 2) == 0)
+							{
+								printLine(i, lineToPaint, thisDistance, topRoad, bottomRoad);
+								if (zfar < 28000) zfar += 2;
+								--lineToPaint;
+							}
+						}
+						else if (myHight == -1 && getHight(thisDistance) == -1) {
+							printLine(i, lineToPaint, thisDistance, topRoad, bottomRoad);
+							--lineToPaint;
+							--lineToGetBottom;
+							--lineToGetTop;
+							if ((i % 3) == 0)
+							{
+								++lineToPaint;
+								if (zfar < 28000) zfar += 2;
+							}
+						}
+						else if (myHight == 0 && getHight(thisDistance) == 1) {
+							printLine(i, lineToPaint, thisDistance, topRoad, bottomRoad);
+							--lineToPaint;
+							--lineToGetBottom;
+							--lineToGetTop;
+							if ((i % 2) == 0)
+							{
+								printLine(i, lineToPaint, thisDistance, topRoad, bottomRoad);
+								--lineToPaint;
+								if (zfar < 28000) zfar += 2;
+							}
+						}
+						else if (myHight == 0 && getHight(thisDistance) == -1) {
+							printLine(i, lineToPaint, thisDistance, topRoad, bottomRoad);
+							--lineToPaint;
+							--lineToGetBottom;
+							--lineToGetTop;
+							if ((i % 3) == 0)
+							{
+								++lineToPaint;
+								if (zfar < 28000) zfar += 2;
+							}
+						}
+						else if (myHight == 1 && getHight(thisDistance) == 0) {
+							
+							printLine(i, lineToPaint, thisDistance, topRoad, bottomRoad);
+							--lineToPaint;
+							--lineToGetBottom;
+							--lineToGetTop;
+							if ((i % 2) == 0)if (zfar > 0) zfar -= 5;
+						}
+						else if (myHight == -1 && getHight(thisDistance) == 0) {
+							printLine(i, lineToPaint, thisDistance, topRoad, bottomRoad);
+							--lineToPaint;
+							--lineToGetBottom;
+							--lineToGetTop;
+							if ((i % 3) == 0)if (zfar > 0) zfar -= 5;
+						}
+						/*else if (myHight == 1 && getHight(thisDistance) == -1) {
+							if ((i % 3) == 0)if (zfar > 0) zfar -= 5;
 						}*/
-
-
-						//if (z > 100000 && z < 150000) zfar = 30000;
-						if (z > 150000 && z < 300000 && zfar > 22000) zfar -= 2;
-						if (z > 310000 && z < 390000 && (i % 3) == 0)
-						{
-							if(zfar ==310000) zfar = 12000;
-								++lineToPint;
-								zfar += 2;
-								//cout << zfar << endl;
-
-						}if (z > 390000 && z < 420000 && (i % 3) == 0)
-						{
-						//	zfar = 22000;
-							++lineToPint;
-							//if ( zfar < 22000) zfar += 2;
-							if ( zfar > 22000) zfar -= 2;
-
-						}
-						if(z > 420000 && zfar < 22000) zfar += 2;
-						if (z > 420000 && zfar > 22000) zfar -= 2;
 					}
-				/*	if (z > 350000 && z < 400000 && (i % 3) == 0)
-					{
-					//	++lineToPint;
-					}*/
 				}
-				if (z > 650000) {
-					frame = 0;
-					zfar = 22000;
-				}
+
+
+
+				
 				car.render(SCREEN_WIDTH / 2 - car.getWidth()  / 2, SCREEN_HEIGHT - car.getHeight(), nullptr);
 
 				//Update screen
