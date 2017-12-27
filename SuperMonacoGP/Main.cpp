@@ -399,6 +399,7 @@ int main(int argc, char* args[])
 
 					if (distLine[i] < zfar) {
 
+						//The order is important, can't be refactor becouse the result is diferent.
 						if (myHight == 0 && getHight(thisDistance) == 0) {
 							if (zfar < 22000) zfar += 200;
 							if (zfar > 22000) zfar -= 200;
@@ -468,9 +469,6 @@ int main(int argc, char* args[])
 							--lineToGetTop;
 							if ((i % 3) == 0)if (zfar > 0) zfar -= 5;
 						}
-						/*else if (myHight == 1 && getHight(thisDistance) == -1) {
-							if ((i % 3) == 0)if (zfar > 0) zfar -= 5;
-						}*/
 					}
 				}
 
