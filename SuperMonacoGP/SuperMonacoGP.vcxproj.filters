@@ -5,47 +5,68 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Archivos de encabezado">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="Core Modules">
+      <UniqueIdentifier>{4bfab1bf-1ef4-4469-a4bd-7476600bb600}</UniqueIdentifier>
+      <Extensions>
+      </Extensions>
     </Filter>
-    <Filter Include="Archivos de recursos">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Game Modules">
+      <UniqueIdentifier>{7b0f6475-2263-4b33-bc5a-12be1f06a784}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{ff9f42b3-6670-49dd-aacd-7ccbbe5212af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{5df16da6-8e48-4c57-9961-9d918e4d8f3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL_GFX">
+      <UniqueIdentifier>{be3d9d13-5cd0-4822-9706-80782385077e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
     <ClCompile Include="SDL2_framerate.c">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>SDL_GFX</Filter>
     </ClCompile>
     <ClCompile Include="SDL2_gfxPrimitives.c">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>SDL_GFX</Filter>
     </ClCompile>
     <ClCompile Include="SDL2_imageFilter.c">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>SDL_GFX</Filter>
     </ClCompile>
     <ClCompile Include="SDL2_rotozoom.c">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>SDL_GFX</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Module.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
     <ClInclude Include="SDL2_framerate.h">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>SDL_GFX</Filter>
     </ClInclude>
     <ClInclude Include="SDL2_gfxPrimitives.h">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>SDL_GFX</Filter>
     </ClInclude>
     <ClInclude Include="SDL2_gfxPrimitives_font.h">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>SDL_GFX</Filter>
     </ClInclude>
     <ClInclude Include="SDL2_imageFilter.h">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>SDL_GFX</Filter>
     </ClInclude>
     <ClInclude Include="SDL2_rotozoom.h">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>SDL_GFX</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
