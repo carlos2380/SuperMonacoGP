@@ -2,9 +2,9 @@
 #include "Module.h"
 /*#include "ModuleWindow.h"
 #include "ModuleRender.h"
-#include "ModuleTextures.h"
+#include "ModuleTextures.h"*/
 #include "ModuleInput.h"
-#include "ModuleAudio.h"
+/*#include "ModuleAudio.h"
 #include "ModuleFadeToBlack.h"
 #include "ModuleCollision.h"
 #include "ModuleParticles.h"
@@ -18,8 +18,8 @@ using namespace std;
 Application::Application()
 {
 	// Order matters: they will init/start/pre/update/post in this order
-	/*modules.push_back(input = new ModuleInput());
-	modules.push_back(window = new ModuleWindow());
+	modules.push_back(input = new ModuleInput());
+	/*modules.push_back(window = new ModuleWindow());
 
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(textures = new ModuleTextures());

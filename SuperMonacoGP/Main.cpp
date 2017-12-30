@@ -37,13 +37,13 @@ int main(int argc, char ** argv)
 			LOG("Application Init --------------");
 			if (App->Init() == false)
 			{
-				//LOG("Application Init exits with error -----");
+				LOG("Application Init exits with error -----");
 				state = MAIN_EXIT;
 			}
 			else
 			{
 				state = MAIN_UPDATE;
-				//LOG("Application Update --------------");
+				LOG("Application Update --------------");
 			}
 
 			break;
@@ -68,7 +68,7 @@ int main(int argc, char ** argv)
 			LOG("Application CleanUp --------------");
 			if (App->CleanUp() == false)
 			{
-				//LOG("Application CleanUp exits with error -----");
+				LOG("Application CleanUp exits with error -----");
 			}
 			else
 				main_return = EXIT_SUCCESS;
@@ -81,6 +81,6 @@ int main(int argc, char ** argv)
 	}
 
 	RELEASE(App);
-	//LOG("Bye :)\n");
+	LOG("Bye :)\n");
 	return main_return;
 }
