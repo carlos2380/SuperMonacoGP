@@ -51,7 +51,7 @@ bool ModuleTextures::CleanUp()
 }
 
 // Load new texture from file path
-SDL_Texture* const ModuleTextures::Load(const char* path)
+SDL_Texture* const ModuleTextures::Load(const char* path, int r, int g, int b)
 {
 	SDL_Texture* texture = nullptr;
 	SDL_Surface* surface = IMG_Load(path);
@@ -62,6 +62,7 @@ SDL_Texture* const ModuleTextures::Load(const char* path)
 	}
 	else
 	{
+		if(r > -1)SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, r, g, b));
 		texture = SDL_CreateTextureFromSurface(App->renderer->renderer, surface);
 
 		if (texture == nullptr)
@@ -82,7 +83,7 @@ SDL_Texture* const ModuleTextures::Load(const char* path)
 // Free texture from memory
 void ModuleTextures::Unload(SDL_Texture* texture)
 {
-	for (list<SDL_Texture*>::iterator it = textures.begin(); it != textures.end(); ++it)
+	/*for (list<SDL_Texture*>::iterator it = textures.begin(); it != textures.end(); ++it)
 	{
 		if (*it == texture)
 		{
@@ -90,5 +91,5 @@ void ModuleTextures::Unload(SDL_Texture* texture)
 			textures.erase(it);
 			break;
 		}
-	}
+	}*/
 }

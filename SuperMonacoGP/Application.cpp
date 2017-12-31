@@ -7,10 +7,10 @@
 #include "ModuleAudio.h"
 #include "ModuleFadeToBlack.h"
 /*#include "ModuleCollision.h"
-#include "ModuleParticles.h"
+#include "ModuleParticles.h"*/
 
-#include "ModuleSceneIntro.h"
-#include "ModuleSceneSpace.h"
+#include "ModuleSceneStart.h"
+/*#include "ModuleSceneSpace.h"
 #include "ModulePlayer.h"*/
 
 using namespace std;
@@ -26,12 +26,10 @@ Application::Application()
 	modules.push_back(audio = new ModuleAudio());
 
 	// Game Modules
-	/*modules.push_back(scene_intro = new ModuleSceneIntro(false));
-	modules.push_back(scene_space = new ModuleSceneSpace(false));
-	modules.push_back(player = new ModulePlayer(false));
+	modules.push_back(scene_start = new ModuleSceneStart());
 
 	// Modules to draw on top of game logic
-	modules.push_back(collision = new ModuleCollision());
+	/*modules.push_back(collision = new ModuleCollision());
 	modules.push_back(particles = new ModuleParticles());*/
 	modules.push_back(fade = new ModuleFadeToBlack());
 }
@@ -56,7 +54,7 @@ bool Application::Init()
 	}
 
 	// Start the first scene --
-	//fade->FadeToBlack(scene_intro, nullptr, 3.0f);
+	fade->FadeToBlack(scene_start, nullptr, 3.0f);
 
 	return ret;
 }

@@ -41,11 +41,11 @@ typedef unsigned int uint;
 	 }
 
 // Configuration -----------
-#define SCREEN_SIZE 3
-#define SCREEN_WIDTH 384
+#define SCREEN_SIZE 2
+#define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
 #define FULLSCREEN false
 #define VSYNC true
-#define TITLE "Super Awesome Game"
+#define TITLE "Super Monaco GP"
 
 #endif //__GLOBALS_H__

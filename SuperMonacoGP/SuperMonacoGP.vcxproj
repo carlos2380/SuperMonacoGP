@@ -26,6 +26,7 @@
     <ClCompile Include="ModuleFadeToBlack.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModuleRender.cpp" />
+    <ClCompile Include="ModuleSceneStart.cpp" />
     <ClCompile Include="ModuleTextures.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
     <ClCompile Include="SDL2_framerate.c" />
@@ -34,6 +35,7 @@
     <ClCompile Include="SDL2_rotozoom.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="ModuleFadeToBlack.h" />
     <ClInclude Include="Globals.h" />
@@ -41,6 +43,7 @@
     <ClInclude Include="ModuleAudio.h" />
     <ClInclude Include="ModuleInput.h" />
     <ClInclude Include="ModuleRender.h" />
+    <ClInclude Include="ModuleSceneStart.h" />
     <ClInclude Include="ModuleTextures.h" />
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="Point.h" />
