@@ -83,7 +83,7 @@ SDL_Texture* const ModuleTextures::Load(const char* path, int r, int g, int b)
 // Free texture from memory
 void ModuleTextures::Unload(SDL_Texture* texture)
 {
-	/*for (list<SDL_Texture*>::iterator it = textures.begin(); it != textures.end(); ++it)
+	for (list<SDL_Texture*>::iterator it = textures.begin(); it != textures.end(); ++it)
 	{
 		if (*it == texture)
 		{
@@ -91,5 +91,5 @@ void ModuleTextures::Unload(SDL_Texture* texture)
 			textures.erase(it);
 			break;
 		}
-	}*/
+	}
 }

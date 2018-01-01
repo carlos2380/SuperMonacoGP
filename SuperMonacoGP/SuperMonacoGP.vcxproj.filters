@@ -3,7 +3,8 @@
   <ItemGroup>
     <Filter Include="Archivos de código fuente">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+      <Extensions>
+      </Extensions>
     </Filter>
     <Filter Include="Core Modules">
       <UniqueIdentifier>{4bfab1bf-1ef4-4469-a4bd-7476600bb600}</UniqueIdentifier>
@@ -66,6 +67,12 @@
     <ClCompile Include="ModuleSceneStart.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
+    <ClCompile Include="ModuleSceneSelect.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="TextFont.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -117,6 +124,12 @@
       <Filter>Game Modules</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleSceneSelect.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="TextFont.h">
       <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>

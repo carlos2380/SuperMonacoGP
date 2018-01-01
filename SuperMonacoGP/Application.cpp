@@ -6,12 +6,9 @@
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
 #include "ModuleFadeToBlack.h"
-/*#include "ModuleCollision.h"
-#include "ModuleParticles.h"*/
 
 #include "ModuleSceneStart.h"
-/*#include "ModuleSceneSpace.h"
-#include "ModulePlayer.h"*/
+#include "ModuleSceneSelect.h"
 
 using namespace std;
 
@@ -27,6 +24,7 @@ Application::Application()
 
 	// Game Modules
 	modules.push_back(scene_start = new ModuleSceneStart());
+	modules.push_back(scene_select = new ModuleSceneSelect());
 
 	// Modules to draw on top of game logic
 	/*modules.push_back(collision = new ModuleCollision());
@@ -46,7 +44,7 @@ bool Application::Init()
 
 	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 		ret = (*it)->Init(); // we init everything, even if not anabled
-
+	scene_select->Disable();
 	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 	{
 		if ((*it)->IsEnabled() == true)
@@ -54,8 +52,9 @@ bool Application::Init()
 	}
 
 	// Start the first scene --
+	
 	fade->FadeToBlack(scene_start, nullptr, 3.0f);
-
+	
 	return ret;
 }
 

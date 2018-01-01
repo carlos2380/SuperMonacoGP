@@ -56,7 +56,7 @@ bool ModuleSceneStart::Start()
 bool ModuleSceneStart::CleanUp()
 {
 	LOG("Unloading space scene");
-	delete start;
+	//delete start;
 	App->textures->Unload(startSprites);
 
 	return true;
@@ -73,8 +73,8 @@ update_status ModuleSceneStart::Update()
 	App->renderer->Blit(startSprites, 176, 192, &sega);
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && App->fade->isFading() == false)
 	{
-		App->fade->FadeToBlack((Module*)App->scene_start, this);
-		App->audio->PlayFx(fx);
+		App->fade->FadeToBlack((Module*)App->scene_select, this);
+		//App->audio->PlayFx(fx);
 	}
 
 	return UPDATE_CONTINUE;
