@@ -9,6 +9,7 @@
 
 #include "ModuleSceneStart.h"
 #include "ModuleSceneSelect.h"
+#include "ModuleSceneRace.h"
 
 using namespace std;
 
@@ -23,8 +24,10 @@ Application::Application()
 	modules.push_back(audio = new ModuleAudio());
 
 	// Game Modules
+	modules.push_back(scene_sega = new ModuleSceneSega());
 	modules.push_back(scene_start = new ModuleSceneStart());
 	modules.push_back(scene_select = new ModuleSceneSelect());
+	modules.push_back(scene_race = new ModuleSceneRace());
 
 	// Modules to draw on top of game logic
 	/*modules.push_back(collision = new ModuleCollision());
@@ -44,7 +47,10 @@ bool Application::Init()
 
 	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 		ret = (*it)->Init(); // we init everything, even if not anabled
+	scene_sega->Disable();
 	scene_select->Disable();
+	scene_start->Disable();
+	scene_race->Disable();
 	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 	{
 		if ((*it)->IsEnabled() == true)
@@ -53,7 +59,7 @@ bool Application::Init()
 
 	// Start the first scene --
 	
-	fade->FadeToBlack(scene_start, nullptr, 3.0f);
+	fade->FadeToBlack(scene_sega, nullptr, 3.0f);
 	
 	return ret;
 }

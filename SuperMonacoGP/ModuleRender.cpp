@@ -4,6 +4,7 @@
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "SDL.h"
+#include <vector>
 
 ModuleRender::ModuleRender()
 {
@@ -136,6 +137,39 @@ bool ModuleRender::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uin
 	if (SDL_RenderFillRect(renderer, &rec) != 0)
 	{
 		LOG("Cannot draw quad to screen. SDL_RenderFillRect error: %s", SDL_GetError());
+		ret = false;
+	}
+
+	return ret;
+}
+
+// Draw a point scalated to screen
+bool ModuleRender::DrawPointScalable(int x, int y, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+{
+
+	bool ret = true;
+
+	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+	SDL_SetRenderDrawColor(renderer, r, g, b, a);
+	
+
+
+	x = x*SCREEN_SIZE;
+	y = y*SCREEN_SIZE;
+
+	vector<SDL_Point> points;
+	for(int i = 0; i < SCREEN_SIZE; ++i)
+	{
+		for (int j = 0; j < SCREEN_SIZE; ++j)
+		{
+			SDL_Point point = { x + i, y + j };
+			points.push_back(point);
+		}
+	}
+
+	if (SDL_RenderDrawPoints(renderer, &(points[0]), SCREEN_SIZE*SCREEN_SIZE*points.size()));
+	{
+		LOG("Cannot draw point to screen. SDL_RenderDrawPoints error: %s", SDL_GetError());
 		ret = false;
 	}
 

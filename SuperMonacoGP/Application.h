@@ -4,6 +4,7 @@
 #include<list>
 #include "Globals.h"
 #include "Module.h"
+#include "ModuleSceneSega.h"
 
 class ModuleRender;
 class ModuleWindow;
@@ -18,7 +19,7 @@ class ModuleParticles;
 class ModulePlayer;
 class ModuleSceneStart;
 class ModuleSceneSelect;
-
+class ModuleSceneRace;
 class Application
 {
 public:
@@ -43,6 +44,8 @@ public:
 	// Game modules ---
 	ModuleSceneStart* scene_start;
 	ModuleSceneSelect* scene_select;
+	ModuleSceneRace* scene_race;
+	ModuleSceneSega* scene_sega;
 
 private:
 

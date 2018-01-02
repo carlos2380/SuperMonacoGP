@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "Globals.h"
+using namespace std;
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -22,6 +23,7 @@ public:
 
 	bool Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed = 1.0f);
 	bool DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera = true);
+	bool DrawPointScalable(int x, int y, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
 public:
 	SDL_Renderer* renderer = nullptr;
