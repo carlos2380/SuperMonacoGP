@@ -1,14 +1,10 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleTextures.h"
-#include "ModuleAudio.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "ModuleFadeToBlack.h"
 #include <SDL.h>
-#include "SDL2_gfxPrimitives.h"
-#include <ostream>
-#include <iostream>
 #include "ModuleSceneSega.h"
 #include "Point.h"
 #include <fstream>
@@ -96,22 +92,25 @@ update_status ModuleSceneSega::Update()
 	//Print sega lines then fill color then print background
 	if(pointsToCheck.empty() == false)
 	{
-		//DFS for each frame
-		int numToCheck = pointsToCheck.size();
-		pointsToCheck.begin();
-		for (int i = 0; i < numToCheck; ++i)
+		//DFS for each frame the loop is for increase the speed
+		for (int i = 0; i < 5; ++i)
 		{
-			pointsToPrintBorder.push_back(*pointsToCheck.begin());
-			checkNextsPoints();
-			pointsToCheck.pop_front();
+			int numToCheck = pointsToCheck.size();
+			pointsToCheck.begin();
+			for (int i = 0; i < numToCheck; ++i)
+			{
+				pointsToPrintBorder.push_back(*pointsToCheck.begin());
+				checkNextsPoints();
+				pointsToCheck.pop_front();
+			}
 		}
 	}
 	else if(contentColor.r < 255)
 	{
 		timer = 0;
-		contentColor.r += 15;
-		contentColor.g += 15;
-		contentColor.b += 15;
+		contentColor.r += 17;
+		contentColor.g += 17;
+		contentColor.b += 17;
 	}
 
 	if(contentColor.r < 255)
