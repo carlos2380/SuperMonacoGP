@@ -4,6 +4,7 @@
 
 #include "Module.h"
 #include "Animation.h"
+#include "CtrlCar.h"
 
 struct SDL_Texture;
 class ModuleSceneRace : public Module
@@ -20,10 +21,11 @@ public:
 private:
 	void drawQuad(int x1, int y1, int w1, int x2, int y2, int w2, int r, int g, int b);
 public:
-	SDL_Texture* selectSprites = nullptr;
+	SDL_Texture* raceSprites = nullptr;
 
 private:
-
+	SDL_Rect background;
+	CtrlCar ctrlCar;
 
 
 };

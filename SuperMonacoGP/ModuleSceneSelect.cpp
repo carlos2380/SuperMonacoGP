@@ -88,7 +88,7 @@ update_status ModuleSceneSelect::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && App->fade->isFading() == false)
 	{
-		App->fade->FadeToBlack((Module*)App->scene_start, this);
+		App->fade->FadeToBlack((Module*)App->scene_sega, this);
 		//App->audio->PlayFx(fx);
 	}
 

@@ -23,8 +23,8 @@
     <Filter Include="SDL_GFX">
       <UniqueIdentifier>{be3d9d13-5cd0-4822-9706-80782385077e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Modules\SegaVectors">
-      <UniqueIdentifier>{2aad7257-99b5-4df4-a458-d7dccfd9b0e7}</UniqueIdentifier>
+    <Filter Include="Game Modules\ModeuleRace">
+      <UniqueIdentifier>{d6021a94-97b9-4019-bc24-8cf559281931}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -76,11 +76,14 @@
     <ClCompile Include="TextFont.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleSceneRace.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
     <ClCompile Include="ModuleSceneSega.cpp">
       <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleSceneRace.cpp">
+      <Filter>Game Modules\ModeuleRace</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlCar.cpp">
+      <Filter>Game Modules\ModeuleRace</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -141,11 +144,14 @@
     <ClInclude Include="TextFont.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleSceneRace.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleSceneSega.h">
       <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleSceneRace.h">
+      <Filter>Game Modules\ModeuleRace</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlCar.h">
+      <Filter>Game Modules\ModeuleRace</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

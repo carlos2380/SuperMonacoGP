@@ -11,34 +11,45 @@
 #include <ostream>
 #include <iostream>
 
-int roadW = SCREEN_WIDTH;
-int segL = 200;
-float camD = 0.84;
+int width = SCREEN_WIDTH*SCREEN_SIZE;
+int height = SCREEN_HEIGHT*SCREEN_SIZE;
+int roadW = 2000;
+int segL = 200; //segment length
+float camD = 0.84; //camera depth
+int N ;
+float playerX = 0;
+int pos = 0;
+int H = 1500;
+int speed = 0;
 
 struct Line
 {
-	float x, y, z;
-	float X, Y, W;
-	float scale;
+	float x, y, z; //3d center of line
+	float X, Y, W; //screen coord
+	float curve, spriteX, clip, scale;
 
-	Line() { x = y = z = 0; }
+	Line()
+	{
+		spriteX = curve = x = y = z = 0;
+	}
 
-	//from world to screen coordinates
 	void project(int camX, int camY, int camZ)
 	{
 		scale = camD / (z - camZ);
-		X = (1 + scale*(x - camX)) * SCREEN_WIDTH/ 2;
-		Y = (1 + scale*(Y - camY)) * SCREEN_HEIGHT / 2;
-		W = scale * roadW * SCREEN_WIDTH / 2;
+		X = (1 + scale*(x - camX)) * width / 2;
+		Y = (1 - scale*(y - camY)) * height / 2;
+		W = scale * roadW  * width / 2;
 	}
+
 };
 
 vector<Line> lines;
-int N;
+
 //Get mouse position
 
 ModuleSceneRace::ModuleSceneRace(bool active) : Module(active)
 {
+	background = { 0, 72, 320, 240 };
 }
 
 ModuleSceneRace::~ModuleSceneRace()
@@ -48,17 +59,30 @@ ModuleSceneRace::~ModuleSceneRace()
 bool ModuleSceneRace::Start()
 {
 	LOG("Loading space intro");
+	
+	
 
-	for (int i = 0; i<1600; ++i)
+	for (int i = 0; i<1600; i++)
 	{
 		Line line;
 		line.z = i*segL;
+
+		if (i>300 && i<700) line.curve = 0.5;
+		if (i>1100) line.curve = -0.7;
+
+
+		if (i>750) line.y = sin(i / 30.0) * 1500;
 
 		lines.push_back(line);
 	}
 
 	N = lines.size();
-	selectSprites = App->textures->Load("Sprites/SelectSprites.png", 255, 0, 255);
+	playerX = 0;
+	pos = 0;
+	H = 1500;
+	raceSprites = App->textures->Load("Sprites/RaceSprites.bmp", 255, 0, 255);
+	ctrlCar = new CtrlCar(raceSprites);
+	ctrlCar.Start();
 
 	/*if (fx == 0)
 	fx = App->audio->LoadFx("rtype/starting.wav");*/
@@ -72,7 +96,7 @@ bool ModuleSceneRace::Start()
 bool ModuleSceneRace::CleanUp()
 {
 	LOG("Unloading space scene");
-	App->textures->Unload(selectSprites);
+	App->textures->Unload(raceSprites);
 	return true;
 }
 
@@ -80,26 +104,96 @@ bool ModuleSceneRace::CleanUp()
 update_status ModuleSceneRace::Update()
 {
 
-	/*for(int n = 1; n < 300; ++n)
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	{
+		speed = 200;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	{
+		speed = -200;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	{
+		playerX += 0.1;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	{
+		playerX -= 0.1;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	{
+		H += 100;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	{
+		H -= 100;
+	}
+	
+	pos += speed;
+	while (pos >= N*segL) pos -= N*segL;
+	while (pos < 0) pos += N*segL;
+
+	int startPos = pos / segL;
+	int camH = lines[startPos].y + H;
+
+	int maxy = height;
+	float x = 0, dx = 0;
+	
+	for (int n = startPos; n<startPos + 100; n++)
 	{
 		Line &l = lines[n%N];
-		l.project(0, 1500, 0);
+		l.project(playerX*roadW - x, camH, startPos*segL - (n >= N ? N*segL : 0));
+		x += dx;
+		dx += l.curve;
+
+		l.clip = maxy;
+		if (l.Y >= maxy) continue;
+		maxy = l.Y;
+		int rg, ru, ro, gg, gu, go, bg, bu, bo;
+
+		if ((n / 3) % 2) {
+			rg = 16;
+			gg = 200;
+			bg = 16;
+		}
+		else {
+			rg = 0;
+			gg = 154;
+			bg = 0;
+		}
+
+		if ((n / 3) % 2) {
+			ru = 255;
+			gu = 255;
+			bu = 255;
+		}
+		else {
+			ru = 0;
+			gu = 0;
+			bu = 0;
+		}
+
+		if ((n / 3) % 2) {
+			ro = 107;
+			go = 107;
+			bo = 107;
+		}
+		else {
+			ro= 105;
+			go= 105;
+			bo= 105;
+		}
+
 		
-		SDL_Color grass;
-		(n / 2) % 2 ? grass = { 16, 200, 16, 255 } : grass = { 0, 154, 0, 255 };
-		SDL_Color rumble;
-		(n / 2) % 2 ? rumble = { 255, 255, 255, 255 } : rumble = { 0, 0, 0, 255 };
-		SDL_Color road;
-		(n / 2) % 2 ? road = { 107, 107, 107, 255 } : road = { 105, 105, 105, 255 };
 
-		Line p = lines[(n-1) % N]; //previous line
+		Line p = lines[(n - 1) % N]; //previous line
 
-		drawQuad(0, SCREEN_HEIGHT - p.Y, SCREEN_WIDTH, 0, SCREEN_HEIGHT - l.Y, SCREEN_WIDTH, grass.r, grass.g, grass.b);
-		drawQuad(p.X, SCREEN_HEIGHT - p.Y, p.W*1.2, l.X, SCREEN_HEIGHT - l.Y, p.W*1.2, rumble.r, rumble.g, rumble.b);
-		drawQuad(p.X, SCREEN_HEIGHT - p.Y, p.W, l.X, l.Y, SCREEN_HEIGHT - l.W, road.r, road.g, road.b);
-	}*/
-
-	App->renderer->DrawPointScalable(100, 100, 255, 255, 255, 255);
+		drawQuad( 0, p.Y, width, 0, l.Y, width, rg, gg, bg);
+		drawQuad( p.X, p.Y, p.W*1.2, l.X, l.Y, l.W*1.2, ru, gu, bu);
+		drawQuad( p.X, p.Y, p.W, l.X, l.Y, l.W, ro, go, bo);
+	}
+	App->renderer->Blit(raceSprites, 0, 0, &background);
+	ctrlCar.Update();
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && App->fade->isFading() == false)
 	{
 		App->fade->FadeToBlack((Module*)App->scene_start, this);
@@ -113,5 +207,6 @@ void ModuleSceneRace::drawQuad(int x1, int y1, int w1, int x2, int y2, int w2, i
 {
 	short x[4] = { x1-w1, x2-w2, x2+w2, x1+w1 };
 	short y[4] = { y1, y2, y2, y1 };
+
 	filledPolygonRGBA(App->renderer->renderer, x, y, 4, r, g, b, 255);
 }

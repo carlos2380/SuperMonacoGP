@@ -7,6 +7,8 @@
 #include <SDL.h>
 #include "ModuleSceneSega.h"
 #include "Point.h"
+#include <ppl.h>
+#include <windows.h>
 #include <fstream>
 
 
@@ -44,6 +46,7 @@ bool ModuleSceneSega::Start()
 	ifstream ifsa("Files/SegaBlue.txt");
 	string contentInside((std::istreambuf_iterator<char>(ifsa)), (std::istreambuf_iterator<char>()));
 	ifsa.close();
+
 	for (int i = 0; i < contentInside.size(); ++i)
 	{
 		if (contentInside[i] == '1')
@@ -79,10 +82,11 @@ bool ModuleSceneSega::CleanUp()
 		vector<bool*>().swap(matrixBorder[i]);
 	}
 	vector<vector<bool*>>().swap(matrixBorder);
-
+	
 	vector<Point<int>>().swap(pointsToPrintBorder);
 	vector<Point<int>>().swap(pointsToPrintContent);
 	pointsToCheck.clear();
+	App->textures->Unload(selectSprites);
 	return true;
 }
 
@@ -93,7 +97,7 @@ update_status ModuleSceneSega::Update()
 	if(pointsToCheck.empty() == false)
 	{
 		//DFS for each frame the loop is for increase the speed
-		for (int i = 0; i < 5; ++i)
+		for (int i = 0; i < 3; ++i)
 		{
 			int numToCheck = pointsToCheck.size();
 			pointsToCheck.begin();
@@ -119,11 +123,12 @@ update_status ModuleSceneSega::Update()
 		{
 			App->renderer->DrawPointScalable(pointsToPrintContent[i].x, pointsToPrintContent[i].y, contentColor.r, contentColor.g, contentColor.b, contentColor.a);
 		}
-
+		
 		for (int i = 0; i < pointsToPrintBorder.size(); ++i)
 		{
 			App->renderer->DrawPointScalable(pointsToPrintBorder[i].x, pointsToPrintBorder[i].y, 255, 255, 255, 255);
 		}
+
 	}
 	else
 	{
@@ -142,7 +147,6 @@ update_status ModuleSceneSega::Update()
 }
 
 void ModuleSceneSega::checkNextsPoints() {
-
 	for(int i = -1; i < 2; ++i)
 	{
 		for (int j = -1; j < 2; ++j)
