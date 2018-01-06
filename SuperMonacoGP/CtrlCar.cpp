@@ -33,13 +33,13 @@ bool CtrlCar::Start()
 	speed = 0;
 	turn = 0;
 	gearSelect = 1;
-	gear = MANUAL;
+	gear = SUPER;
 	frame = 0;
 	tick = 1;
 	/*if (fx == 0)
 	fx = App->audio->LoadFx("rtype/starting.wav");*/
 
-	setGear(MANUAL);
+	setGear(SUPER);
 	return true;
 }
 
@@ -66,7 +66,8 @@ update_status CtrlCar::Update()
 	//Normalize speed and get revolutions
 	if (speed > maxSpeed) speed = maxSpeed;
 	if (speed < 0) speed = 0;
-	revol = (((int)speed % (maxSpeed / gear))*130)/(maxSpeed / gear);
+
+	updateRevol();
 
 	//DEBUG: if(tick%20==0) cout << speed << " : " << revol << " : " << gearSelect << endl;
 
@@ -187,6 +188,23 @@ void CtrlCar::updateGear()
 	}
 }
 
+void CtrlCar::updateRevol()
+{
+	//Revol from 0 to 90, are de degree. Then less operations for cpu.
+	if (((maxSpeed / gear)*(gearSelect - 1)) > speed)
+	{
+		revol = 0;
+	}
+	else if (((maxSpeed / gear)*gearSelect) < speed)
+	{
+		revol = 90;
+	}
+	else {
+		revol = (((int)speed % (maxSpeed / gear)) * 90) / (maxSpeed / gear);
+	}
+
+}
+
 
 void CtrlCar::findRectToPrint(SDL_Rect* &rectFrame, int frame)
 {
@@ -283,7 +301,7 @@ void CtrlCar::loadRects()
 
 void CtrlCar::unloadRects()
 {
-	for (int i = 0; i < 3; ++i)
+	for (int i = 0; i < front.size(); ++i)
 	{
 		front[i] = nullptr;
 		left[i] = nullptr;

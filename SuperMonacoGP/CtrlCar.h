@@ -32,17 +32,18 @@ private:
 	void updateTurn();
 	void updateSpeed();
 	void updateGear();
+	void updateRevol();
+
 public:
 	SDL_Texture* raceSprites = nullptr;
 	float speed;
 	float revol;	
-	
+	mode gear;
+	int gearSelect;
 	
 private:
 	int tick;
-	mode gear;
 	int maxSpeed;
-	int gearSelect;
 	int frame;
 	int speedFrame;
 	vector<SDL_Rect*> front;

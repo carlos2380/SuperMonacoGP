@@ -81,9 +81,14 @@ bool ModuleSceneRace::Start()
 	pos = 0;
 	H = 1500;
 	raceSprites = App->textures->Load("Sprites/RaceSprites.bmp", 255, 0, 255);
+
 	ctrlCar = new CtrlCar(raceSprites);
 	ctrlCar.Start();
 
+	ctrlUI = new CtrlUI();
+	ctrlUI.ctrlCar = &ctrlCar;
+	ModuleSceneRace* moduleRace = this;
+	ctrlUI.Start(moduleRace);
 	/*if (fx == 0)
 	fx = App->audio->LoadFx("rtype/starting.wav");*/
 
@@ -96,6 +101,8 @@ bool ModuleSceneRace::Start()
 bool ModuleSceneRace::CleanUp()
 {
 	LOG("Unloading space scene");
+	ctrlCar.CleanUp();
+	ctrlUI.CleanUp();
 	App->textures->Unload(raceSprites);
 	return true;
 }
@@ -193,7 +200,11 @@ update_status ModuleSceneRace::Update()
 		drawQuad( p.X, p.Y, p.W, l.X, l.Y, l.W, ro, go, bo);
 	}
 	App->renderer->Blit(raceSprites, 0, 0, &background);
+
 	ctrlCar.Update();
+	int lap = 2;
+	ctrlUI.Update();
+
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && App->fade->isFading() == false)
 	{
 		App->fade->FadeToBlack((Module*)App->scene_start, this);
