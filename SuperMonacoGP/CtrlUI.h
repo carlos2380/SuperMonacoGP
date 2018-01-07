@@ -22,6 +22,7 @@ public:
 private:
 	void loadTextFonts();
 	void loadRects();
+	void printMiniMap();
 
 	void printSpeed();
 	void printGear();
@@ -55,8 +56,11 @@ private:
 
 	SDL_Rect* gearMark;
 	SDL_Rect* limitOver;
+	SDL_Rect* positionMiniMap;
 
 	SDL_Point* centerRotate;
+
+	
 };
 
 #endif // __CTRLUI_H__

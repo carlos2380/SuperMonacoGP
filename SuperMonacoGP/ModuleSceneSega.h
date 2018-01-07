@@ -24,6 +24,7 @@ private:
 
 public:
 	SDL_Texture* selectSprites = nullptr;
+	SDL_Texture* blackSprite = nullptr;
 
 private:
 	struct Line
@@ -38,6 +39,7 @@ private:
 	int timer = 0;
 	SDL_Color contentColor;
 	SDL_Rect background;
+	SDL_Rect backgroundBlack;
 
 };
 

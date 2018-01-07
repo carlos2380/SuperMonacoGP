@@ -120,6 +120,10 @@
     <IncludePath>D:\Proyectos\CPP\SuperMonacoGP\SDL2_mixer-2.0.2\include;D:\Proyectos\CPP\SuperMonacoGP\SDL2_ttf-2.0.14\include;D:\Proyectos\CPP\SuperMonacoGP\SDL2-2.0.7\include;D:\Proyectos\CPP\SuperMonacoGP\SDL2_image-2.0.2\include;D:\Proyectos\CPP\SuperMonacoGP\SDL_gfx\include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Proyectos\CPP\SuperMonacoGP\SDL_gfx\libx86;D:\Proyectos\CPP\SuperMonacoGP\SDL2_mixer-2.0.2\lib\x86;D:\Proyectos\CPP\SuperMonacoGP\SDL2_ttf-2.0.14\lib\x86;D:\Proyectos\CPP\SuperMonacoGP\SDL2-2.0.7\lib\x86;D:\Proyectos\CPP\SuperMonacoGP\SDL2_image-2.0.2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>..\SDL2-2.0.7\include;..\SDL_gfx\include;..\SDL2_image-2.0.2\include;..\SDL2_ttf-2.0.14\include;..\SDL2_mixer-2.0.2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\SDL_gfx\libx86;..\SDL2-2.0.7\lib\x86;..\SDL2_ttf-2.0.14\lib\x86;..\SDL2_mixer-2.0.2\lib\x86;..\SDL2_image-2.0.2\lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -149,6 +153,8 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

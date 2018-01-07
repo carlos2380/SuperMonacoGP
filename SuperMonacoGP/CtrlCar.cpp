@@ -55,9 +55,9 @@ bool CtrlCar::CleanUp()
 
 update_status CtrlCar::Update()
 {
-	/*int mx, my;
+	int mx, my;
 	SDL_GetMouseState(&mx, &my);
-	//cout << mx << ": " << my << endl;*/
+	cout << mx << ": " << my << endl;
 
 	updateTurn();
 	updateSpeed();

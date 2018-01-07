@@ -15,6 +15,7 @@
 ModuleSceneSega::ModuleSceneSega(bool active) : Module(active)
 {
 	background = { 0, 0, 320, 240 };
+	backgroundBlack = { 0, 0, 320, 240 };
 }
 
 ModuleSceneSega::~ModuleSceneSega()
@@ -25,7 +26,8 @@ bool ModuleSceneSega::Start()
 {
 	LOG("Loading space intro");
 	selectSprites = App->textures->Load("Sprites/SegaSprites.bmp", 255, 0, 255);
-	
+	blackSprite = App->textures->Load("Sprites/BlackSprite.bmp", 255, 0, 255);
+
 	ifstream ifs("Files/SegaRed.txt");
 	string content((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
 	matrixBorder = vector<vector<bool*>>(320, vector<bool*>(240));
@@ -86,7 +88,7 @@ bool ModuleSceneSega::CleanUp()
 	vector<Point<int>>().swap(pointsToPrintBorder);
 	vector<Point<int>>().swap(pointsToPrintContent);
 	pointsToCheck.clear();
-	App->textures->Unload(selectSprites);
+	App->textures->Unload(blackSprite);
 	return true;
 }
 
@@ -119,6 +121,7 @@ update_status ModuleSceneSega::Update()
 
 	if(contentColor.r < 255)
 	{
+		App->renderer->Blit(blackSprite, 0, 0, &background);
 		for (int i = 0; i < pointsToPrintContent.size(); ++i)
 		{
 			App->renderer->DrawPointScalable(pointsToPrintContent[i].x, pointsToPrintContent[i].y, contentColor.r, contentColor.g, contentColor.b, contentColor.a);

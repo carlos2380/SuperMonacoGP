@@ -42,7 +42,7 @@ bool ModuleRender::Init()
 
 update_status ModuleRender::PreUpdate()
 {
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+	SDL_SetRenderDrawColor(renderer, 170, 238, 238, SDL_ALPHA_OPAQUE);
 	SDL_RenderClear(renderer);
 	return UPDATE_CONTINUE;
 }

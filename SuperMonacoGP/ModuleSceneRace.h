@@ -23,13 +23,14 @@ private:
 	void drawQuad(int x1, int y1, int w1, int x2, int y2, int w2, int r, int g, int b);
 public:
 	SDL_Texture* raceSprites = nullptr;
+	SDL_Texture* skySprites = nullptr;
 	CtrlCar ctrlCar;
 	CtrlUI ctrlUI;
 
 	int lap = 2;
 	int position = 12;
 	int positionLimit = 16;
-
+	int startPos;
 	Uint32 totalTime = 123455;
 	Uint32 firstLap = 123455;
 	Uint32 secondLap = 123455;
@@ -37,9 +38,10 @@ public:
 	Uint32 timeToFirst = 123455;
 	Uint32 distanceTime = 123455;
 
+
 private:
 	SDL_Rect background;
-	
+	SDL_Rect skybox;
 
 
 };
