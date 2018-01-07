@@ -5,6 +5,7 @@
 #include "ModuleInput.h"
 #include "SDL.h"
 #include <vector>
+#include "SDL2_gfxPrimitives.h"
 
 ModuleRender::ModuleRender()
 {
@@ -208,3 +209,5 @@ bool ModuleRender::DrawPointScalable(int x, int y, Uint8 r, Uint8 g, Uint8 b, Ui
 
 	return ret;
 }
+
+

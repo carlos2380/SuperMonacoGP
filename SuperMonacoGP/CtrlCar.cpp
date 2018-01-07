@@ -55,9 +55,9 @@ bool CtrlCar::CleanUp()
 
 update_status CtrlCar::Update()
 {
-	int mx, my;
+	/*int mx, my;
 	SDL_GetMouseState(&mx, &my);
-	cout << mx << ": " << my << endl;
+	cout << mx << ": " << my << endl;*/
 
 	updateTurn();
 	updateSpeed();
@@ -88,11 +88,11 @@ update_status CtrlCar::Update()
 
 void CtrlCar::updateTurn()
 {
-	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_K) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
 		turn -= 60;
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_H) == KEY_REPEAT)
+	else if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
 		turn += 60;
 	}
@@ -105,7 +105,7 @@ void CtrlCar::updateTurn()
 
 void CtrlCar::updateSpeed()
 {
-	if (App->input->GetKey(SDL_SCANCODE_U) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_U) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
 		switch (gear)
 		{
@@ -120,7 +120,7 @@ void CtrlCar::updateSpeed()
 			break;
 		}
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
+	else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
 		switch (gear)
 		{

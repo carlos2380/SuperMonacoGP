@@ -308,7 +308,7 @@ void CtrlUI::unloadTextFonts()
 
 void CtrlUI::printMiniMap()
 {
-	int posit = moduleRace->startPos;
+	int posit = moduleRace->ctrlMap.mapPosition;
 	if (posit < 300) {
 		int yMap = ((float)(posit/10 )*(float)(2.0f / 3.0f) + 245)-71;
 		App->renderer->Blit(uISprites, 303, yMap, positionMiniMap);

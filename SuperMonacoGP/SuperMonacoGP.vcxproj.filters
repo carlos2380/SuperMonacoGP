@@ -88,6 +88,9 @@
     <ClCompile Include="CtrlUI.cpp">
       <Filter>Game Modules\ModeuleRace</Filter>
     </ClCompile>
+    <ClCompile Include="CtrlMap.cpp">
+      <Filter>Game Modules\ModeuleRace</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -157,6 +160,9 @@
       <Filter>Game Modules\ModeuleRace</Filter>
     </ClInclude>
     <ClInclude Include="CtrlUI.h">
+      <Filter>Game Modules\ModeuleRace</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlMap.h">
       <Filter>Game Modules\ModeuleRace</Filter>
     </ClInclude>
   </ItemGroup>
