@@ -8,6 +8,7 @@
 #include "ModuleSceneSelect.h"
 #include "TextFont.h"
 #include <SDL.h>
+#include "ResultBridgeScenes.h"
 
 
 ModuleSceneSelect::ModuleSceneSelect(bool active) : Module(active)
@@ -43,8 +44,7 @@ bool ModuleSceneSelect::Start()
 	textFont = new TextFont(selectSprites, "0123456789", 0, 636, 8, 15);
 
 	App->audio->PlayMusic("Sounds/SelectMusic.wav", 0.0f);
-	/*if (fx == 0)
-	fx = App->audio->LoadFx("rtype/starting.wav");*/
+	if (fx == 0) fx = App->audio->LoadFx("Sounds/SelectEffect.wav");
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
@@ -86,10 +86,12 @@ update_status ModuleSceneSelect::Update()
 	}
 	textFont->print(285, 14, to_string(time));
 
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && App->fade->isFading() == false)
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && App->fade->isFading() == false || time < 0)
 	{
-		App->fade->FadeToBlack((Module*)App->scene_sega, this);
-		//App->audio->PlayFx(fx);
+		ResultBridgeScenes::getInstance()->gearSelected = modeSelect;
+		App->audio->StopMusic();
+		App->fade->FadeToBlack((Module*)App->scene_race, this);
+		App->audio->PlayFx(fx);
 	}
 
 	return UPDATE_CONTINUE;

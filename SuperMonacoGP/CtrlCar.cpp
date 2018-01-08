@@ -9,6 +9,7 @@
 #include <SDL.h>
 #include "CtrlCar.h"
 #include <iostream>
+#include "ResultBridgeScenes.h"
 
 
 CtrlCar::CtrlCar(bool active) : Module(active)
@@ -33,13 +34,17 @@ bool CtrlCar::Start()
 	speed = 0;
 	turn = 0;
 	gearSelect = 1;
-	gear = SUPER;
+	ResultBridgeScenes* instance;
+	gear = ResultBridgeScenes::getInstance()->gearSelected;
 	frame = 0;
 	tick = 1;
-	/*if (fx == 0)
-	fx = App->audio->LoadFx("rtype/starting.wav");*/
+	
+	setGear(gear);
 
-	setGear(SUPER);
+	//DEBUG
+	gear = AUTOMATIC;
+	setGear(AUTOMATIC);
+	//-------
 	return true;
 }
 
@@ -82,7 +87,7 @@ update_status CtrlCar::Update()
 	findRectToPrint(rectFrame, frame);
 	
 	App->renderer->Blit(raceSprites, 64, 209, rectFrame, NULL, 1.3);
-
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -212,10 +217,10 @@ void CtrlCar::findRectToPrint(SDL_Rect* &rectFrame, int frame)
 	{
 		rectFrame = front[frame];
 	}
-	else if (turn > 1440)
+	else if (turn > 750)
 	{
 		rectFrame = leftLeftLeft[frame];
-		if (turn > 1500) turn = 1500;
+		if (turn > 800) turn = 800;
 	}
 	else if (turn > 300)
 	{
@@ -225,10 +230,10 @@ void CtrlCar::findRectToPrint(SDL_Rect* &rectFrame, int frame)
 	{
 		rectFrame = left[frame];
 	}
-	else if (turn < -1440)
+	else if (turn < -750)
 	{
 		rectFrame = rightRrightRight[frame];
-		if (turn < -1500) turn = -1500;
+		if (turn < -800) turn = -800;
 	}
 	else if (turn < -300)
 	{

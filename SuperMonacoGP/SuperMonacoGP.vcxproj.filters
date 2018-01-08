@@ -91,6 +91,9 @@
     <ClCompile Include="CtrlMap.cpp">
       <Filter>Game Modules\ModeuleRace</Filter>
     </ClCompile>
+    <ClCompile Include="ResultBridgeScenes.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -164,6 +167,9 @@
     </ClInclude>
     <ClInclude Include="CtrlMap.h">
       <Filter>Game Modules\ModeuleRace</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultBridgeScenes.h">
+      <Filter>Game Modules</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

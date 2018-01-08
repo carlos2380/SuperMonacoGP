@@ -3,6 +3,7 @@
 
 
 #include "Module.h"
+#include "CtrlCar.h"
 #include "Animation.h"
 
 struct SDL_Texture;
@@ -25,12 +26,7 @@ public:
 	SDL_Texture* selectSprites = nullptr;
 
 private:
-	enum mode
-	{
-		AUTOMATIC = 0,
-		MANUAL,
-		SUPER
-	};
+	
 
 	SDL_Rect background;
 	SDL_Rect backgroundSelect;
@@ -42,7 +38,7 @@ private:
 	Uint32 startTicks;
 	Uint32 time;
 	Uint32 delay;
-	
+	int fx = 0;
 };
 
 #endif // __MODULESCENESELECT_H__

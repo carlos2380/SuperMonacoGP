@@ -35,6 +35,7 @@
     <ClCompile Include="ModuleSceneStart.cpp" />
     <ClCompile Include="ModuleTextures.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
+    <ClCompile Include="ResultBridgeScenes.cpp" />
     <ClCompile Include="SDL2_framerate.c" />
     <ClCompile Include="SDL2_gfxPrimitives.c" />
     <ClCompile Include="SDL2_imageFilter.c" />
@@ -60,6 +61,7 @@
     <ClInclude Include="ModuleTextures.h" />
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="Point.h" />
+    <ClInclude Include="ResultBridgeScenes.h" />
     <ClInclude Include="SDL2_framerate.h" />
     <ClInclude Include="SDL2_gfxPrimitives.h" />
     <ClInclude Include="SDL2_gfxPrimitives_font.h" />
