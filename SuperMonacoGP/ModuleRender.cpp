@@ -120,6 +120,27 @@ bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, f
 }
 
 // Blit to screen
+bool ModuleRender::BlitInQuad(SDL_Texture* texture, int x, int y, SDL_Rect* from, SDL_Rect* to, float speed, float scale)
+{
+	bool ret = true;
+	SDL_Rect rect;
+	to->x = (int)(camera.x * speed) + x * SCREEN_SIZE;
+	to->y = (int)(camera.y * speed) + y * SCREEN_SIZE;
+
+
+	to->w *= SCREEN_SIZE * scale;
+	to->h *= SCREEN_SIZE * scale;
+
+	if (SDL_RenderCopy(renderer, texture, from, &rect) != 0)
+	{
+		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
+		ret = false;
+	}
+
+	return ret;
+}
+
+// Blit to screen
 bool ModuleRender::BlitRotate(SDL_Texture* texture, int x, int y, SDL_Rect* section, const double& angle, const SDL_Point* center, float speed, float scale)
 {
 	bool ret = true;
