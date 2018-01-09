@@ -1,17 +1,19 @@
-# Super Hang On (Drive)
-This is my tribute to Super Hang On, released for Sega Mega Drive in 5 of december 1988.
+# Super Monaco GP (Drive)
+This is a really simplified version of the original Super Monaco GP for MegaDrive published in 1989.
+
+This SuperMonacoGP is a race game about you must do  three loops to the Monacos'circuit and get the best time.
 
 ## PROJECT INFORMATION
 
-Full project at github: []() 
+Full project at github: [https://github.com/carlos2380/SuperMonacoGP](https://github.com/carlos2380/SuperMonacoGP)
 
-Project webpage: []() 
+Project webpage: [https://carlos2380.github.io/SuperMonacoGP/](https://carlos2380.github.io/SuperMonacoGP/) 
 
-Latest release (1.0): []()  
+Latest release (1.0): [https://github.com/carlos2380/SuperMonacoGP/releases/download/Delivery/Release.rar](Release.rar)  
 
-*Author*: 
+*Author*: Carlos F Álamo García
 
-Contact: 
+Contact: carlos.2380@hotmail.com
 
 License: GNU GENERAL PUBLIC LICENSE
 
@@ -20,27 +22,27 @@ License: GNU GENERAL PUBLIC LICENSE
 <iframe width="560" height="315" src="" frameborder="0" allowfullscreen=""></iframe>
 You can watch it directly on [youtube]().
 
-Currently the game only features the race of africa, with all the assets and decoration and the bikes which run agains you. The game
-is ready to implement the other maps just creating the file with the road configuration.
+
 
 ## Commands
 
-On the game you manage a motorbike on the track where you have to face other motorbikes and the time. You will have a number of seconds to get the next check point, once you get it, this time increase giving you the chance of getting the next one.
+On the game you manage a car on the circuit where you have to get the best time. You can select the mode driving mode, automatic, manual, or super (manual), and each kind is diferent the way to drive, speed up, speed down, max speed, turn...
 
-* **SPEED UP:** (Up key)
-* **BREAK:** (Down key)
-* **TURN LEFT:** (Left key)
-* **TURN RIGHT:** (Right key)
-* **TURBO:** (Space)
+* **START:** (Enter key)
+
+* **SPEED UP:** (Up key or W key)
+* **BREAK:** (Down key or S key)
+* **TURN LEFT:** (Left key or A key)
+* **TURN RIGHT:** (Right key or D key)
+* **GEAR DOWN:** (Q key)
+* **GEAR UP:** (E key)
 
 ## How to finish the game:
 
-The game just have the track of Afirca from the arcade mode. When you arrive to the goal or your time ends, you'll be able to save
-your score if it's between the 8th best scores.
+When you do three loops the game finish.
 
 ## Acknowledgements
 
-
 * [http://www.extentofthejam.com/pseudo/]
-* [https://www.youtube.com/watch?v=N60lBZDEwJ8]
-* Super
+* [https://www.youtube.com/watch?v=OE3TjShJx6w]
+* Super Monaco GP (MegaDrive)
