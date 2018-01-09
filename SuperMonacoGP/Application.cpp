@@ -28,7 +28,7 @@ Application::Application()
 	modules.push_back(scene_start = new ModuleSceneStart());
 	modules.push_back(scene_select = new ModuleSceneSelect());
 	modules.push_back(scene_race = new ModuleSceneRace());
-
+	modules.push_back(scene_final = new ModuleSceneFinal());
 	// Modules to draw on top of game logic
 	/*modules.push_back(collision = new ModuleCollision());
 	modules.push_back(particles = new ModuleParticles());*/
@@ -51,6 +51,7 @@ bool Application::Init()
 	scene_select->Disable();
 	scene_start->Disable();
 	scene_race->Disable();
+	scene_final->Disable();
 	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 	{
 		if ((*it)->IsEnabled() == true)
@@ -59,7 +60,7 @@ bool Application::Init()
 
 	// Start the first scene --
 	
-	fade->FadeToBlack(scene_race, nullptr, 3.0f);
+	fade->FadeToBlack(scene_sega, nullptr, 3.0f);
 	
 	return ret;
 }

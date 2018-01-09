@@ -62,12 +62,14 @@ bool ModuleSceneSelect::CleanUp()
 // Update: draw background
 update_status ModuleSceneSelect::Update()
 {
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN
+		|| App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
 	{
 		if (modeSelect == MANUAL) modeSelect = AUTOMATIC;
 		else if (modeSelect == SUPER) modeSelect = MANUAL;
 	}
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN
+		|| App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
 	{
 		if (modeSelect == AUTOMATIC) modeSelect = MANUAL;
 		else if (modeSelect == MANUAL) modeSelect = SUPER;
@@ -86,7 +88,7 @@ update_status ModuleSceneSelect::Update()
 	}
 	textFont->print(285, 14, to_string(time));
 
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && App->fade->isFading() == false || time < 0)
+	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN && App->fade->isFading() == false || time < 0)
 	{
 		ResultBridgeScenes::getInstance()->gearSelected = modeSelect;
 		App->audio->StopMusic();

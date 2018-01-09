@@ -53,6 +53,7 @@ private:
 	SDL_Rect skybox;
 	SDL_Rect sky;
 	SDL_Rect skyboxMirror;
+	//SDL_Rect whells;
 };
 
 #endif // __CTRLMAP_H__

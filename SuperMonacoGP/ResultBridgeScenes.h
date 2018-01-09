@@ -16,10 +16,10 @@ private:
 
 public:
 	mode gearSelected;
-	Uint32 totalTime;
-	Uint32 lap1Time;
-	Uint32 lap2Time;
-	Uint32 lap3Time;
+	string totalTime;
+	string lap1Time;
+	string lap2Time;
+	string lap3Time;
 };
 
 #endif

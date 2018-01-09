@@ -141,7 +141,7 @@ update_status ModuleSceneSega::Update()
 
 	
 
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && App->fade->isFading() == false || timer == 100)
+	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN && App->fade->isFading() == false || timer == 100)
 	{
 		App->fade->FadeToBlack((Module*)App->scene_start, this);
 	}

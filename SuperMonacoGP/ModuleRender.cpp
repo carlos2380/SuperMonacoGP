@@ -120,16 +120,16 @@ bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, f
 }
 
 // Blit to screen
-bool ModuleRender::BlitInQuad(SDL_Texture* texture, int x, int y, SDL_Rect* from, SDL_Rect* to, float speed, float scale)
+bool ModuleRender::BlitInQuad(SDL_Texture* texture, SDL_Rect* from, SDL_Rect* to, float speed, float scale)
 {
 	bool ret = true;
-	SDL_Rect rect;
-	to->x = (int)(camera.x * speed) + x * SCREEN_SIZE;
-	to->y = (int)(camera.y * speed) + y * SCREEN_SIZE;
+	SDL_Rect rect =  SDL_Rect();
+	//rect.x = (int)(camera.x * speed) + to->x ;
+	//rect.y = (int)(camera.y * speed) + to->y ;
 
 
-	to->w *= SCREEN_SIZE * scale;
-	to->h *= SCREEN_SIZE * scale;
+	//rect.w = to->w * SCREEN_SIZE * scale;
+	//rect.h = to->h *SCREEN_SIZE * scale;
 
 	if (SDL_RenderCopy(renderer, texture, from, &rect) != 0)
 	{

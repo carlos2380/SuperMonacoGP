@@ -29,10 +29,12 @@ struct Line
 	float screenX, screenY, screenW; //screen coord
 	float curve, spriteX, clip, scale;
 	Color grass, border, road;
-
+	//SDL_Rect* sprite;
 	Line()
 	{
 		spriteX = curve = worldX = worldY = worldZ = 0;
+		/*sprite = new SDL_Rect();
+		*sprite = { 0,0,0,0 };*/
 	}
 
 	void project(int camX, int camY, int camZ)
@@ -50,6 +52,34 @@ struct Line
 		screenY = (1 - scale*(worldY - camY)) * heightMirror / 2;
 		screenW = scale * roadW  * width / 2;
 	}
+
+/*	void drawSprite(SDL_Rect* result)
+	{
+		int w = sprite->w;
+		int h = sprite->h;
+
+		float destX = screenX + scale * spriteX * width / 2;
+		float destY = screenY + 4;
+		float destW = w * screenW / 266;
+		float destH = h * screenW / 266;
+
+		destX += destW * spriteX; //offsetX
+		destY += destH * (-1);    //offsetY
+
+		float clipH = destY + destH - clip;
+		if (clipH<0) clipH = 0;
+
+		//destX = screenX + (screenW * spriteX)*0.1;
+		if (clipH >= destH) return;
+
+		h = (int)(h - h*clipH / destH);
+		int spriteScaleH = (int)(h*(destH / h));
+		int spriteScaleW = (int)(w*(destW / w));
+		result->x = destX;
+		result->y = height-screenY;
+		result->w = destW *(destW / w);
+		result->h = destH *(destH / h);
+	}*/
 
 };
 vector<Line> map;
@@ -73,8 +103,9 @@ bool CtrlMap::Start(ModuleSceneRace* &moduleRace)
 	this->moduleRace = moduleRace;
 	turnAcceleration = 0;
 	skybox = { 0, 0, 320, 200 };
-	skyboxMirror = { 800, 0, 320, 100 };
+	skyboxMirror = { 6000, 0, 320, 100 };
 	sky = { 0, 300, 320, 100 };
+//	whells = { 400, 100, 95, 48 };
 
 	loadRoad();
 
@@ -99,6 +130,9 @@ bool CtrlMap::Start(ModuleSceneRace* &moduleRace)
 bool CtrlMap::CleanUp()
 {
 	LOG("Unloading space scene");
+	App->textures->Unload(raceSprites);
+	App->textures->Unload(skySprites);
+	skySprites = nullptr;
 	raceSprites = nullptr;
 
 	return true;
@@ -110,12 +144,14 @@ update_status CtrlMap::Update()
 	speed = moduleRace->ctrlCar.speed*1.2;
 	speedMirror = -speed;
 	//UPDATE TURN
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT
+		|| App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
 		if (turnAcceleration < 0) turnAcceleration = 0;
 		if (turnAcceleration < 0.0004) turnAcceleration += 0.000003;
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	else if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT
+		|| App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		if (turnAcceleration > 0) turnAcceleration = 0;
 		if (turnAcceleration > -0.0004) turnAcceleration -= 0.000003;
@@ -146,10 +182,10 @@ update_status CtrlMap::Update()
 	int maxy = height;
 	int maxyMirror = height;
 	float x = 0, dx = 0;
-	
+
 	if (map[mapPosition%sizeMap].curve != 0) {
-		playerX += -map[mapPosition%sizeMap].curve*0.003;
-		playerXMirror += -map[mapPosition%sizeMap].curve*0.003;
+		playerX += -map[mapPosition%sizeMap].curve*0.000005*speed;
+		playerXMirror += -map[mapPosition%sizeMap].curve*0.000005*speed;
 	}
 	App->renderer->Blit(skySprites, 0, -20, &skyboxMirror);
 
@@ -167,7 +203,7 @@ update_status CtrlMap::Update()
 
 
 		Line p = mapMirror[(n - 1) % sizeMap]; //previous line
-		if (n  > mapPositionMirror +3) {
+		if (n  > mapPositionMirror + 3) {
 			drawPoligonMirror(0, p.screenY, width, 0, l.screenY, width, l.grass.r, l.grass.g, l.grass.b);
 			drawPoligonMirror(p.screenX, p.screenY, p.screenW*1.3, l.screenX, l.screenY, l.screenW*1.3, l.border.r, l.border.g, l.border.b);
 			drawPoligonMirror(p.screenX, p.screenY, p.screenW, l.screenX, l.screenY, l.screenW, l.road.r, l.road.g, l.road.b);
@@ -217,8 +253,9 @@ update_status CtrlMap::Update()
 	//UPDATE ROAD
 	for (int n = mapPosition; n<mapPosition + 65; n++)
 	{
+		
+		map[n%sizeMap].project(playerX*roadW - x, camH, mapPosition*segL - (n >= sizeMap ? sizeMap*segL : 0));
 		Line &l = map[n%sizeMap];
-		l.project(playerX*roadW - x, camH, mapPosition*segL - (n >= sizeMap ? sizeMap*segL : 0));
 		x += dx;
 		dx += l.curve;
 
@@ -252,27 +289,40 @@ update_status CtrlMap::Update()
 			drawPoligon(p.screenX, p.screenY, p.screenW*0.05, l.screenX, l.screenY, l.screenW*0.05, 255, 255, 255);
 		}
 	}
-	
+/*	for (int n = mapPosition + 64; n>mapPosition; n--)
+	{
+		SDL_Rect* to = new SDL_Rect();
+		map[n%sizeMap].drawSprite(to);
+		App->renderer->BlitInQuad(raceSprites, map[n%sizeMap].sprite, to);
+	}*/
+
 
 
 	//UPDATE NEXT SKYBOX X
 	if (speed > 0) {
 		skyBoxX += map[mapPosition].curve * 0.1f;
 		sckyBoxXMirror -= map[mapPosition].curve * 0.1f;
+		if (skyBoxX > 5880) skyBoxX = 3200;
+		if (sckyBoxXMirror < 0) sckyBoxXMirror = 3200;
+		
 	}
 	if (speed < 0) {
 		skyBoxX -= map[mapPosition].curve * 0.1f;
 		sckyBoxXMirror += map[mapPosition].curve * 0.1f;
+		if (skyBoxX < 0) skyBoxX = 3200;
+		if (sckyBoxXMirror > 5880) sckyBoxXMirror = 3200;
 	}
 	skybox.x = skyBoxX;
 	skyboxMirror.x = sckyBoxXMirror;
-	
+
 
 
 	if (mapPosition == 0 && lastMapPosition != mapPosition) moduleRace->nextLap();
 	lastMapPosition = mapPosition;
 	//App->renderer->Blit(raceSprites, 64, 209, rectFrame, NULL, 1.3);
-
+	if (playerX > 1.6 || playerX < -1.6) {
+		if (moduleRace->ctrlCar.speed > 50)moduleRace->ctrlCar.speed = 50;
+	}
 	return UPDATE_CONTINUE;
 }
 
@@ -371,7 +421,11 @@ void CtrlMap::loadRoad()
 			line.road.b = 105;
 		}
 
-		//if (i>0) line.y = sin(i / 40.0) * 4500;
+		/*if (i % 12 == 0)
+		{
+			line.sprite = &whells;
+			line.spriteX = 2;
+		}*/
 		map.push_back(line);
 	}
 	descens = 0;
@@ -453,5 +507,4 @@ void CtrlMap::loadRoad()
 		mapMirror.push_back(line);
 	}
 }
-
 

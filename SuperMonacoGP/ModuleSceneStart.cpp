@@ -71,7 +71,7 @@ update_status ModuleSceneStart::Update()
 	App->renderer->Blit(startSprites, 56, 40, &poster);
 	App->renderer->Blit(startSprites, 88, 128, &(start->GetCurrentFrame()));
 	App->renderer->Blit(startSprites, 176, 192, &sega);
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && App->fade->isFading() == false)
+	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN && App->fade->isFading() == false)
 	{
 		App->fade->FadeToBlack((Module*)App->scene_select, this);
 		//App->audio->PlayFx(fx);

@@ -33,11 +33,15 @@ public:
 	int lap = 0;
 	int position = 10;
 	int positionLimit = 16;
-	
+	bool printSemaforo;
+	int semaforoState;
+	bool stopCar;
+
 	Uint32 totalTime = 0;
 	Uint32 firstLap = 0;
 	Uint32 secondLap = 0;
 	Uint32 thirdLap = 0;
+	Uint32 bestLap = 0;
 	Uint32 timeToFirst = 0;
 	Uint32 distanceTime = 0;
 	Uint32 initialTime = 0;

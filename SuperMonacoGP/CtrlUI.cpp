@@ -50,6 +50,8 @@ bool CtrlUI::CleanUp()
 	unloadRects();
 	unloadTextFonts();
 	uISprites = nullptr;
+	App->textures->Unload(uISprites);
+	ctrlCar = nullptr;
 	return true;
 }
 
@@ -62,6 +64,11 @@ update_status CtrlUI::Update()
 	++tick;
 
 	printSpeed();
+	
+	if(moduleRace->printSemaforo == true)
+	{
+		App->renderer->Blit(uISprites, 2, 85, semaforo[moduleRace->semaforoState]);
+	}
 	printGear();
 	printPositions();
 	printTimes();
@@ -112,6 +119,18 @@ void CtrlUI::loadRects()
 		rect->h = 24;
 		super[i] = rect;
 	}
+
+	semaforo = vector<SDL_Rect*>(3);
+	for (int i = 0; i < semaforo.size(); ++i)
+	{
+		SDL_Rect* rect = new SDL_Rect();
+		rect->x = 200;
+		rect->y = 350 + (i * 40);
+		rect->w = 96;
+		rect->h = 40;
+		semaforo[i] = rect;
+	}
+
 
 	gearMark = new SDL_Rect();
 	gearMark->x = 200;
@@ -206,6 +225,8 @@ void CtrlUI::printTimes()
 	millisecTomssdd(moduleRace->secondLap, lap2);
 	string lap3 = "";
 	millisecTomssdd(moduleRace->thirdLap, lap3);
+	string bestLap = "";
+	millisecTomssdd(moduleRace->bestLap, bestLap);
 
 	switch (moduleRace->lap)
 	{
@@ -225,6 +246,7 @@ void CtrlUI::printTimes()
 			lapYellow->print(247, 49, lap3);
 			break;
 	}
+	lap->print(28, 31, bestLap);
 }
 
 void CtrlUI::intToStringTens(int i, string &result)

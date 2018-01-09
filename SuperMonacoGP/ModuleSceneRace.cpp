@@ -10,7 +10,7 @@
 #include "SDL2_gfxPrimitives.h"
 #include <ostream>
 #include <iostream>
-
+#include "ResultBridgeScenes.h"
 
 
 //Get mouse position
@@ -44,6 +44,7 @@ bool ModuleSceneRace::Start()
 	lap = 0;
 	position = 10;
 	positionLimit = 16;
+	stopCar = true;
 
 	totalTime = 0;
 	firstLap = 0;
@@ -51,7 +52,8 @@ bool ModuleSceneRace::Start()
 	thirdLap = 0;
 	timeToFirst = 0;
 	distanceTime = 0;
-
+	bestLap = 90000;
+	initialTime = SDL_GetTicks();
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
 	return true;
@@ -63,7 +65,7 @@ bool ModuleSceneRace::CleanUp()
 	LOG("Unloading space scene");
 	ctrlCar.CleanUp();
 	ctrlUI.CleanUp();
-	//ctrlMap.CleanUp();
+	ctrlMap.CleanUp();
 	App->textures->Unload(raceSprites);
 	return true;
 }
@@ -71,7 +73,25 @@ bool ModuleSceneRace::CleanUp()
 
 update_status ModuleSceneRace::Update()
 {
-	
+	if(lap == 0)
+	{
+		if((SDL_GetTicks() - initialTime) < 3000)
+		{
+			printSemaforo = true;
+			semaforoState = 0;
+		}else if ((SDL_GetTicks() - initialTime) < 5000)
+		{
+			printSemaforo = true;
+			semaforoState = 1;
+		}
+		else if ((SDL_GetTicks() - initialTime) < 7000)
+		{
+			stopCar = false;
+			printSemaforo = true;
+			semaforoState = 2;
+		}
+		else { printSemaforo = false; }
+	}
 
 	ctrlMap.Update();
 	App->renderer->Blit(raceSprites, 0, 0, &background);
@@ -97,17 +117,40 @@ update_status ModuleSceneRace::Update()
 
 	ctrlUI.Update();
 
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && App->fade->isFading() == false)
+	/*if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && App->fade->isFading() == false)
 	{
 		App->fade->FadeToBlack((Module*)App->scene_start, this);
 		//App->audio->PlayFx(fx);
-	}
+	}*/
 
 	return UPDATE_CONTINUE;
 }
 
 void ModuleSceneRace::nextLap()
 {
+	
 	initialTime = SDL_GetTicks();
+	
 	++lap;
+	switch (lap)
+	{
+		case 2:
+			if (firstLap < bestLap) bestLap = firstLap;
+			break;
+		case 3:
+			if (secondLap < bestLap) bestLap = secondLap;
+			break;
+	}
+	if(lap == 4){
+		string s;
+		ctrlUI.millisecTomssdd(firstLap, s);
+		ResultBridgeScenes::getInstance()->lap1Time = s;
+		ctrlUI.millisecTomssdd(secondLap, s);
+		ResultBridgeScenes::getInstance()->lap2Time = s;
+		ctrlUI.millisecTomssdd(thirdLap, s);
+		ResultBridgeScenes::getInstance()->lap3Time = s;
+		ctrlUI.millisecTomssdd(totalTime, s);
+		ResultBridgeScenes::getInstance()->totalTime = s;
+		App->fade->FadeToBlack((Module*)App->scene_final, this);
+	}
 }

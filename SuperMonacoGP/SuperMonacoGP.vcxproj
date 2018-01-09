@@ -29,6 +29,7 @@
     <ClCompile Include="ModuleFadeToBlack.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModuleRender.cpp" />
+    <ClCompile Include="ModuleSceneFinal.cpp" />
     <ClCompile Include="ModuleSceneRace.cpp" />
     <ClCompile Include="ModuleSceneSega.cpp" />
     <ClCompile Include="ModuleSceneSelect.cpp" />
@@ -54,6 +55,7 @@
     <ClInclude Include="ModuleAudio.h" />
     <ClInclude Include="ModuleInput.h" />
     <ClInclude Include="ModuleRender.h" />
+    <ClInclude Include="ModuleSceneFinal.h" />
     <ClInclude Include="ModuleSceneRace.h" />
     <ClInclude Include="ModuleSceneSega.h" />
     <ClInclude Include="ModuleSceneSelect.h" />

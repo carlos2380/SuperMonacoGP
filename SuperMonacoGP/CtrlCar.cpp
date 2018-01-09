@@ -41,10 +41,10 @@ bool CtrlCar::Start()
 	
 	setGear(gear);
 
-	//DEBUG
-	gear = AUTOMATIC;
-	setGear(AUTOMATIC);
-	//-------
+	/*/DEBUG
+	gear = SUPER;
+	setGear(SUPER);
+	//-------*/
 	return true;
 }
 
@@ -53,6 +53,7 @@ bool CtrlCar::Start()
 bool CtrlCar::CleanUp()
 {
 	LOG("Unloading space scene");
+	App->textures->Unload(raceSprites);
 	raceSprites = nullptr;
 	unloadRects();
 	return true;
@@ -93,11 +94,13 @@ update_status CtrlCar::Update()
 
 void CtrlCar::updateTurn()
 {
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT
+		|| App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
 		turn -= 60;
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	else if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT
+		|| App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		turn += 60;
 	}
@@ -110,7 +113,8 @@ void CtrlCar::updateTurn()
 
 void CtrlCar::updateSpeed()
 {
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT
+		|| App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
 		switch (gear)
 		{
@@ -125,7 +129,8 @@ void CtrlCar::updateSpeed()
 			break;
 		}
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT
+		|| App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
 		switch (gear)
 		{
@@ -144,11 +149,12 @@ void CtrlCar::updateSpeed()
 	{
 		speed -= 0.3;
 	}
+	if (App->scene_race->stopCar) speed = 0;
 }
 
 void CtrlCar::updateGear()
 {
-	if (App->input->GetKey(SDL_SCANCODE_Y) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 	{
 		switch (gear)
 		{
@@ -160,7 +166,7 @@ void CtrlCar::updateGear()
 			break;
 		}
 	}
-	if (App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
 	{
 		switch (gear)
 		{

@@ -5,6 +5,7 @@
 #include "Globals.h"
 #include "Module.h"
 #include "ModuleSceneSega.h"
+#include "ModuleSceneFinal.h"
 
 class ModuleRender;
 class ModuleWindow;
@@ -46,6 +47,7 @@ public:
 	ModuleSceneSelect* scene_select;
 	ModuleSceneRace* scene_race;
 	ModuleSceneSega* scene_sega;
+	ModuleSceneFinal* scene_final;
 
 private:
 
