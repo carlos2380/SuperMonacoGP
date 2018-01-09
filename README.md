@@ -19,7 +19,7 @@ License: GNU GENERAL PUBLIC LICENSE
 
 ## Gameplay video
 
-<iframe width="560" height="315" src="https://youtu.be/PxtqODTn8Jg" frameborder="0" allowfullscreen=""></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/PxtqODTn8Jg" frameborder="0" allowfullscreen=""></iframe>
 You can watch it directly on [youtube](https://youtu.be/PxtqODTn8Jg).
 
 
