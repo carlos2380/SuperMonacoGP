@@ -35,9 +35,7 @@ bool ModuleSceneSega::Start()
 	{
 		if (content[i] == '1')
 		{
-			bool* l = new bool();
-			*l = false;
-			matrixBorder[i / matrixBorder[0].size()][i%matrixBorder[0].size()] = l;
+			matrixBorder[i / matrixBorder[0].size()][i%matrixBorder[0].size()] = new bool(false);
 		}
 	}
 	ifs.close();
@@ -53,11 +51,8 @@ bool ModuleSceneSega::Start()
 	{
 		if (contentInside[i] == '1')
 		{
-			// ??Should't work with only int x = i / 240; int y = i % 320;
-			int x = i / 240;
-			int y = i % 160;
-			if (y < 80) y += 80;
-			if (y > 160) y -= 80;
+			// ??Should't work with only 
+			int x = i / 240; int y = i % 240;
 			Point<int> pointContent = { x, y };
 			pointsToPrintContent.push_back(pointContent);
 		}
@@ -81,9 +76,13 @@ bool ModuleSceneSega::CleanUp()
 	App->textures->Unload(selectSprites);
 	for(int i = 0; i < matrixBorder.size(); ++i)
 	{
-		vector<bool*>().swap(matrixBorder[i]);
+		for (int j = 0; j < matrixBorder[i].size(); ++j)
+		{
+			delete [] matrixBorder[i][j];
+		}
+		matrixBorder[i].clear();
 	}
-	vector<vector<bool*>>().swap(matrixBorder);
+	matrixBorder.clear();
 	
 	vector<Point<int>>().swap(pointsToPrintBorder);
 	vector<Point<int>>().swap(pointsToPrintContent);
