@@ -32,7 +32,7 @@ private:
 	SDL_Rect backgroundSelect;
 	SDL_Rect padSelected;
 	SDL_Rect padUnselected;
-	Animation* perimeterSelected = nullptr;
+	Animation perimeterSelected;
 	mode modeSelect;
 	TextFont* textFont;
 	Uint32 startTicks;

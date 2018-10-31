@@ -31,7 +31,8 @@ TextFont::~TextFont()
 	{
 		if(lettersRect[i] != NULL)
 		{
-			delete lettersRect[i];
+			delete[] lettersRect[i];
+			lettersRect[i] = nullptr;
 		}
 	}
 }

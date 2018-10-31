@@ -18,12 +18,11 @@ ModuleSceneSelect::ModuleSceneSelect(bool active) : Module(active)
 	padSelected = { 20, 124, 72, 64 };
 	padUnselected = { 124, 124, 72, 64 };
 
-	perimeterSelected = new Animation();
-	perimeterSelected->frames.push_back({ 0, 480, 102, 156 });
-	perimeterSelected->frames.push_back({ 102, 480, 102, 156 });
-	perimeterSelected->frames.push_back({ 204, 480, 102, 156 });
-	perimeterSelected->frames.push_back({ 306, 480, 102, 156 });
-	perimeterSelected->speed = 0.5f;
+	perimeterSelected.frames.push_back({ 0, 480, 102, 156 });
+	perimeterSelected.frames.push_back({ 102, 480, 102, 156 });
+	perimeterSelected.frames.push_back({ 204, 480, 102, 156 });
+	perimeterSelected.frames.push_back({ 306, 480, 102, 156 });
+	perimeterSelected.speed = 0.5f;
 
 	modeSelect = AUTOMATIC;
 	
@@ -56,6 +55,8 @@ bool ModuleSceneSelect::CleanUp()
 {
 	LOG("Unloading space scene");
 	App->textures->Unload(selectSprites);
+	delete textFont;
+	textFont = nullptr;
 	return true;
 }
 
@@ -105,18 +106,18 @@ void ModuleSceneSelect::renderSelected()
 	{
 		case AUTOMATIC:
 			App->renderer->Blit(selectSprites, 20, 124, &padSelected);
-			App->renderer->Blit(selectSprites, 5, 36, &(perimeterSelected->GetCurrentFrame()));
+			App->renderer->Blit(selectSprites, 5, 36, &(perimeterSelected.GetCurrentFrame()));
 			break;
 		case MANUAL:
 			App->renderer->Blit(selectSprites, 124, 124, &padSelected);
-			App->renderer->Blit(selectSprites, 110, 36, &(perimeterSelected->GetCurrentFrame()));
+			App->renderer->Blit(selectSprites, 110, 36, &(perimeterSelected.GetCurrentFrame()));
 			break;
 		case SUPER:
 			App->renderer->Blit(selectSprites, 228, 124, &padSelected);
-			App->renderer->Blit(selectSprites, 213, 36, &(perimeterSelected->GetCurrentFrame()));
+			App->renderer->Blit(selectSprites, 213, 36, &(perimeterSelected.GetCurrentFrame()));
 			break;
 		default:
 			App->renderer->Blit(selectSprites, 20, 124, &padSelected);
-			App->renderer->Blit(selectSprites, 5, 36, &(perimeterSelected->GetCurrentFrame()));
+			App->renderer->Blit(selectSprites, 5, 36, &(perimeterSelected.GetCurrentFrame()));
 	}
 }
