@@ -16,10 +16,10 @@ ModuleSceneStart::ModuleSceneStart(bool active) : Module(active)
 	girl = { 200, 240, 100, 199 };
 	poster = { 56, 40, 128, 172 };
 
-	start = new Animation();
-	start->frames.push_back({ 0, 240, 144, 8 });
-	start->frames.push_back({ 0, 0, 0, 0 });
-	start->speed = 0.03f;
+	
+	start.frames.push_back({ 0, 240, 144, 8 });
+	start.frames.push_back({ 0, 0, 0, 0 });
+	start.speed = 0.03f;
 
 	carsRect = vector<SDL_Rect>(5);
 	cars = vector<car*>(2);
@@ -56,7 +56,11 @@ bool ModuleSceneStart::Start()
 bool ModuleSceneStart::CleanUp()
 {
 	LOG("Unloading space scene");
-	//delete start;
+	for(int i = 0; i < cars.size(); ++i)
+	{
+		delete[] cars[i];
+		cars[i] = nullptr;
+	}
 	App->textures->Unload(startSprites);
 
 	return true;
@@ -69,7 +73,7 @@ update_status ModuleSceneStart::Update()
 	renderCars();
 	App->renderer->Blit(startSprites, 184, 12, &girl);
 	App->renderer->Blit(startSprites, 56, 40, &poster);
-	App->renderer->Blit(startSprites, 88, 128, &(start->GetCurrentFrame()));
+	App->renderer->Blit(startSprites, 88, 128, &(start.GetCurrentFrame()));
 	App->renderer->Blit(startSprites, 176, 192, &sega);
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN && App->fade->isFading() == false)
 	{
@@ -99,6 +103,7 @@ void ModuleSceneStart::renderCars()
 		{
 				if(cars[i]->x < -160)
 				{
+					delete cars[i];
 					cars[i] = nullptr;
 				}else
 				{

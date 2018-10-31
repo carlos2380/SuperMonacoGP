@@ -27,7 +27,7 @@ private:
 	SDL_Rect sega;
 	SDL_Rect girl;
 	SDL_Rect poster;
-	Animation* start = nullptr;
+	Animation start;
 	vector<SDL_Rect> carsRect;
 	uint fx = 0;
 
