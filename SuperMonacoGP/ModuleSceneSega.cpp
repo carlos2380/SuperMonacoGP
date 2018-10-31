@@ -11,7 +11,6 @@
 #include <windows.h>
 #include <fstream>
 
-
 ModuleSceneSega::ModuleSceneSega(bool active) : Module(active)
 {
 	background = { 0, 0, 320, 240 };
@@ -51,9 +50,8 @@ bool ModuleSceneSega::Start()
 	{
 		if (contentInside[i] == '1')
 		{
-			// ??Should't work with only 
 			int x = i / 240; int y = i % 240;
-			Point<int> pointContent = { x, y };
+			Point<int> pointContent = { x, y-1};
 			pointsToPrintContent.push_back(pointContent);
 		}
 	}
@@ -65,7 +63,7 @@ bool ModuleSceneSega::Start()
 	
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
-
+	
 	return true;
 }
 
@@ -94,43 +92,40 @@ bool ModuleSceneSega::CleanUp()
 // Update: draw background
 update_status ModuleSceneSega::Update()
 {
+	bool printContent = false;
 	//Print sega lines then fill color then print background
 	if(pointsToCheck.empty() == false)
 	{
 		//DFS for each frame the loop is for increase the speed
-		for (int i = 0; i < 3; ++i)
+		
+		int numToCheck = pointsToCheck.size();
+		pointsToCheck.begin();
+		for (int i = 0; i < numToCheck; ++i)
 		{
-			int numToCheck = pointsToCheck.size();
-			pointsToCheck.begin();
-			for (int i = 0; i < numToCheck; ++i)
-			{
-				pointsToPrintBorder.push_back(*pointsToCheck.begin());
-				checkNextsPoints();
-				pointsToCheck.pop_front();
-			}
+			pointsToPrintBorder.push_back(*pointsToCheck.begin());
+			checkNextsPoints();
+			pointsToCheck.pop_front();
 		}
 	}
-	else if(contentColor.r < 255)
+	else if(contentColor.r < 200)
 	{
+		printContent = true;
 		timer = 0;
-		contentColor.r += 17;
-		contentColor.g += 17;
-		contentColor.b += 17;
+		contentColor.r += 4;
+		contentColor.g += 4;
+		contentColor.b += 4;
 	}
 
-	if(contentColor.r < 255)
+	if(contentColor.r < 200)
 	{
 		App->renderer->Blit(blackSprite, 0, 0, &background);
-		for (int i = 0; i < pointsToPrintContent.size(); ++i)
-		{
-			App->renderer->DrawPointScalable(pointsToPrintContent[i].x, pointsToPrintContent[i].y, contentColor.r, contentColor.g, contentColor.b, contentColor.a);
-		}
 		
-		for (int i = 0; i < pointsToPrintBorder.size(); ++i)
+		if(printContent == true)
 		{
-			App->renderer->DrawPointScalable(pointsToPrintBorder[i].x, pointsToPrintBorder[i].y, 255, 255, 255, 255);
+			App->renderer->DrawPointsScalables(pointsToPrintContent, contentColor.r, contentColor.g, contentColor.b, contentColor.a);
 		}
 
+		App->renderer->DrawPointsScalables(pointsToPrintBorder, 255, 255, 255, 255);
 	}
 	else
 	{

@@ -26,6 +26,7 @@ public:
 	bool BlitRotate(SDL_Texture* texture, int x, int y, SDL_Rect* section, const double &angle, const SDL_Point* center, float speed = 1.0f, float scale = 1.0f);
 	bool DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera = true);
 	bool DrawPointScalable(int x, int y, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+	bool DrawPointsScalables(vector<Point<int>>& pointsToPrint, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
 public:
 	SDL_Renderer* renderer = nullptr;

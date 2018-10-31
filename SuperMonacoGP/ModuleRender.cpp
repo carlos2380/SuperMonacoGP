@@ -231,4 +231,39 @@ bool ModuleRender::DrawPointScalable(int x, int y, Uint8 r, Uint8 g, Uint8 b, Ui
 	return ret;
 }
 
+bool ModuleRender::DrawPointsScalables(vector<Point<int>>& pointsToPrint, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+{
 
+	bool ret = true;
+
+	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+	SDL_SetRenderDrawColor(renderer, r, g, b, a);
+
+	vector<SDL_Point> points;
+
+
+	for (int i = 0; i < pointsToPrint.size(); ++i)
+	{
+		int x = pointsToPrint[i].x;
+		x = x * SCREEN_SIZE;
+		int y = pointsToPrint[i].y;
+		y = y * SCREEN_SIZE;
+
+		for (int i = 0; i < SCREEN_SIZE; ++i)
+		{
+			for (int j = 0; j < SCREEN_SIZE; ++j)
+			{
+				SDL_Point point = { x + i, y + j };
+				points.push_back(point);
+			}
+		}
+	}	
+
+	if (SDL_RenderDrawPoints(renderer, &(points[0]), points.size()));
+	{
+		LOG("Cannot draw point to screen. SDL_RenderDrawPoints error: %s", SDL_GetError());
+		ret = false;
+	}
+
+	return ret;
+}
