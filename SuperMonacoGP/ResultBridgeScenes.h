@@ -8,7 +8,8 @@ class ResultBridgeScenes
 
 public:
 	~ResultBridgeScenes();
-	static ResultBridgeScenes *getInstance();
+	static ResultBridgeScenes* getInstance();
+	static void resetInstance();
 
 private:
 	ResultBridgeScenes();

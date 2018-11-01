@@ -10,6 +10,7 @@
 #include "ModuleSceneStart.h"
 #include "ModuleSceneSelect.h"
 #include "ModuleSceneRace.h"
+#include "ResultBridgeScenes.h"
 
 using namespace std;
 
@@ -92,6 +93,7 @@ bool Application::CleanUp()
 		if ((*it)->IsEnabled() == true)
 			ret = (*it)->CleanUp();
 
+	ResultBridgeScenes::resetInstance();
 	return ret;
 }
 
