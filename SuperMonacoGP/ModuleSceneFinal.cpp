@@ -44,6 +44,8 @@ bool ModuleSceneFinal::CleanUp()
 {
 	LOG("Unloading space scene");
 	App->textures->Unload(finalSprites);
+	delete textFont;
+	textFont = nullptr;
 	return true;
 }
 
