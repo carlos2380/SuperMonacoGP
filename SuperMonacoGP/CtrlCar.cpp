@@ -314,6 +314,13 @@ void CtrlCar::unloadRects()
 {
 	for (int i = 0; i < front.size(); ++i)
 	{
+		delete[] front[i];
+		delete[] left[i];
+		delete[] leftLeft[i];
+		delete[] leftLeftLeft[i];
+		delete[] right[i];
+		delete[] rightRight[i];
+		delete[] rightRrightRight[i];
 		front[i] = nullptr;
 		left[i] = nullptr;
 		leftLeft[i] = nullptr;
@@ -321,12 +328,5 @@ void CtrlCar::unloadRects()
 		right[i] = nullptr;
 		rightRight[i] = nullptr;
 		rightRrightRight[i] = nullptr;
-		delete front[i];
-		delete left[i];
-		delete leftLeft[i];
-		delete leftLeftLeft[i];
-		delete right[i];
-		delete rightRight[i];
-		delete rightRrightRight[i];
 	}
 }
