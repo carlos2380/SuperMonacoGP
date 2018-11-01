@@ -31,7 +31,7 @@ bool CtrlUI::Start(ModuleSceneRace* &moduleRace)
 
 	loadTextFonts();
 	loadRects();
-
+	
 	centerRotate = new SDL_Point();
 	centerRotate->x = 0;
 	centerRotate->y = 3;
@@ -49,8 +49,8 @@ bool CtrlUI::CleanUp()
 	LOG("Unloading space scene");
 	unloadRects();
 	unloadTextFonts();
-	uISprites = nullptr;
 	App->textures->Unload(uISprites);
+	uISprites = nullptr;
 	ctrlCar = nullptr;
 	return true;
 }
@@ -294,38 +294,53 @@ void CtrlUI::millisecTossdd(Uint32 i, string& result)
 
 void CtrlUI::unloadRects()
 {
-	automatic = nullptr;
 	delete automatic;
+	automatic = nullptr;
+	delete gearMark;
+	gearMark = nullptr;
+	delete limitOver;
+	limitOver = nullptr;
+	delete positionMiniMap;
+	positionMiniMap = nullptr;
+	delete centerRotate;
+	centerRotate = nullptr;
 	for (int i = 0; i < manual.size(); ++i)
 	{
+		delete[] manual[i];
 		manual[i] = nullptr;
-		delete manual[i];
+		
 	}
 
 	for (int i = 0; i < super.size(); ++i)
 	{
+		delete[] super[i];
 		super[i] = nullptr;
-		delete super[i];
+	}
+
+	for (int i = 0; i < semaforo.size(); ++i)
+	{
+		delete[] semaforo[i];
+		semaforo[i] = nullptr;
 	}
 
 }
 
 void CtrlUI::unloadTextFonts()
 {
-	position = nullptr;
 	delete position;
-	positionRed = nullptr;
+	position = nullptr;
 	delete positionRed;
-	positionLimit = nullptr;
+	positionRed = nullptr;
 	delete positionLimit;
-	positionLimitRed = nullptr;
+	positionLimit = nullptr;
 	delete positionLimitRed;
-	speedTime = nullptr;
+	positionLimitRed = nullptr;
 	delete speedTime;
-	lapYellow = nullptr;
+	speedTime = nullptr;
 	delete lapYellow;
-	lap = nullptr;
+	lapYellow = nullptr;
 	delete lap;
+	lap = nullptr;
 }
 
 void CtrlUI::printMiniMap()
