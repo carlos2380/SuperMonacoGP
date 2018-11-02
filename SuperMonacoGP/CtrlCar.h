@@ -46,13 +46,13 @@ private:
 	int maxSpeed;
 	int frame;
 	int speedFrame;
-	vector<SDL_Rect*> front;
-	vector<SDL_Rect*> left;
-	vector<SDL_Rect*> leftLeft;
-	vector<SDL_Rect*> leftLeftLeft;
-	vector<SDL_Rect*> right;
-	vector<SDL_Rect*> rightRight;
-	vector<SDL_Rect*> rightRrightRight;
+	std::vector<SDL_Rect*> front;
+	std::vector<SDL_Rect*> left;
+	std::vector<SDL_Rect*> leftLeft;
+	std::vector<SDL_Rect*> leftLeftLeft;
+	std::vector<SDL_Rect*> right;
+	std::vector<SDL_Rect*> rightRight;
+	std::vector<SDL_Rect*> rightRrightRight;
 	int turn;
 };
 

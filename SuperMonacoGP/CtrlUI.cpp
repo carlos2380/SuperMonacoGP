@@ -11,6 +11,7 @@
 #include "CtrlUI.h"
 #include "TextFont.h"
 
+using namespace std;
 
 CtrlUI::CtrlUI(bool active) : Module(active)
 {

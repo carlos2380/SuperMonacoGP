@@ -10,6 +10,7 @@
 #include "CtrlCar.h"
 #include <iostream>
 #include "ResultBridgeScenes.h"
+using namespace std;
 
 
 CtrlCar::CtrlCar(bool active) : Module(active)

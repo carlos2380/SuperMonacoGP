@@ -5,7 +5,6 @@
 #include "Module.h"
 #include "Animation.h"
 #include "Point.h"
-using namespace std;
 
 struct SDL_Texture;
 class ModuleSceneSega : public Module
@@ -33,9 +32,9 @@ private:
 		bool visited;
 	};
 
-	vector<vector<bool*>> matrixBorder;
-	vector<Point<int>> pointsToPrintBorder, pointsToPrintContent;
-	list<Point<int>> pointsToCheck;
+	std::vector<std::vector<bool*>> matrixBorder;
+	std::vector<Point<int>> pointsToPrintBorder, pointsToPrintContent;
+	std::list<Point<int>> pointsToCheck;
 	int timer = 0;
 	SDL_Color contentColor;
 	SDL_Rect background;

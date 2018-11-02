@@ -17,10 +17,10 @@ private:
 
 public:
 	mode gearSelected;
-	string totalTime;
-	string lap1Time;
-	string lap2Time;
-	string lap3Time;
+	std::string totalTime;
+	std::string lap1Time;
+	std::string lap2Time;
+	std::string lap3Time;
 };
 
 #endif

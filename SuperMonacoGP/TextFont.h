@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 
-using namespace std;
 
 struct SDL_Texture;
 class Application;
@@ -14,10 +13,10 @@ class TextFont
 public:
 	TextFont();
 	//x and y first position(up/left) of all letters, w and h is the width and height of letters
-	TextFont(SDL_Texture* sprites, const string &letters, const int x, const int y, const int w, const int h);
+	TextFont(SDL_Texture* sprites, const std::string &letters, const int x, const int y, const int w, const int h);
 	~TextFont();
 	//x and y first position(up/left) to print
-	void print(const int x, const int y, const string &text) const;
+	void print(const int x, const int y, const std::string &text) const;
 
 public:
 	SDL_Texture* sprites = nullptr;
@@ -25,7 +24,7 @@ public:
 private:
 	int letterWidth;
 	int letterHeight;
-	vector<SDL_Rect*> lettersRect;
+	std::vector<SDL_Rect*> lettersRect;
 };
 
 #endif

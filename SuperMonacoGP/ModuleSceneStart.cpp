@@ -7,6 +7,7 @@
 #include "ModuleFadeToBlack.h"
 #include "ModuleSceneStart.h"
 #include <SDL.h>
+using namespace std;
 
 
 ModuleSceneStart::ModuleSceneStart(bool active) : Module(active)

@@ -27,7 +27,7 @@ public:
 
 private:
 
-	string lap1, lap2, lap3, total;
+	std::string lap1, lap2, lap3, total;
 	SDL_Rect background;
 	TextFont* textFont;
 

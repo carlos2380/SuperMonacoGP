@@ -2,14 +2,13 @@
 #include <vector>
 #include "Globals.h"
 
-using namespace std;
 
 class Animation
 {
 public:
 	bool loop = true;
 	float speed = 1.0f;
-	vector<SDL_Rect> frames;
+	std::vector<SDL_Rect> frames;
 
 private:
 	float current_frame = 0.0f;

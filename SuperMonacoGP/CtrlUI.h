@@ -31,12 +31,12 @@ private:
 	void unloadTextFonts();
 	void unloadRects();
 	
-	void intToStringTens(int i, string &result);
+	void intToStringTens(int i, std::string &result);
 	
-	void millisecTossdd(Uint32 i, string &result);
+	void millisecTossdd(Uint32 i, std::string &result);
 
 public:
-	void millisecTomssdd(Uint32 i, string &result);
+	void millisecTomssdd(Uint32 i, std::string &result);
 	SDL_Texture* uISprites = nullptr;
 
 private:
@@ -50,15 +50,15 @@ private:
 	TextFont* lap = nullptr;
 
 	SDL_Rect* automatic;
-	vector<SDL_Rect*> manual;
-	vector<SDL_Rect*> super;
+	std::vector<SDL_Rect*> manual;
+	std::vector<SDL_Rect*> super;
 	SDL_Rect* gearMark;
 	SDL_Rect* limitOver;
 	SDL_Rect* positionMiniMap;
 
 	SDL_Point* centerRotate;
 
-	vector<SDL_Rect*> semaforo;
+	std::vector<SDL_Rect*> semaforo;
 
 
 	

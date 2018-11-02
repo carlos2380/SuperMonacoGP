@@ -10,6 +10,7 @@
 #include <ppl.h>
 #include <windows.h>
 #include <fstream>
+using namespace std;
 
 ModuleSceneSega::ModuleSceneSega(bool active) : Module(active)
 {

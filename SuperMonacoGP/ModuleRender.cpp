@@ -5,6 +5,7 @@
 #include "ModuleInput.h"
 #include "SDL.h"
 #include <vector>
+using namespace std;
 
 ModuleRender::ModuleRender()
 {

@@ -28,7 +28,7 @@ private:
 	SDL_Rect girl;
 	SDL_Rect poster;
 	Animation start;
-	vector<SDL_Rect> carsRect;
+	std::vector<SDL_Rect> carsRect;
 	uint fx = 0;
 
 	struct car
@@ -39,7 +39,7 @@ private:
 		int speed;
 	};
 
-	vector<car*> cars;
+	std::vector<car*> cars;
 };
 
 #endif // __MODULESCENESTART_H__

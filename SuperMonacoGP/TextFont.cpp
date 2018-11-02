@@ -1,6 +1,7 @@
 #include "TextFont.h"
 #include "Application.h"
 #include "ModuleRender.h"
+using namespace std;
 
 TextFont::TextFont()
 {

@@ -10,6 +10,7 @@
 #include <ostream>
 #include <iostream>
 #include "ResultBridgeScenes.h"
+using namespace std;
 
 
 //Get mouse position

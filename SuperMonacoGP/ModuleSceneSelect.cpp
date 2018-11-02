@@ -9,6 +9,7 @@
 #include "TextFont.h"
 #include <SDL.h>
 #include "ResultBridgeScenes.h"
+using namespace std;
 
 
 ModuleSceneSelect::ModuleSceneSelect(bool active) : Module(active)

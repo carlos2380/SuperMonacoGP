@@ -10,6 +10,7 @@
 #include "CtrlMap.h"
 #include <iostream>
 #include "SDL2_gfxPrimitives.h"
+using namespace std;
 
 
 int width = SCREEN_WIDTH*SCREEN_SIZE;
