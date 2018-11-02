@@ -11,10 +11,9 @@ class CtrlMap : public Module
 
 public:
 	CtrlMap(bool active = true);
-	CtrlMap(SDL_Texture* raceSprites, bool active = true);
 	~CtrlMap();
 
-	bool Start(ModuleSceneRace* &moduleRace);
+	bool Start();
 	update_status Update();
 	void drawPoligon(int x1, int y1, int w1, int x2, int y2, int w2, int r, int g, int b);
 	void drawPoligonMirror(int x1, int y1, int w1, int x2, int y2, int w2, int r, int g, int b);
@@ -26,7 +25,6 @@ private:
 public:
 	SDL_Texture* raceSprites = nullptr;
 	SDL_Texture* skySprites = nullptr;
-	ModuleSceneRace* moduleRace;
 
 	int sizeMap;
 	int segL = 600; //segment length

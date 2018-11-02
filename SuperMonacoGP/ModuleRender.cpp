@@ -5,7 +5,6 @@
 #include "ModuleInput.h"
 #include "SDL.h"
 #include <vector>
-#include "SDL2_gfxPrimitives.h"
 
 ModuleRender::ModuleRender()
 {

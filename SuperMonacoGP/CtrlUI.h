@@ -14,7 +14,7 @@ public:
 	CtrlUI(SDL_Texture* raceSprites, bool active = true);
 	~CtrlUI();
 
-	bool Start(ModuleSceneRace* &moduleRace);
+	bool Start();
 	update_status Update();
 	bool CleanUp();
 	void setGear(mode gear);
@@ -38,8 +38,6 @@ private:
 public:
 	void millisecTomssdd(Uint32 i, string &result);
 	SDL_Texture* uISprites = nullptr;
-	CtrlCar* ctrlCar;
-	ModuleSceneRace* moduleRace;
 
 private:
 	int tick;

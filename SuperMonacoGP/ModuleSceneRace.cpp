@@ -7,7 +7,6 @@
 #include "ModuleFadeToBlack.h"
 #include "ModuleSceneRace.h"
 #include <SDL.h>
-#include "SDL2_gfxPrimitives.h"
 #include <ostream>
 #include <iostream>
 #include "ResultBridgeScenes.h"
@@ -30,16 +29,14 @@ bool ModuleSceneRace::Start()
 
 	raceSprites = App->textures->Load("Sprites/RaceSprites.bmp", 255, 0, 255);
 
-	ctrlMap = new CtrlMap;
-	ModuleSceneRace* moduleRace = this;
-	ctrlMap.Start(moduleRace);
+	ctrlMap = new CtrlMap();
+	ctrlMap->Start();
 
 	ctrlCar = new CtrlCar(raceSprites);
-	ctrlCar.Start();
+	ctrlCar->Start();
 
 	ctrlUI = new CtrlUI();
-	ctrlUI.ctrlCar = &ctrlCar;
-	ctrlUI.Start(moduleRace);
+	ctrlUI->Start();
 	
 	lap = 0;
 	position = 10;
@@ -63,9 +60,15 @@ bool ModuleSceneRace::Start()
 bool ModuleSceneRace::CleanUp()
 {
 	LOG("Unloading space scene");
-	ctrlCar.CleanUp();
-	ctrlUI.CleanUp();
-	ctrlMap.CleanUp();
+	if(ctrlCar != nullptr)ctrlCar->CleanUp();
+	if (ctrlUI != nullptr)ctrlUI->CleanUp();
+	if (ctrlMap != nullptr)ctrlMap->CleanUp();
+	delete ctrlCar;
+	ctrlCar = nullptr;
+	delete ctrlUI;
+	ctrlUI = nullptr;
+	delete ctrlMap;
+	ctrlMap = nullptr;
 	App->textures->Unload(raceSprites);
 	return true;
 }
@@ -93,9 +96,9 @@ update_status ModuleSceneRace::Update()
 		else { printSemaforo = false; }
 	}
 
-	ctrlMap.Update();
+	ctrlMap->Update();
 	App->renderer->Blit(raceSprites, 0, 0, &background);
-	ctrlCar.Update();
+	ctrlCar->Update();
 
 	Uint32 now = SDL_GetTicks();
 	
@@ -115,7 +118,7 @@ update_status ModuleSceneRace::Update()
 			break;
 	}
 
-	ctrlUI.Update();
+	ctrlUI->Update();
 
 	/*if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && App->fade->isFading() == false)
 	{
@@ -143,13 +146,13 @@ void ModuleSceneRace::nextLap()
 	}
 	if(lap == 4){
 		string s;
-		ctrlUI.millisecTomssdd(firstLap, s);
+		ctrlUI->millisecTomssdd(firstLap, s);
 		ResultBridgeScenes::getInstance()->lap1Time = s;
-		ctrlUI.millisecTomssdd(secondLap, s);
+		ctrlUI->millisecTomssdd(secondLap, s);
 		ResultBridgeScenes::getInstance()->lap2Time = s;
-		ctrlUI.millisecTomssdd(thirdLap, s);
+		ctrlUI->millisecTomssdd(thirdLap, s);
 		ResultBridgeScenes::getInstance()->lap3Time = s;
-		ctrlUI.millisecTomssdd(totalTime, s);
+		ctrlUI->millisecTomssdd(totalTime, s);
 		ResultBridgeScenes::getInstance()->totalTime = s;
 		App->fade->FadeToBlack((Module*)App->scene_final, this);
 	}

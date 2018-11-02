@@ -89,18 +89,14 @@ CtrlMap::CtrlMap(bool active) : Module(active)
 {
 }
 
-CtrlMap::CtrlMap(SDL_Texture* rs, bool active) : Module(active)
-{
-}
 
 
 CtrlMap::~CtrlMap()
 {}
 
 // Load assets
-bool CtrlMap::Start(ModuleSceneRace* &moduleRace)
+bool CtrlMap::Start()
 {
-	this->moduleRace = moduleRace;
 	turnAcceleration = 0;
 	skybox = { 0, 0, 320, 200 };
 	skyboxMirror = { 6000, 0, 320, 100 };
@@ -141,7 +137,7 @@ bool CtrlMap::CleanUp()
 update_status CtrlMap::Update()
 {
 
-	speed = moduleRace->ctrlCar.speed*1.2;
+	speed = 1000;// App->scene_race->ctrlCar->speed*1.2;
 	speedMirror = -speed;
 	//UPDATE TURN
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT
@@ -317,11 +313,11 @@ update_status CtrlMap::Update()
 
 
 
-	if (mapPosition == 0 && lastMapPosition != mapPosition) moduleRace->nextLap();
+	if (mapPosition == 0 && lastMapPosition != mapPosition) App->scene_race->nextLap();
 	lastMapPosition = mapPosition;
 	//App->renderer->Blit(raceSprites, 64, 209, rectFrame, NULL, 1.3);
 	if (playerX > 1.6 || playerX < -1.6) {
-		if (moduleRace->ctrlCar.speed > 50)moduleRace->ctrlCar.speed = 50;
+		if (App->scene_race->ctrlCar->speed > 50)App->scene_race->ctrlCar->speed = 50;
 	}
 	return UPDATE_CONTINUE;
 }

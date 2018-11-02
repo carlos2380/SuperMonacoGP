@@ -22,12 +22,10 @@ CtrlUI::~CtrlUI()
 {}
 
 // Load assets
-bool CtrlUI::Start(ModuleSceneRace* &moduleRace)
+bool CtrlUI::Start()
 {
 
 	uISprites = App->textures->Load("Sprites/RaceSprites.bmp", 255, 0, 255);
-
-	this->moduleRace = moduleRace;
 
 	loadTextFonts();
 	loadRects();
@@ -51,7 +49,6 @@ bool CtrlUI::CleanUp()
 	unloadTextFonts();
 	App->textures->Unload(uISprites);
 	uISprites = nullptr;
-	ctrlCar = nullptr;
 	return true;
 }
 
@@ -65,16 +62,16 @@ update_status CtrlUI::Update()
 
 	printSpeed();
 	
-	if(moduleRace->printSemaforo == true)
+	if(App->scene_race->printSemaforo == true)
 	{
-		App->renderer->Blit(uISprites, 2, 85, semaforo[moduleRace->semaforoState]);
+		App->renderer->Blit(uISprites, 2, 85, semaforo[App->scene_race->semaforoState]);
 	}
 	printGear();
 	printPositions();
 	printTimes();
 	printMiniMap();
-	App->renderer->BlitRotate(uISprites, 17, 88, gearMark, ctrlCar->revol, centerRotate);
-	speedTime->print(288, 70, to_string(moduleRace->lap));
+	App->renderer->BlitRotate(uISprites, 17, 88, gearMark, App->scene_race->ctrlCar->revol, centerRotate);
+	speedTime->print(288, 70, to_string(App->scene_race->lap));
 
 	return UPDATE_CONTINUE;
 }
@@ -154,7 +151,7 @@ void CtrlUI::loadRects()
 
 void CtrlUI::printSpeed()
 {
-	int speed = ctrlCar->speed;
+	int speed = App->scene_race->ctrlCar->speed;
 	if(speed > 99)
 	{
 		speedTime->print(265, 215, to_string(speed));
@@ -170,16 +167,16 @@ void CtrlUI::printSpeed()
 
 void CtrlUI::printGear()
 {
-	switch (ctrlCar->gear)
+	switch (App->scene_race->ctrlCar->gear)
 	{
 	case AUTOMATIC:
 		App->renderer->Blit(uISprites, 3, 112, automatic);
 		break;
 	case MANUAL:
-		App->renderer->Blit(uISprites, 10, 112, manual[ctrlCar->gearSelect-1]);
+		App->renderer->Blit(uISprites, 10, 112, manual[App->scene_race->ctrlCar->gearSelect-1]);
 		break;
 	case SUPER:
-		App->renderer->Blit(uISprites, 10, 112, super[ctrlCar->gearSelect-1]);
+		App->renderer->Blit(uISprites, 10, 112, super[App->scene_race->ctrlCar->gearSelect-1]);
 		break;
 	}
 }
@@ -188,14 +185,14 @@ void CtrlUI::printPositions()
 {
 	string posit = "";
 	string positLimit = "";
-	intToStringTens(moduleRace->position, posit);
-	intToStringTens(moduleRace->positionLimit, positLimit);
+	intToStringTens(App->scene_race->position, posit);
+	intToStringTens(App->scene_race->positionLimit, positLimit);
 
-	if(moduleRace->position < moduleRace->positionLimit)
+	if(App->scene_race->position < App->scene_race->positionLimit)
 	{
 		position->print(139, 101, posit);
 		positionLimit->print(144, 76, positLimit);
-	} else if(moduleRace->position == moduleRace->positionLimit)
+	} else if(App->scene_race->position == App->scene_race->positionLimit)
 	{
 		positionRed->print(139, 101, posit);
 		positionLimitRed->print(144, 76, positLimit);
@@ -213,22 +210,22 @@ void CtrlUI::printPositions()
 void CtrlUI::printTimes()
 {
 	string time="";
-	millisecTomssdd(moduleRace->totalTime, time);
+	millisecTomssdd(App->scene_race->totalTime, time);
 	speedTime->print(247, 8, time);
 	time = "";
-	millisecTossdd(moduleRace->distanceTime, time);
+	millisecTossdd(App->scene_race->distanceTime, time);
 	speedTime->print(24, 8, time);
 
 	string lap1 = "";
-	millisecTomssdd(moduleRace->firstLap, lap1);
+	millisecTomssdd(App->scene_race->firstLap, lap1);
 	string lap2 = "";
-	millisecTomssdd(moduleRace->secondLap, lap2);
+	millisecTomssdd(App->scene_race->secondLap, lap2);
 	string lap3 = "";
-	millisecTomssdd(moduleRace->thirdLap, lap3);
+	millisecTomssdd(App->scene_race->thirdLap, lap3);
 	string bestLap = "";
-	millisecTomssdd(moduleRace->bestLap, bestLap);
+	millisecTomssdd(App->scene_race->bestLap, bestLap);
 
-	switch (moduleRace->lap)
+	switch (App->scene_race->lap)
 	{
 		case 1:
 			lapYellow->print(247, 33, lap1);
@@ -345,7 +342,7 @@ void CtrlUI::unloadTextFonts()
 
 void CtrlUI::printMiniMap()
 {
-	int posit = moduleRace->ctrlMap.mapPosition;
+	int posit = App->scene_race->ctrlMap->mapPosition;
 	if (posit < 300) {
 		int yMap = ((float)(posit/10 )*(float)(2.0f / 3.0f) + 245)-71;
 		App->renderer->Blit(uISprites, 303, yMap, positionMiniMap);

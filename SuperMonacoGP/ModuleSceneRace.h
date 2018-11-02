@@ -26,9 +26,9 @@ private:
 public:
 	SDL_Texture* raceSprites = nullptr;
 	
-	CtrlMap ctrlMap;
-	CtrlCar ctrlCar;
-	CtrlUI ctrlUI;
+	CtrlMap* ctrlMap;
+	CtrlCar* ctrlCar;
+	CtrlUI* ctrlUI;
 
 	int lap = 0;
 	int position = 10;
