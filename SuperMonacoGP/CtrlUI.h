@@ -20,6 +20,7 @@ public:
 	void setGear(mode gear);
 
 private:
+	void loadMiniMap();
 	void loadTextFonts();
 	void loadRects();
 	void printMiniMap();
@@ -59,7 +60,7 @@ private:
 	SDL_Point* centerRotate;
 
 	std::vector<SDL_Rect*> semaforo;
-
+	std::vector<std::pair<int, int>> miniMapPos;
 
 	
 };

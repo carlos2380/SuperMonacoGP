@@ -10,8 +10,11 @@
 #include <iostream>
 #include "CtrlUI.h"
 #include "TextFont.h"
+#include "json.hpp"
+#include <fstream>
 
 using namespace std;
+using json = nlohmann::json;
 
 CtrlUI::CtrlUI(bool active) : Module(active)
 {
@@ -28,6 +31,7 @@ bool CtrlUI::Start()
 
 	uISprites = App->textures->Load("Sprites/RaceSprites.bmp", 255, 0, 255);
 
+	loadMiniMap();
 	loadTextFonts();
 	loadRects();
 	
@@ -75,6 +79,26 @@ update_status CtrlUI::Update()
 	speedTime->print(288, 70, to_string(App->scene_race->lap));
 
 	return UPDATE_CONTINUE;
+}
+
+void CtrlUI::loadMiniMap()
+{
+	ifstream ifile("Files/MiniMap.json");
+	json jsn;
+	ifile >> jsn;
+	ifile.close();
+
+	list<json> posintionJson = jsn["MiniMapPos"];
+	int iter = 0;
+	miniMapPos = vector<pair<int, int>>(posintionJson.size());
+
+	for (list<json>::iterator it = posintionJson.begin(); it != posintionJson.end(); ++it) {
+		
+		miniMapPos[iter].first = (*it).at("x");
+		miniMapPos[iter].second = (*it).at("y");
+		++iter;
+	}
+	
 }
 
 void CtrlUI::loadTextFonts()
@@ -341,74 +365,10 @@ void CtrlUI::unloadTextFonts()
 	lap = nullptr;
 }
 
+
+
 void CtrlUI::printMiniMap()
 {
 	int posit = App->scene_race->ctrlMap->mapPosition;
-	if (posit < 300) {
-		int yMap = ((float)(posit/10 )*(float)(2.0f / 3.0f) + 245)-71;
-		App->renderer->Blit(uISprites, 303, yMap, positionMiniMap);
-	}
-	else if (posit < 350) App->renderer->Blit(uISprites, 302, 199, positionMiniMap);
-	else if (posit < 400) App->renderer->Blit(uISprites, 301, 200, positionMiniMap);
-	else if (posit < 420) App->renderer->Blit(uISprites, 300, 201, positionMiniMap);
-	else if (posit < 450) App->renderer->Blit(uISprites, 298, 200, positionMiniMap);
-	else if (posit < 480) App->renderer->Blit(uISprites, 296, 200, positionMiniMap);
-	else if (posit < 500) App->renderer->Blit(uISprites, 294, 199, positionMiniMap);
-	else if (posit < 520) App->renderer->Blit(uISprites, 293, 198, positionMiniMap);
-	else if (posit < 540) App->renderer->Blit(uISprites, 292, 196, positionMiniMap);
-	else if (posit < 550) App->renderer->Blit(uISprites, 292, 194, positionMiniMap);
-	else if (posit < 600) App->renderer->Blit(uISprites, 292, 192, positionMiniMap);
-	else if (posit < 650) App->renderer->Blit(uISprites, 292, 190, positionMiniMap);
-	else if (posit < 700) App->renderer->Blit(uISprites, 293, 188, positionMiniMap);
-	else if (posit < 750) App->renderer->Blit(uISprites, 293, 185, positionMiniMap);
-	else if (posit < 800) App->renderer->Blit(uISprites, 292, 182, positionMiniMap);
-	else if (posit < 850) App->renderer->Blit(uISprites, 291, 179, positionMiniMap);
-	else if (posit < 900) App->renderer->Blit(uISprites, 291, 176, positionMiniMap);
-	else if (posit < 950) App->renderer->Blit(uISprites, 293, 172, positionMiniMap);
-	else if (posit < 1000) App->renderer->Blit(uISprites, 295, 172, positionMiniMap);
-	else if (posit < 1200) {
-		int yMap = (239 - ((posit - 1000)*(14.0f / 200)))-71;
-		App->renderer->Blit(uISprites, 297, yMap, positionMiniMap);
-	}
-	else if (posit < 1230) App->renderer->Blit(uISprites, 297, 152, positionMiniMap);
-	else if (posit < 1250) App->renderer->Blit(uISprites, 296, 149, positionMiniMap);
-	else if (posit < 1275) App->renderer->Blit(uISprites, 294, 148, positionMiniMap);
-	else if (posit < 1300) App->renderer->Blit(uISprites, 292, 147, positionMiniMap);
-	else if (posit < 1320) App->renderer->Blit(uISprites, 291, 146, positionMiniMap);
-	else if (posit < 1340) App->renderer->Blit(uISprites, 290, 146, positionMiniMap);
-	else if (posit < 1370) App->renderer->Blit(uISprites, 287, 144, positionMiniMap);
-	else if (posit < 1400) App->renderer->Blit(uISprites, 285, 143, positionMiniMap);
-	else if (posit < 1420) App->renderer->Blit(uISprites, 284, 142, positionMiniMap);
-	else if (posit < 1440) App->renderer->Blit(uISprites, 283, 142, positionMiniMap);
-	else if (posit < 1500) App->renderer->Blit(uISprites, 280, 140, positionMiniMap);
-	else if (posit < 1550) App->renderer->Blit(uISprites, 279, 139, positionMiniMap);
-	else if (posit < 1600) App->renderer->Blit(uISprites, 274, 138, positionMiniMap);
-	else if (posit < 1650) App->renderer->Blit(uISprites, 267, 136, positionMiniMap);
-	else if (posit < 1700) App->renderer->Blit(uISprites, 263, 134, positionMiniMap);
-	else if (posit < 1750) App->renderer->Blit(uISprites, 258, 131, positionMiniMap);
-	else if (posit < 1800) App->renderer->Blit(uISprites, 260, 126, positionMiniMap);
-	else if (posit < 1850) App->renderer->Blit(uISprites, 264, 122, positionMiniMap);
-	else if (posit < 1870) App->renderer->Blit(uISprites, 268, 122, positionMiniMap);
-	else if (posit < 1900) App->renderer->Blit(uISprites, 271, 127, positionMiniMap);
-	else if (posit < 1920) App->renderer->Blit(uISprites, 275, 132, positionMiniMap);
-	else if (posit < 1950) App->renderer->Blit(uISprites, 280, 136, positionMiniMap);
-	else if (posit < 1980) App->renderer->Blit(uISprites, 285, 136, positionMiniMap);
-	else if (posit < 2000) App->renderer->Blit(uISprites, 288, 135, positionMiniMap);
-	else if (posit < 2025) App->renderer->Blit(uISprites, 289, 134, positionMiniMap);
-	else if (posit < 2050) App->renderer->Blit(uISprites, 290, 132, positionMiniMap);
-	else if (posit < 2075) App->renderer->Blit(uISprites, 292, 130, positionMiniMap);
-	else if (posit < 2100) App->renderer->Blit(uISprites, 292, 128, positionMiniMap);
-	else if (posit < 2125) App->renderer->Blit(uISprites, 295, 123, positionMiniMap);
-	else if (posit < 2150) App->renderer->Blit(uISprites, 296, 122, positionMiniMap);
-	else if (posit < 2175) App->renderer->Blit(uISprites, 299, 122, positionMiniMap);
-	else if (posit < 2200) App->renderer->Blit(uISprites, 299, 124, positionMiniMap);
-	else if (posit < 2250) App->renderer->Blit(uISprites, 299, 128, positionMiniMap);
-	else if (posit < 2300) App->renderer->Blit(uISprites, 299, 133, positionMiniMap);
-	else if (posit < 2350) App->renderer->Blit(uISprites, 300, 138, positionMiniMap);
-	else if (posit < 2400) App->renderer->Blit(uISprites, 302, 141, positionMiniMap);
-	else
-	{
-		int yMap = (213 + ((posit - 2400)*(29.0f / 300))) - 71;
-		App->renderer->Blit(uISprites, 303, yMap, positionMiniMap);
-	}
+	App->renderer->Blit(uISprites, miniMapPos[posit / 15].first , miniMapPos[posit / 15].second , positionMiniMap);
 }
