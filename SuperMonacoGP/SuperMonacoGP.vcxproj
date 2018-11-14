@@ -49,6 +49,7 @@
     <ClInclude Include="CtrlCar.h" />
     <ClInclude Include="CtrlMap.h" />
     <ClInclude Include="CtrlUI.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="ModuleFadeToBlack.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Module.h" />

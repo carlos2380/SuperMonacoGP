@@ -26,6 +26,9 @@
     <Filter Include="Game Modules\ModeuleRace">
       <UniqueIdentifier>{d6021a94-97b9-4019-bc24-8cf559281931}</UniqueIdentifier>
     </Filter>
+    <Filter Include="nlohmann">
+      <UniqueIdentifier>{ec25fc27-a534-44ef-a79f-0012649ab42e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SDL2_framerate.c">
@@ -176,6 +179,9 @@
     </ClInclude>
     <ClInclude Include="ModuleSceneFinal.h">
       <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>nlohmann</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
