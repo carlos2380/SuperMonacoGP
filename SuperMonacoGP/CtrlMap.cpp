@@ -138,7 +138,7 @@ bool CtrlMap::CleanUp()
 update_status CtrlMap::Update()
 {
 
-	speed = 1000;// App->scene_race->ctrlCar->speed*1.2;
+	speed = App->scene_race->ctrlCar->speed*1.2;
 	speedMirror = -speed;
 	//UPDATE TURN
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT
