@@ -21,6 +21,7 @@ public:
 
 private:
 	void loadRoad();
+	void generateJSON();
 
 public:
 	SDL_Texture* raceSprites = nullptr;

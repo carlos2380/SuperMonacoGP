@@ -370,5 +370,5 @@ void CtrlUI::unloadTextFonts()
 void CtrlUI::printMiniMap()
 {
 	int posit = App->scene_race->ctrlMap->mapPosition;
-	App->renderer->Blit(uISprites, miniMapPos[posit / 15].first , miniMapPos[posit / 15].second , positionMiniMap);
+	App->renderer->Blit(uISprites, miniMapPos[posit / 16].first , miniMapPos[posit / 16].second , positionMiniMap);
 }
