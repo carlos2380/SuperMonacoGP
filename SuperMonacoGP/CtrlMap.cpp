@@ -34,12 +34,10 @@ struct Line
 	float screenX, screenY, screenW; //screen coord
 	float curve, spriteX, clip, scale;
 	Color grass, border, road;
-	//SDL_Rect* sprite;
+	SDL_Rect* sprite = nullptr;
 	Line()
 	{
 		spriteX = curve = worldX = worldY = worldZ = 0;
-		/*sprite = new SDL_Rect();
-		*sprite = { 0,0,0,0 };*/
 	}
 
 	void project(int camX, int camY, int camZ)
@@ -58,35 +56,37 @@ struct Line
 		screenW = scale * roadW  * width / 2;
 	}
 
-/*	void drawSprite(SDL_Rect* result)
+	void drawSprite(SDL_Texture* tex)
 	{
-		int w = sprite->w;
-		int h = sprite->h;
+		if (sprite != nullptr)
+		{
+			SDL_Rect rect = *sprite;
+			int w = rect.w;
+			int h = rect.h;
 
-		float destX = screenX + scale * spriteX * width / 2;
-		float destY = screenY + 4;
-		float destW = w * screenW / 266;
-		float destH = h * screenW / 266;
+			float destX = screenX + scale * spriteX * width / 2;
+			float destY = screenY + 4;
+			float destW = w * screenW / 230;
+			float destH = h * screenW / 230;
 
-		destX += destW * spriteX; //offsetX
-		destY += destH * (-1);    //offsetY
+			destX += destW * spriteX; //offsetX
+			destY += destH * (-1);    //offsetY
 
-		float clipH = destY + destH - clip;
-		if (clipH<0) clipH = 0;
+			float clipH = destY + destH - clip;
+			if (clipH < 0) clipH = 0;
 
-		//destX = screenX + (screenW * spriteX)*0.1;
-		if (clipH >= destH) return;
+			destX = screenX + (screenW * spriteX);
+			if (clipH >= destH) return;
 
-		h = (int)(h - h*clipH / destH);
-		int spriteScaleH = (int)(h*(destH / h));
-		int spriteScaleW = (int)(w*(destW / w));
-		result->x = destX;
-		result->y = height-screenY;
-		result->w = destW *(destW / w);
-		result->h = destH *(destH / h);
-	}*/
+			float spriteH = (int)(h - h * clipH / destH);
+			int spriteScaleH = (int)(spriteH*(destH / h));
+			int spriteScaleW = (int)(rect.w*(destW / w));
+			App->renderer->BlitScaled(tex, (int)(destX - spriteScaleW / 2), (int)destY + ((SCREEN_HEIGHT / 2)*SCREEN_SIZE), &rect, 0.f, 1.f, spriteScaleW, spriteScaleH);
+		}
+	}
 
 };
+
 vector<Line> mapLines;
 vector<Line> mapMirror;
 
@@ -106,7 +106,6 @@ bool CtrlMap::Start()
 	skybox = { 0, 0, 320, 200 };
 	skyboxMirror = { 6000, 0, 320, 100 };
 	sky = { 0, 300, 320, 100 };
-//	whells = { 400, 100, 95, 48 };
 
 	loadRoad();
 	
@@ -137,7 +136,11 @@ bool CtrlMap::CleanUp()
 	App->textures->Unload(skySprites);
 	skySprites = nullptr;
 	raceSprites = nullptr;
-
+	for (int i = 0; i < spriteVector.size(); ++i)
+	{
+		delete[] spriteVector[i];
+	}
+	spriteVector.clear();
 	return true;
 }
 
@@ -295,12 +298,16 @@ update_status CtrlMap::Update()
 			drawPoligon(p.screenX, p.screenY, p.screenW*0.05, l.screenX, l.screenY, l.screenW*0.05, 255, 255, 255);
 		}
 	}
-/*	for (int n = mapPosition + 64; n>mapPosition; n--)
+	for (int n = mapPosition + 64; n>mapPosition; n--)
 	{
-		SDL_Rect* to = new SDL_Rect();
-		map[n%sizeMap].drawSprite(to);
-		App->renderer->BlitInQuad(raceSprites, map[n%sizeMap].sprite, to);
-	}*/
+		if (n % 6 == 0)
+			mapLines[n%sizeMap].drawSprite(raceSprites);
+		if (n % 6 == 3)
+		{
+			mapLines[n%sizeMap].spriteX = 1.5f;
+			mapLines[n%sizeMap].drawSprite(raceSprites);
+		}
+	}
 
 
 
@@ -353,14 +360,14 @@ void CtrlMap::drawPoligonMirror(int x1, int y1, int w1, int x2, int y2, int w2, 
 void CtrlMap::loadRoad()
 {
 
-	ifstream ifile("Files/Map.json");
+	/*ifstream ifile("Files/Map.json");
 	json jsn;
 	ifile >> jsn;
 	ifile.close();
 
 	list<json> linesJson = jsn;
 	mapLines = vector<Line>(linesJson.size());
-	mapMirror = vector<Line>(linesJson.size());
+	mapMirror = vector<Line>(linesJson.size());*/
 	/*for(int i = 0; i < mapLines.size(); ++i)
 	{
 		Line line;
@@ -381,7 +388,7 @@ void CtrlMap::loadRoad()
 		mapMirror[linesJson.size() - 1 - i] = line;
 		
 	}*/
-	int i = 0;
+	/*int i = 0;
 	for (list<json>::iterator it = linesJson.begin(); it != linesJson.end(); ++it) {
 		Line line;
 
@@ -401,8 +408,12 @@ void CtrlMap::loadRoad()
 		line.worldY = -line.worldY;
 		mapMirror[i] = line;
 		++i;
-	}
-	/*float descens = 0;
+	}*/
+
+	
+
+
+	float descens = 0;
 
 	int nLin = 16;
 	int desDouble = -1;
@@ -641,7 +652,22 @@ void CtrlMap::loadRoad()
 		}
 
 		mapMirror.push_back(line);
-	}*/
+	}
+
+
+	spriteVector.push_back(new SDL_Rect{ 400, 100, 95, 48 });
+
+	for (int i = 0; i < 222 * 16; i++)
+	{
+		if (i % 6 == 0)
+			mapLines[i].spriteX = -1.5f;
+			mapLines[i].sprite = spriteVector[0];
+		if (i % 6 == 3)
+		{
+			mapLines[i].spriteX = 1.5f;
+			mapLines[i].sprite = spriteVector[0];
+		}
+	}
 }
 
 void CtrlMap::generateJSON()

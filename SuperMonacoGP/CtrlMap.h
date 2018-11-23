@@ -4,6 +4,7 @@
 
 #include "Module.h"
 #include "Animation.h"
+#include <map>
 
 struct Line;
 class CtrlMap : public Module
@@ -52,6 +53,7 @@ private:
 	SDL_Rect skybox;
 	SDL_Rect sky;
 	SDL_Rect skyboxMirror;
+	std::vector<SDL_Rect*> spriteVector;
 	//SDL_Rect whells;
 };
 

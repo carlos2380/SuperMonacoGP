@@ -21,6 +21,7 @@ public:
 	bool CleanUp();
 
 	bool Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed = 1.0f, float scale = 1.0f);
+	bool BlitScaled(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed, float scale, int scaledW, int scaledH);
 	bool BlitInQuad(SDL_Texture* texture, SDL_Rect* from, SDL_Rect* to, float speed = 1.0f, float scale = 1.0f);
 	bool BlitRotate(SDL_Texture* texture, int x, int y, SDL_Rect* section, const double &angle, const SDL_Point* center, float speed = 1.0f, float scale = 1.0f);
 	bool DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera = true);

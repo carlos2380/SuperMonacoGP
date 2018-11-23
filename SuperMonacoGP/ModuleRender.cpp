@@ -119,6 +119,25 @@ bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, f
 	return ret;
 }
 
+bool ModuleRender::BlitScaled(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed, float scale, int scaledW, int scaledH)
+{
+	bool ret = true;
+	SDL_Rect rect;
+	rect.x = x;
+	rect.y = y;
+	rect.w = scaledW; rect.h = scaledH;
+
+
+
+	if (SDL_RenderCopy(renderer, texture, section, &rect) != 0)
+	{
+		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
+		ret = false;
+	}
+
+	return ret;
+}
+
 // Blit to screen
 bool ModuleRender::BlitInQuad(SDL_Texture* texture, SDL_Rect* from, SDL_Rect* to, float speed, float scale)
 {
