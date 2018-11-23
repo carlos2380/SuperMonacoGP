@@ -20,9 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="CtrlCar.cpp" />
     <ClCompile Include="CtrlMap.cpp" />
     <ClCompile Include="CtrlUI.cpp" />
+    <ClCompile Include="Line.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ModuleAudio.cpp" />
@@ -46,10 +48,12 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="CtrlCar.h" />
     <ClInclude Include="CtrlMap.h" />
     <ClInclude Include="CtrlUI.h" />
     <ClInclude Include="json.hpp" />
+    <ClInclude Include="Line.h" />
     <ClInclude Include="ModuleFadeToBlack.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Module.h" />
