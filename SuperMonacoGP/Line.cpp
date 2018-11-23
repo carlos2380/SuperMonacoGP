@@ -58,5 +58,34 @@ void Line::drawSprite(SDL_Texture* tex)
 	}
 }
 
+void Line::drawSpriteMirror(SDL_Texture* tex)
+{
+	if (sprite != nullptr)
+	{
+		SDL_Rect rect = *sprite;
+		int w = rect.w;
+		int h = rect.h;
+
+		float destX = screenX + scale * spriteX * width / 2;
+		float destY = screenY + 4;
+		float destW = w * screenW / 230;
+		float destH = h * screenW / 230;
+
+		destX += destW * spriteX; //offsetX
+		destY += destH * (-1);    //offsetY
+
+		float clipH = destY + destH - clip;
+		if (clipH < 0) clipH = 0;
+
+		destX = screenX + (screenW * spriteX);
+		if (clipH >= destH) return;
+
+		float spriteH = (int)(h - h * clipH / destH);
+		int spriteScaleH = (int)(spriteH*(destH / h));
+		int spriteScaleW = (int)(rect.w*(destW / w));
+		App->renderer->BlitScaled(tex, (int)(destX - spriteScaleW / 2), (int)destY + (31 * SCREEN_SIZE), &rect, 0.f, 1.f, spriteScaleW, spriteScaleH);
+	}
+}
+
 	
 	

@@ -131,7 +131,7 @@ update_status CtrlMap::Update()
 	{
 		int x = 3;
 	}
-	for (int n = mapPositionMirror; n<mapPositionMirror + 40; n++)
+	for (int n = mapPositionMirror+2; n<mapPositionMirror + 40; n++)
 	{
 		Line &l = mapMirror[n%sizeMap];
 		l.projectMirror(playerXMirror*roadW - x, camHMirror, mapPositionMirror*segL - (n >= sizeMap ? sizeMap*segL : 0));
@@ -168,6 +168,12 @@ update_status CtrlMap::Update()
 				drawPoligonMirror(p.screenX, p.screenY, p.screenW*0.05, l.screenX, l.screenY, l.screenW*0.05, 255, 255, 255);
 			}
 		}
+	}
+	for (int n = mapPositionMirror + 40; n > mapPositionMirror; n--)
+	{
+
+		mapMirror[n%sizeMap].drawSpriteMirror(raceSprites);
+
 	}
 	App->renderer->Blit(skySprites, 0, 65, &sky);
 	App->renderer->Blit(skySprites, 0, sckyBoxY, &skybox);
@@ -233,13 +239,9 @@ update_status CtrlMap::Update()
 	}
 	for (int n = mapPosition + 64; n>mapPosition; n--)
 	{
-		if (n % 6 == 0)
+		
 			mapLines[n%sizeMap].drawSprite(raceSprites);
-		if (n % 6 == 3)
-		{
-			mapLines[n%sizeMap].spriteX = 1.5f;
-			mapLines[n%sizeMap].drawSprite(raceSprites);
-		}
+		
 	}
 
 
@@ -383,7 +385,7 @@ void CtrlMap::loadRoad()
 		if (i > 102 * nLin && i <= 106 * nLin) line.curve = -5;
 		if (i > 106 * nLin && i <= 112 * nLin) line.curve = 0;
 		if (i > 112 * nLin && i <= 118 * nLin) line.curve = 20;
-		if (i > 118 * nLin && i <= 124 * nLin) line.curve = 35;
+		if (i > 118 * nLin && i <= 124 * nLin) line.curve = 28;
 		if (i > 124 * nLin && i <= 133 * nLin) line.curve = 20;
 		if (i > 133 * nLin && i <= 140 * nLin) line.curve = 0;
 		if (i > 140 * nLin && i <= 160 * nLin) line.curve = -12;
@@ -592,13 +594,16 @@ void CtrlMap::loadRoad()
 
 	for (int i = 0; i < 222 * 16; i++)
 	{
-		if (i % 6 == 0)
-			mapLines[i].spriteX = -1.5f;
-			mapLines[i].sprite = spriteVector[0];
-		if (i % 6 == 3)
-		{
-			mapLines[i].spriteX = 1.5f;
-			mapLines[i].sprite = spriteVector[0];
+		if (i % 400 <= 100) {
+			if (i % 6 == 0) {
+				mapLines[i].spriteX = -1.5f;
+				mapLines[i].sprite = spriteVector[0];
+			}
+			if (i % 6 == 3)
+			{
+				mapLines[i].spriteX = 1.5f;
+				mapLines[i].sprite = spriteVector[0];
+			}
 		}
 
 		mapLines[i].width = width;
@@ -610,13 +615,16 @@ void CtrlMap::loadRoad()
 
 	for (int i = 0; i < 222 * 16; i++)
 	{
-		if (i % 6 == 0)
-			mapMirror[i].spriteX = -1.5f;
-		mapMirror[i].sprite = spriteVector[0];
-		if (i % 6 == 3)
-		{
-			mapMirror[i].spriteX = 1.5f;
-			mapMirror[i].sprite = spriteVector[0];
+		if (i % 400 > 301) {
+			if (i % 6 == 0) {
+				mapMirror[i].spriteX = -1.5f;
+				mapMirror[i].sprite = spriteVector[0];
+			}
+			if (i % 6 == 3)
+			{
+				mapMirror[i].spriteX = 1.5f;
+				mapMirror[i].sprite = spriteVector[0];
+			}
 		}
 
 		mapMirror[i].width = width;

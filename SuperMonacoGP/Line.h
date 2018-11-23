@@ -11,6 +11,7 @@ public:
 	void project(int camX, int camY, int camZ);
 	void projectMirror(int camX, int camY, int camZ);
 	void drawSprite(SDL_Texture* tex);
+	void drawSpriteMirror(SDL_Texture* tex);
 
 public:
 	float worldX, worldY, worldZ; //3d center of line
