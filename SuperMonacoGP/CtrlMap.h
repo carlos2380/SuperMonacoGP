@@ -35,7 +35,7 @@ public:
 	int worldPosition;
 	int worldPositionMirror;
 	int highWordl = 1500;
-	int highWordlMirror = 1500;
+	int highWordlMirror = 1700;
 	float speed = 0;
 	float speedMirror = 0;
 	int skyBoxX = 0;

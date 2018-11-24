@@ -19,14 +19,9 @@ using namespace std;
 using json = nlohmann::json;
 
 
-
-
-
-
 CtrlMap::CtrlMap(bool active) : Module(active)
 {
 }
-
 
 
 CtrlMap::~CtrlMap()
@@ -131,7 +126,7 @@ update_status CtrlMap::Update()
 	{
 		int x = 3;
 	}
-	for (int n = mapPositionMirror+2; n<mapPositionMirror + 40; n++)
+	for (int n = mapPositionMirror; n<mapPositionMirror + 40; n++)
 	{
 		Line &l = mapMirror[n%sizeMap];
 		l.projectMirror(playerXMirror*roadW - x, camHMirror, mapPositionMirror*segL - (n >= sizeMap ? sizeMap*segL : 0));
@@ -295,14 +290,14 @@ void CtrlMap::drawPoligonMirror(int x1, int y1, int w1, int x2, int y2, int w2, 
 void CtrlMap::loadRoad()
 {
 
-	/*ifstream ifile("Files/Map.json");
+	ifstream ifile("Files/Map.json");
 	json jsn;
 	ifile >> jsn;
 	ifile.close();
 
 	list<json> linesJson = jsn;
 	mapLines = vector<Line>(linesJson.size());
-	mapMirror = vector<Line>(linesJson.size());*/
+	mapMirror = vector<Line>(linesJson.size());
 	/*for(int i = 0; i < mapLines.size(); ++i)
 	{
 		Line line;
@@ -323,7 +318,9 @@ void CtrlMap::loadRoad()
 		mapMirror[linesJson.size() - 1 - i] = line;
 		
 	}*/
-	/*int i = 0;
+
+	spriteVector.push_back(new SDL_Rect{ 400, 100, 95, 48 });
+	int i = 0;
 	for (list<json>::iterator it = linesJson.begin(); it != linesJson.end(); ++it) {
 		Line line;
 
@@ -339,14 +336,36 @@ void CtrlMap::loadRoad()
 		line.border.r = (*it).at("border").at("r");
 		line.border.g = (*it).at("border").at("g");
 		line.border.b = (*it).at("border").at("b");
+
+
+		if (i % 400 > 301) {
+			if (i % 6 == 0) {
+				line.spriteX = -1.5f;
+				line.sprite = spriteVector[0];
+			}
+			if (i % 6 == 3)
+			{
+				line.spriteX = 1.5f;
+				line.sprite = spriteVector[0];
+			}
+		}
+
+		line.width = width;
+		line.height = height;
+		line.heightMirror = heightMirror;
+		line.roadW = roadW;
+		line.camD = camD;
+
+
 		mapLines[i] = line;
 		line.worldY = -line.worldY;
-		mapMirror[i] = line;
+		line.worldZ = linesJson.size()*segL - line.worldZ;
+		mapMirror[mapLines.size() - i -1] = line;
 		++i;
-	}*/
+	}
 
+	/*
 	
-
 
 	float descens = 0;
 
@@ -587,12 +606,11 @@ void CtrlMap::loadRoad()
 		}
 
 		mapMirror.push_back(line);
-	}
+	}*/
 
 
-	spriteVector.push_back(new SDL_Rect{ 400, 100, 95, 48 });
 
-	for (int i = 0; i < 222 * 16; i++)
+	/*for (int i = 0; i < 222 * 16; i++)
 	{
 		if (i % 400 <= 100) {
 			if (i % 6 == 0) {
@@ -632,7 +650,7 @@ void CtrlMap::loadRoad()
 		mapMirror[i].heightMirror = heightMirror;
 		mapMirror[i].roadW = roadW;
 		mapMirror[i].camD = camD;
-	}
+	}*/
 }
 
 void CtrlMap::generateJSON()
@@ -662,7 +680,8 @@ void CtrlMap::generateJSON()
 
 		mapjson[i] = linejson;
 	}
-
-	std::ofstream o("Map.json");
-	o << std::setw(4) << mapjson << std::endl;
+	std::vector<std::uint8_t> v_bson = json::to_bson(mapjson);
+	std::ofstream o("Map.dat", ios::out | ios::binary);
+	o.write((char*)&v_bson[0], v_bson.size() * sizeof(uint8_t));
+	o.close();
 }
