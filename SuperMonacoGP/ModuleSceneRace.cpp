@@ -79,7 +79,7 @@ update_status ModuleSceneRace::Update()
 {
 	if(lap == 0)
 	{
-		/*if((SDL_GetTicks() - initialTime) < 3000)
+		if((SDL_GetTicks() - initialTime) < 3000)
 		{
 			printSemaforo = true;
 			semaforoState = 0;
@@ -94,9 +94,7 @@ update_status ModuleSceneRace::Update()
 			printSemaforo = true;
 			semaforoState = 2;
 		}
-		else { printSemaforo = false; }*/
-		stopCar = false;
-		printSemaforo = false;
+		else { printSemaforo = false; }
 	}
 
 	ctrlMap->Update();
