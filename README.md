@@ -9,7 +9,7 @@ Full project at github: [https://github.com/carlos2380/SuperMonacoGP](https://gi
 
 Project webpage: [https://carlos2380.github.io/SuperMonacoGP/](https://carlos2380.github.io/SuperMonacoGP/) 
 
-Latest release (1.0): [https://github.com/carlos2380/SuperMonacoGP/releases/download/Delivery/Release.rar](Release.rar)  
+Latest release (1.1): [https://github.com/carlos2380/SuperMonacoGP/releases/download/v1.1/SuperMonacoGP-v1.1.zip](SuperMonacoGP-v1.1.zip)  
 
 *Author*: Carlos F Álamo García
 
