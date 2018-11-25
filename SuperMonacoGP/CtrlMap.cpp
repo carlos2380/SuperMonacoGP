@@ -19,6 +19,18 @@ using namespace std;
 using json = nlohmann::json;
 
 
+enum RoadSprites
+{
+	WHEELS,
+	RIGHTROW,
+	LEFTROW,
+	RIGHTTURN,
+	LEFTTURN,
+	FACE,
+	NOBEL,
+	SHADOW
+};
+
 CtrlMap::CtrlMap(bool active) : Module(active)
 {
 }
@@ -75,7 +87,7 @@ bool CtrlMap::CleanUp()
 update_status CtrlMap::Update()
 {
 
-	speed = App->scene_race->ctrlCar->speed*1.2;
+	speed = App->scene_race->ctrlCar->speed*1.6;
 	speedMirror = -speed;
 	//UPDATE TURN
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT
@@ -320,6 +332,13 @@ void CtrlMap::loadRoad()
 	}*/
 
 	spriteVector.push_back(new SDL_Rect{ 400, 100, 95, 48 });
+	spriteVector.push_back(new SDL_Rect{ 400, 400, 64, 112 });
+	spriteVector.push_back(new SDL_Rect{ 475, 400, 64, 112 });
+	spriteVector.push_back(new SDL_Rect{ 400, 550, 64, 111 });
+	spriteVector.push_back(new SDL_Rect{ 475, 550, 64, 111 });
+	spriteVector.push_back(new SDL_Rect{ 550, 400, 104, 64 });
+	spriteVector.push_back(new SDL_Rect{ 550, 475, 104, 63 });
+	spriteVector.push_back(new SDL_Rect{ 550, 550, 64, 63 });
 	int i = 0;
 	for (list<json>::iterator it = linesJson.begin(); it != linesJson.end(); ++it) {
 		Line line;
@@ -338,17 +357,183 @@ void CtrlMap::loadRoad()
 		line.border.b = (*it).at("border").at("b");
 
 
-		if (i % 400 > 301) {
-			if (i % 6 == 0) {
+		int nLin = 16;
+		if (i > 20 * nLin && i <= 22 * nLin) {
+			if (i % 8 == 0) {
 				line.spriteX = -1.5f;
-				line.sprite = spriteVector[0];
+				line.sprite = spriteVector[1];
 			}
-			if (i % 6 == 3)
-			{
+		}
+		if (i > 23 * nLin && i <= 27 * nLin) {
+			if (i % 16 == 0) {
+				line.spriteX = -1.5f;
+				line.sprite = spriteVector[5];
+			}
+		}
+		if (i > 28 * nLin && i <= 30 * nLin) {
+			if (i % 8 == 0) {
+				line.spriteX = -1.5f;
+				line.sprite = spriteVector[1];
+			}
+		}
+
+		if (i > 30 * nLin && i <= 36 * nLin) {
+			if (i % 16 == 0) {
+				line.spriteX = -1.5f;
+				line.sprite = spriteVector[5];
+			}
+		}
+
+		if (i > 47 * nLin && i <= 49 * nLin) {
+			if (i % 8 == 0) {
+				line.spriteX = 1.5f;
+				line.sprite = spriteVector[2];
+			}
+		}
+		if (i > 50 * nLin && i <= 54 * nLin) {
+			if (i % 8 == 0) {
 				line.spriteX = 1.5f;
 				line.sprite = spriteVector[0];
 			}
 		}
+		if (i > 54 * nLin && i <= 56 * nLin) {
+			if (i % 8 == 0) {
+				line.spriteX = -1.5f;
+				line.sprite = spriteVector[1];
+			}
+		}
+
+		if (i > 56 * nLin && i <= 60 * nLin) {
+			if (i % 8 == 0) {
+				line.spriteX = -1.5f;
+				line.sprite = spriteVector[0];
+			}
+		}
+
+		if (i > 64 * nLin && i <= 68 * nLin) {
+			if (i % 8 == 0) {
+				line.spriteX = 1.5f;
+				line.sprite = spriteVector[0];
+			}
+		}
+
+		if (i > 74 * nLin && i <= 76 * nLin) {
+			if (i % 8 == 0) {
+				line.spriteX = 1.5f;
+				line.sprite = spriteVector[2];
+			}
+		}
+
+		if (i > 78 * nLin && i <= 80 * nLin) {
+			if (i % 8 == 0) {
+				line.spriteX = 1.5f;
+				line.sprite = spriteVector[0];
+			}
+			if (i % 8 == 4) {
+				line.spriteX = -1.5f;
+				line.sprite = spriteVector[0];
+			}
+		}
+		
+		if (i > 84 * nLin && i <= 86 * nLin) {
+			if (i % 8 == 0) {
+				line.spriteX = 1.5f;
+				line.sprite = spriteVector[4];
+			}
+		}
+		if (i > 87 * nLin && i <= 89 * nLin) {
+			if (i % 8 == 0) {
+				line.spriteX = 1.5f;
+				line.sprite = spriteVector[0];
+			}
+		}
+		if (i > 89 * nLin && i <= 91 * nLin) {
+			if (i % 8 == 0) {
+				line.spriteX = -1.5f;
+				line.sprite = spriteVector[0];
+			}
+		}
+
+		if (i > 93 * nLin && i <= 95 * nLin) {
+			if (i % 8 == 0) {
+				line.spriteX = -1.5f;
+				line.sprite = spriteVector[3];
+			}
+		}
+		if (i > 96 * nLin && i <= 98 * nLin) {
+			if (i % 8 == 0) {
+				line.spriteX = -1.5f;
+				line.sprite = spriteVector[0];
+			}
+		}
+		if (i > 98 * nLin && i <= 100 * nLin) {
+			if (i % 8 == 0) {
+				line.spriteX = 1.5f;
+				line.sprite = spriteVector[0];
+			}
+		}
+		if (i > 109 * nLin && i <= 111 * nLin) {
+			if (i % 8 == 0) {
+				line.spriteX = -1.5f;
+				line.sprite = spriteVector[1];
+			}
+		}
+		if (i > 112 * nLin && i <= 118 * nLin) {
+			if (i % 16 == 0) {
+				line.spriteX = -1.5f;
+				line.sprite = spriteVector[7];
+			}
+		}
+		if (i > 120 * nLin && i <= 122 * nLin) {
+			if (i % 8 == 0) {
+				line.spriteX = -1.5f;
+				line.sprite = spriteVector[1];
+			}
+		}
+		if (i > 123 * nLin && i <= 125 * nLin) {
+			if (i % 16 == 0) {
+				line.spriteX = -1.5f;
+				line.sprite = spriteVector[7];
+			}
+		}
+
+		if (i > 165 * nLin && i <= 169 * nLin)
+		{
+			if (i % 8 == 0) {
+				line.spriteX = 1.5f;
+				line.sprite = spriteVector[0];
+			}
+			if (i % 8 == 4) {
+				line.spriteX = -1.5f;
+				line.sprite = spriteVector[1];
+			}
+		}
+		if (i > 169 * nLin && i <= 172 * nLin) {
+			if (i % 16 == 0) {
+				line.spriteX = -1.5f;
+				line.sprite = spriteVector[6];
+			}
+		}
+
+		if (i > 179 * nLin && i <= 181 * nLin) {
+			if (i % 8 == 0) {
+				line.spriteX = 1.5f;
+				line.sprite = spriteVector[2];
+			}
+		}
+		if (i > 182 * nLin && i <= 186 * nLin) {
+			if (i % 8 == 0) {
+				line.spriteX = 1.5f;
+				line.sprite = spriteVector[0];
+			}
+		}
+		if (i > 187 * nLin && i <= 191 * nLin) {
+			if (i % 8 == 0) {
+				line.spriteX = -1.5f;
+				line.sprite = spriteVector[0];
+			}
+		}
+
 
 		line.width = width;
 		line.height = height;
