@@ -301,6 +301,22 @@ void CtrlMap::drawPoligonMirror(int x1, int y1, int w1, int x2, int y2, int w2, 
 
 void CtrlMap::loadRoad()
 {
+	ifstream fileSprite("Files/SpritesRoad.json");
+	json jsnSprite;
+	fileSprite >> jsnSprite;
+	fileSprite.close();
+	list<json> spritesJson = jsnSprite;
+	spriteVector = vector<SDL_Rect*>(spritesJson.size());
+	int j = 0;
+	for (list<json>::iterator it = spritesJson.begin(); it != spritesJson.end(); ++it)
+	{
+		spriteVector[j] = new SDL_Rect();
+		spriteVector[j]->x = (*it).at("x");
+		spriteVector[j]->y = (*it).at("y");
+		spriteVector[j]->w = (*it).at("w");
+		spriteVector[j]->h = (*it).at("h");
+		++j;
+	}
 
 	ifstream ifile("Files/Map.json");
 	json jsn;
@@ -331,14 +347,14 @@ void CtrlMap::loadRoad()
 		
 	}*/
 
-	spriteVector.push_back(new SDL_Rect{ 400, 100, 95, 48 });
+	/*spriteVector.push_back(new SDL_Rect{ 400, 100, 95, 48 });
 	spriteVector.push_back(new SDL_Rect{ 400, 400, 64, 112 });
 	spriteVector.push_back(new SDL_Rect{ 475, 400, 64, 112 });
 	spriteVector.push_back(new SDL_Rect{ 400, 550, 64, 111 });
 	spriteVector.push_back(new SDL_Rect{ 475, 550, 64, 111 });
 	spriteVector.push_back(new SDL_Rect{ 550, 400, 104, 64 });
 	spriteVector.push_back(new SDL_Rect{ 550, 475, 104, 63 });
-	spriteVector.push_back(new SDL_Rect{ 550, 550, 64, 63 });
+	spriteVector.push_back(new SDL_Rect{ 550, 550, 64, 63 });*/
 	int i = 0;
 	for (list<json>::iterator it = linesJson.begin(); it != linesJson.end(); ++it) {
 		Line line;
@@ -355,9 +371,15 @@ void CtrlMap::loadRoad()
 		line.border.r = (*it).at("border").at("r");
 		line.border.g = (*it).at("border").at("g");
 		line.border.b = (*it).at("border").at("b");
-
-
-		int nLin = 16;
+		line.spriteX = (*it).at("spriteX");
+		if((*it).at("sprite") == -1)
+		{
+			line.sprite = nullptr;
+		}else
+		{
+			line.sprite = spriteVector[(*it).at("sprite")];
+		}
+		/*int nLin = 16;
 		if (i > 20 * nLin && i <= 22 * nLin) {
 			if (i % 8 == 0) {
 				line.spriteX = -1.5f;
@@ -532,7 +554,7 @@ void CtrlMap::loadRoad()
 				line.spriteX = -1.5f;
 				line.sprite = spriteVector[0];
 			}
-		}
+		}*/
 
 
 		line.width = width;
@@ -840,6 +862,19 @@ void CtrlMap::loadRoad()
 
 void CtrlMap::generateJSON()
 {
+	vector<json> spritesjson = vector<json>(spriteVector.size());
+	for (int i = 0; i < spriteVector.size(); ++i)
+	{
+		json spritejson;
+		spritejson["x"] = spriteVector[i]->x;
+		spritejson["y"] = spriteVector[i]->y;
+		spritejson["w"] = spriteVector[i]->w;
+		spritejson["h"] = spriteVector[i]->h;
+		spritesjson[i] = spritejson;
+	}
+	ofstream out("SpritesRoad.json");
+	out << std::setw(4) << spritesjson << std::endl;
+	out.close();
 	vector<json> mapjson = vector<json>(mapLines.size());
 	for(int i = 0; i < mapjson.size(); ++i)
 	{
@@ -862,11 +897,23 @@ void CtrlMap::generateJSON()
 		road["g"] = mapLines[i].road.g;
 		road["b"] = mapLines[i].road.b;
 		linejson["road"] = road;
-
+		linejson["spriteX"] = mapLines[i].spriteX;
+		if(mapLines[i].sprite == nullptr)
+		{
+			linejson["sprite"] = -1;
+		}else
+		{
+			for (int j = 0; j < spriteVector.size(); ++j)
+			{
+				if(spriteVector[j] == mapLines[i].sprite)
+				{
+					linejson["sprite"] = j;
+				}
+			}
+		}
 		mapjson[i] = linejson;
 	}
-	std::vector<std::uint8_t> v_bson = json::to_bson(mapjson);
-	std::ofstream o("Map.dat", ios::out | ios::binary);
-	o.write((char*)&v_bson[0], v_bson.size() * sizeof(uint8_t));
+	ofstream o("Map.json");
+	o << std::setw(4) << mapjson << std::endl;
 	o.close();
 }
