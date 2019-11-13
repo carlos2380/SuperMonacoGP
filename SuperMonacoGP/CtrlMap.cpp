@@ -44,6 +44,7 @@ bool CtrlMap::Start()
 	lastMapPosition = mapPosition;
 	skySprites = App->textures->Load("Sprites/SkyBox.bmp", 255, 0, 255);
 	raceSprites = App->textures->Load("Sprites/RaceSprites.bmp", 255, 0, 255);
+	tunnelSprites = App->textures->Load("Sprites/Tunnel.bmp", 255, 0, 255);
 	LOG("Loading space intro");
 
 	/*if (fx == 0)
@@ -58,14 +59,21 @@ bool CtrlMap::CleanUp()
 {
 	LOG("Unloading space scene");
 	App->textures->Unload(raceSprites);
+	App->textures->Unload(tunnelSprites);
 	App->textures->Unload(skySprites);
 	skySprites = nullptr;
+	tunnelSprites = nullptr;
 	raceSprites = nullptr;
 	for (int i = 0; i < spriteVector.size(); ++i)
 	{
 		delete[] spriteVector[i];
 	}
 	spriteVector.clear();
+	for (int i = 0; i < tunnelVector.size(); ++i)
+	{
+		delete[] tunnelVector[i];
+	}
+	tunnelVector.clear();
 	return true;
 }
 

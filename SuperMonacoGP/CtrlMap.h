@@ -25,6 +25,7 @@ private:
 
 public:
 	SDL_Texture* raceSprites = nullptr;
+	SDL_Texture* tunnelSprites = nullptr;
 	SDL_Texture* skySprites = nullptr;
 
 	int sizeMap;
