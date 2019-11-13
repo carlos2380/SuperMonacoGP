@@ -303,6 +303,23 @@ void CtrlMap::loadRoad()
 		++j;
 	}
 
+	ifstream fileTunnel("Files/Tunnel.json");
+	json jsnTunnel	;
+	fileTunnel >> jsnTunnel;
+	fileSprite.close();
+	list<json> tunnelJson = jsnTunnel;
+	tunnelVector = vector<SDL_Rect*>(tunnelJson.size());
+	j = 0;
+	for (list<json>::iterator it = tunnelJson.begin(); it != tunnelJson.end(); ++it)
+	{
+		tunnelVector[j] = new SDL_Rect();
+		tunnelVector[j]->x = (*it).at("x");
+		tunnelVector[j]->y = (*it).at("y");
+		tunnelVector[j]->w = (*it).at("w");
+		tunnelVector[j]->h = (*it).at("h");
+		++j;
+	}
+
 	ifstream ifile("Files/Map.json");
 	json jsn;
 	ifile >> jsn;

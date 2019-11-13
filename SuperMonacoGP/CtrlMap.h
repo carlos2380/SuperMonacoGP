@@ -58,6 +58,7 @@ private:
 	SDL_Rect sky;
 	SDL_Rect skyboxMirror;
 	std::vector<SDL_Rect*> spriteVector;
+	std::vector<SDL_Rect*> tunnelVector;
 	std::vector<Line> mapLines;
 	std::vector<Line> mapMirror;
 	//SDL_Rect whells;
