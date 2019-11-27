@@ -54,8 +54,30 @@ void Line::drawSprite(SDL_Texture* tex)
 		float spriteH = (int)(h - h * clipH / destH);
 		int spriteScaleH = (int)(spriteH*(destH / h));
 		int spriteScaleW = (int)(rect.w*(destW / w));
-		App->renderer->BlitScaled(tex, (int)(destX - spriteScaleW / 2), (int)destY + ((SCREEN_HEIGHT / 2)*SCREEN_SIZE), &rect, 0.f, 1.f, spriteScaleW, spriteScaleH);
+
+
+		int pointX = (int)(destX - spriteScaleW / 2);
+		int pointY = (int)destY + ((SCREEN_HEIGHT / 2)*SCREEN_SIZE);
+
+		if(pointY < (SCREEN_HEIGHT_MIRROR*SCREEN_SIZE))
+		{
+			int scraptH = (SCREEN_HEIGHT_MIRROR*SCREEN_SIZE) - pointY;
+			float percentScraptH = (float) scraptH / (float)spriteScaleH;
+			spriteScaleH *= (1 - percentScraptH);
+			SDL_Rect fitRect = rect;
+
+			fitRect.y = rect.y + (rect.h*percentScraptH);
+			fitRect.h = rect.h*(1-percentScraptH);
+
+			App->renderer->BlitScaled(tex, pointX, SCREEN_HEIGHT_MIRROR*SCREEN_SIZE, &fitRect, 0.f, 1.f, spriteScaleW, spriteScaleH);
+
+		}
+		else
+		{
+			App->renderer->BlitScaled(tex, pointX, pointY, &rect, 0.f, 1.f, spriteScaleW, spriteScaleH);
+		}
 	}
+
 }
 
 void Line::drawSpriteMirror(SDL_Texture* tex)

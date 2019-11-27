@@ -44,6 +44,8 @@ typedef unsigned int uint;
 #define SCREEN_SIZE 3
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
+#define SCREEN_HEIGHT_FRONT 150
+#define SCREEN_HEIGHT_MIRROR 65
 #define FULLSCREEN false
 #define VSYNC true
 #define TITLE "Super Monaco GP"

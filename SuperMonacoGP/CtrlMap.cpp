@@ -171,9 +171,13 @@ update_status CtrlMap::Update()
 	}
 	for (int n = mapPositionMirror + 40; n > mapPositionMirror; n--)
 	{
-
-		mapMirror[n%sizeMap].drawSpriteMirror(raceSprites);
-
+		if(mapMirror[n%sizeMap].isTunnel == true)
+		{
+			mapMirror[n%sizeMap].drawSpriteMirror(tunnelSprites);
+		}else
+		{
+			mapMirror[n%sizeMap].drawSpriteMirror(raceSprites);
+		}
 	}
 	App->renderer->Blit(skySprites, 0, 65, &sky);
 	App->renderer->Blit(skySprites, 0, sckyBoxY, &skybox);
@@ -239,9 +243,13 @@ update_status CtrlMap::Update()
 	}
 	for (int n = mapPosition + 64; n>mapPosition; n--)
 	{
-		
+		if(mapLines[n%sizeMap].isTunnel == true)
+		{
+			mapLines[n%sizeMap].drawSprite(tunnelSprites);
+		}else
+		{
 			mapLines[n%sizeMap].drawSprite(raceSprites);
-		
+		}
 	}
 
 
@@ -347,6 +355,7 @@ void CtrlMap::loadRoad()
 		line.road.r = (*it).at("road").at("r");
 		line.road.g = (*it).at("road").at("g");
 		line.road.b = (*it).at("road").at("b");
+		line.isTunnel = false;
 		line.grass.r = (*it).at("grass").at("r");
 		line.grass.g = (*it).at("grass").at("g");
 		line.grass.b = (*it).at("grass").at("b");
@@ -361,7 +370,33 @@ void CtrlMap::loadRoad()
 		{
 			line.sprite = spriteVector[(*it).at("sprite")];
 		}
-		
+		int nLin = 16;
+		if (i >= 136 * nLin && i <= 159 * nLin) {
+			line.isTunnel = true;
+			if (i % 8 == 0) {
+				line.spriteX = 0.0f;
+				line.sprite = tunnelVector[0];
+			}
+			if (i % 8 == 4) {
+				line.spriteX = 0.0f;
+				line.sprite = tunnelVector[2];
+			}
+			line.grass.r = 0;
+			line.grass.g = 0;
+			line.grass.b = 0;
+			line.border.r = 0;
+			line.border.g = 0;
+			line.border.b = 0;
+		}
+
+		if (i == 136 * nLin)
+		{
+			line.sprite = tunnelVector[4];
+		}
+		if (i == 159 * nLin)
+		{
+			line.sprite = tunnelVector[4];
+		}
 
 		line.width = width;
 		line.height = height;

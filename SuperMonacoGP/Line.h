@@ -17,6 +17,7 @@ public:
 	float worldX, worldY, worldZ; //3d center of line
 	float screenX, screenY, screenW; //screen coord
 	float curve, spriteX, clip, scale;
+	bool isTunnel;
 	Color grass, border, road;
 	SDL_Rect* sprite = nullptr;
 
