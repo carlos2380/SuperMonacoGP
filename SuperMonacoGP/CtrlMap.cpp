@@ -352,10 +352,10 @@ void CtrlMap::loadRoad()
 		line.curve = (*it).at("curve");
 		line.worldY = (*it).at("worldY");
 		line.worldZ = (*it).at("worldZ");
+		line.isTunnel = (*it).at("isTunnel");
 		line.road.r = (*it).at("road").at("r");
 		line.road.g = (*it).at("road").at("g");
 		line.road.b = (*it).at("road").at("b");
-		line.isTunnel = false;
 		line.grass.r = (*it).at("grass").at("r");
 		line.grass.g = (*it).at("grass").at("g");
 		line.grass.b = (*it).at("grass").at("b");
@@ -368,34 +368,14 @@ void CtrlMap::loadRoad()
 			line.sprite = nullptr;
 		}else
 		{
-			line.sprite = spriteVector[(*it).at("sprite")];
-		}
-		int nLin = 16;
-		if (i >= 136 * nLin && i <= 159 * nLin) {
-			line.isTunnel = true;
-			if (i % 8 == 0) {
-				line.spriteX = 0.0f;
-				line.sprite = tunnelVector[0];
+			if(line.isTunnel == false)
+			{
+				line.sprite = spriteVector[(*it).at("sprite")];
+			}else
+			{
+				line.sprite = tunnelVector[(*it).at("sprite")];
 			}
-			if (i % 8 == 4) {
-				line.spriteX = 0.0f;
-				line.sprite = tunnelVector[2];
-			}
-			line.grass.r = 0;
-			line.grass.g = 0;
-			line.grass.b = 0;
-			line.border.r = 0;
-			line.border.g = 0;
-			line.border.b = 0;
-		}
-
-		if (i == 136 * nLin)
-		{
-			line.sprite = tunnelVector[4];
-		}
-		if (i == 159 * nLin)
-		{
-			line.sprite = tunnelVector[4];
+			
 		}
 
 		line.width = width;
@@ -413,4 +393,3 @@ void CtrlMap::loadRoad()
 	}
 
 }
-
