@@ -39,8 +39,8 @@ bool CtrlMap::Start()
 	sizeMap = mapLines.size();
 	playerX = 0;
 	playerXMirror = 0;
-	worldPosition = -50000;
-	worldPositionMirror = +50000;
+	worldPosition = -850000;
+	worldPositionMirror = +850000;
 	lastMapPosition = mapPosition;
 	skySprites = App->textures->Load("Sprites/SkyBox.bmp", 255, 0, 255);
 	raceSprites = App->textures->Load("Sprites/RaceSprites.bmp", 255, 0, 255);
@@ -171,12 +171,35 @@ update_status CtrlMap::Update()
 	}
 	for (int n = mapPositionMirror + 40; n > mapPositionMirror; n--)
 	{
-		if(mapMirror[n%sizeMap].isTunnel == true)
+
+		if (mapMirror[n%sizeMap].sprite != nullptr)
 		{
-			mapMirror[n%sizeMap].drawSpriteMirror(tunnelSprites);
-		}else
-		{
-			mapMirror[n%sizeMap].drawSpriteMirror(raceSprites);
+			if (mapMirror[n%sizeMap].isTunnel == true)
+			{
+				if (n > mapPositionMirror + 36)
+				{
+					if (mapMirror[n%sizeMap].sprite == tunnelVector[0])
+					{
+						mapMirror[n%sizeMap].sprite = tunnelVector[1];
+						mapMirror[n%sizeMap].drawSpriteMirror(tunnelSprites);
+						mapMirror[n%sizeMap].sprite = tunnelVector[0];
+					}
+					else
+					{
+						mapMirror[n%sizeMap].sprite = tunnelVector[3];
+						mapMirror[n%sizeMap].drawSpriteMirror(tunnelSprites);
+						mapMirror[n%sizeMap].sprite = tunnelVector[2];
+					}
+				}
+				else
+				{
+					mapMirror[n%sizeMap].drawSpriteMirror(tunnelSprites);
+				}
+			}
+			else
+			{
+				mapMirror[n%sizeMap].drawSpriteMirror(raceSprites);
+			}
 		}
 	}
 	App->renderer->Blit(skySprites, 0, 65, &sky);
@@ -243,12 +266,33 @@ update_status CtrlMap::Update()
 	}
 	for (int n = mapPosition + 64; n>mapPosition; n--)
 	{
-		if(mapLines[n%sizeMap].isTunnel == true)
+		if(mapLines[n%sizeMap].sprite != nullptr)
 		{
-			mapLines[n%sizeMap].drawSprite(tunnelSprites);
-		}else
-		{
-			mapLines[n%sizeMap].drawSprite(raceSprites);
+			if (mapLines[n%sizeMap].isTunnel == true)
+			{
+				if (n > mapPosition + 60)
+				{
+					if(mapLines[n%sizeMap].sprite == tunnelVector[0])
+					{
+						mapLines[n%sizeMap].sprite = tunnelVector[1];
+						mapLines[n%sizeMap].drawSprite(tunnelSprites);
+						mapLines[n%sizeMap].sprite = tunnelVector[0];
+					}else
+					{
+						mapLines[n%sizeMap].sprite = tunnelVector[3];
+						mapLines[n%sizeMap].drawSprite(tunnelSprites);
+						mapLines[n%sizeMap].sprite = tunnelVector[2];
+					}
+				}
+				else
+				{
+					mapLines[n%sizeMap].drawSprite(tunnelSprites);
+				}
+			}
+			else
+			{
+				mapLines[n%sizeMap].drawSprite(raceSprites);
+			}
 		}
 	}
 
