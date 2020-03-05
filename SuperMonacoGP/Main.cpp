@@ -1,7 +1,7 @@
-#include <stdlib.h>
+#include <cstdlib>
 #include "Application.h"
 #include "Globals.h"
-#include "vld.h"
+//#include "vld.h"
 
 #include "SDL.h"
 
