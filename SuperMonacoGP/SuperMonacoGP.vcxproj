@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AICar.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="CtrlCar.cpp" />
@@ -46,6 +47,7 @@
     <ClCompile Include="TextFont.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AICar.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Color.h" />

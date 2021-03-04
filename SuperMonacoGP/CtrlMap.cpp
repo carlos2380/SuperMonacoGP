@@ -37,10 +37,10 @@ bool CtrlMap::Start()
 	loadRoad();
 
 	sizeMap = mapLines.size();
-	playerX = 0;
-	playerXMirror = 0;
-	worldPosition = -850000;
-	worldPositionMirror = +850000;
+	playerX = 0.f;
+	playerXMirror = 0.f;
+	worldPosition = -50000;
+	worldPositionMirror = +50000;
 	lastMapPosition = mapPosition;
 	skySprites = App->textures->Load("Sprites/SkyBox.bmp", 255, 0, 255);
 	raceSprites = App->textures->Load("Sprites/RaceSprites.bmp", 255, 0, 255);
@@ -77,9 +77,10 @@ bool CtrlMap::CleanUp()
 	return true;
 }
 
+
 update_status CtrlMap::Update()
 {
-
+	++testInt;
 	speed = App->scene_race->ctrlCar->speed*1.6;
 	speedMirror = -speed;
 	//UPDATE TURN
@@ -184,11 +185,15 @@ update_status CtrlMap::Update()
 						mapMirror[n%sizeMap].drawSpriteMirror(tunnelSprites);
 						mapMirror[n%sizeMap].sprite = tunnelVector[0];
 					}
-					else
+					else if(mapMirror[n % sizeMap].sprite == tunnelVector[2])
 					{
 						mapMirror[n%sizeMap].sprite = tunnelVector[3];
 						mapMirror[n%sizeMap].drawSpriteMirror(tunnelSprites);
 						mapMirror[n%sizeMap].sprite = tunnelVector[2];
+					}
+					else 
+					{
+						mapMirror[n % sizeMap].drawSpriteMirror(tunnelSprites);
 					}
 				}
 				else
@@ -277,11 +282,15 @@ update_status CtrlMap::Update()
 						mapLines[n%sizeMap].sprite = tunnelVector[1];
 						mapLines[n%sizeMap].drawSprite(tunnelSprites);
 						mapLines[n%sizeMap].sprite = tunnelVector[0];
-					}else
+					}else if (mapLines[n % sizeMap].sprite == tunnelVector[2])
 					{
 						mapLines[n%sizeMap].sprite = tunnelVector[3];
 						mapLines[n%sizeMap].drawSprite(tunnelSprites);
 						mapLines[n%sizeMap].sprite = tunnelVector[2];
+					}
+					else 
+					{
+						mapLines[n % sizeMap].drawSprite(tunnelSprites);
 					}
 				}
 				else
@@ -296,6 +305,7 @@ update_status CtrlMap::Update()
 		}
 	}
 
+	
 
 
 	//UPDATE NEXT SKYBOX X
@@ -346,13 +356,42 @@ void CtrlMap::drawPoligonMirror(int x1, int y1, int w1, int x2, int y2, int w2, 
 
 void CtrlMap::loadRoad()
 {
+	ifstream fileCarsAI("Files/CarsAI.json");
+	json jsnCarsAI;
+	fileCarsAI >> jsnCarsAI;
+	fileCarsAI.close();
+	list<json> carsAIJson = jsnCarsAI["AICar"];
+	list<json> carsAIMirrorJson = jsnCarsAI["AICarMirror"];
+	CarAIVector = vector<SDL_Rect*>(carsAIJson.size());
+	CarAIMirrorVector = vector<SDL_Rect*>(carsAIMirrorJson.size());
+	int j = 0;
+	for (list<json>::iterator it = carsAIJson.begin(); it != carsAIJson.end(); ++it)
+	{
+		CarAIVector[j] = new SDL_Rect();
+		CarAIVector[j]->x = (*it).at("x");
+		CarAIVector[j]->y = (*it).at("y");
+		CarAIVector[j]->w = (*it).at("w");
+		CarAIVector[j]->h = (*it).at("h");
+		++j;
+	}
+	j = 0;
+	for (list<json>::iterator it = carsAIMirrorJson.begin(); it != carsAIMirrorJson.end(); ++it)
+	{
+		CarAIMirrorVector[j] = new SDL_Rect();
+		CarAIMirrorVector[j]->x = (*it).at("x");
+		CarAIMirrorVector[j]->y = (*it).at("y");
+		CarAIMirrorVector[j]->w = (*it).at("w");
+		CarAIMirrorVector[j]->h = (*it).at("h");
+		++j;
+	}
+
 	ifstream fileSprite("Files/SpritesRoad.json");
 	json jsnSprite;
 	fileSprite >> jsnSprite;
 	fileSprite.close();
 	list<json> spritesJson = jsnSprite;
 	spriteVector = vector<SDL_Rect*>(spritesJson.size());
-	int j = 0;
+	j = 0;
 	for (list<json>::iterator it = spritesJson.begin(); it != spritesJson.end(); ++it)
 	{
 		spriteVector[j] = new SDL_Rect();

@@ -27,6 +27,8 @@ public:
 	SDL_Texture* raceSprites = nullptr;
 	SDL_Texture* tunnelSprites = nullptr;
 	SDL_Texture* skySprites = nullptr;
+	std::vector<SDL_Rect*> CarAIVector;
+	std::vector<SDL_Rect*> CarAIMirrorVector;
 
 	int sizeMap;
 	int segL = 600; //segment length
