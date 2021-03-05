@@ -27,8 +27,6 @@ public:
 	SDL_Texture* raceSprites = nullptr;
 	SDL_Texture* tunnelSprites = nullptr;
 	SDL_Texture* skySprites = nullptr;
-	std::vector<SDL_Rect*> CarAIVector;
-	std::vector<SDL_Rect*> CarAIMirrorVector;
 
 	int sizeMap;
 	int segL = 600; //segment length
@@ -52,7 +50,8 @@ public:
 	int heightMirror = 40 * SCREEN_SIZE;
 	int roadW = 4000;
 	float camD = 0.84f; //camera depth
-
+	std::vector<Line> mapLines;
+	std::vector<Line> mapMirror;
 
 	//MIRROR
 
@@ -62,8 +61,7 @@ private:
 	SDL_Rect skyboxMirror;
 	std::vector<SDL_Rect*> spriteVector;
 	std::vector<SDL_Rect*> tunnelVector;
-	std::vector<Line> mapLines;
-	std::vector<Line> mapMirror;
+	
 	//SDL_Rect whells;
 };
 

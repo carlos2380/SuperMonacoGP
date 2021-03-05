@@ -7,6 +7,7 @@
 #include "CtrlCar.h"
 #include "CtrlUI.h"
 #include "CtrlMap.h"
+#include "CtrlAICars.h"
 
 struct SDL_Texture;
 class ModuleSceneRace : public Module
@@ -29,6 +30,7 @@ public:
 	CtrlMap* ctrlMap;
 	CtrlCar* ctrlCar;
 	CtrlUI* ctrlUI;
+	CtrlAICars* ctrlAICars;
 
 	int lap = 0;
 	int position = 10;

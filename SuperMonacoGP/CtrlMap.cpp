@@ -80,7 +80,6 @@ bool CtrlMap::CleanUp()
 
 update_status CtrlMap::Update()
 {
-	++testInt;
 	speed = App->scene_race->ctrlCar->speed*1.6;
 	speedMirror = -speed;
 	//UPDATE TURN
@@ -206,6 +205,7 @@ update_status CtrlMap::Update()
 				mapMirror[n%sizeMap].drawSpriteMirror(raceSprites);
 			}
 		}
+		mapMirror[n % sizeMap].drawCarsMirror();
 	}
 	App->renderer->Blit(skySprites, 0, 65, &sky);
 	App->renderer->Blit(skySprites, 0, sckyBoxY, &skybox);
@@ -303,6 +303,7 @@ update_status CtrlMap::Update()
 				mapLines[n%sizeMap].drawSprite(raceSprites);
 			}
 		}
+		mapLines[n % sizeMap].drawCars();
 	}
 
 	
@@ -356,34 +357,7 @@ void CtrlMap::drawPoligonMirror(int x1, int y1, int w1, int x2, int y2, int w2, 
 
 void CtrlMap::loadRoad()
 {
-	ifstream fileCarsAI("Files/CarsAI.json");
-	json jsnCarsAI;
-	fileCarsAI >> jsnCarsAI;
-	fileCarsAI.close();
-	list<json> carsAIJson = jsnCarsAI["AICar"];
-	list<json> carsAIMirrorJson = jsnCarsAI["AICarMirror"];
-	CarAIVector = vector<SDL_Rect*>(carsAIJson.size());
-	CarAIMirrorVector = vector<SDL_Rect*>(carsAIMirrorJson.size());
-	int j = 0;
-	for (list<json>::iterator it = carsAIJson.begin(); it != carsAIJson.end(); ++it)
-	{
-		CarAIVector[j] = new SDL_Rect();
-		CarAIVector[j]->x = (*it).at("x");
-		CarAIVector[j]->y = (*it).at("y");
-		CarAIVector[j]->w = (*it).at("w");
-		CarAIVector[j]->h = (*it).at("h");
-		++j;
-	}
-	j = 0;
-	for (list<json>::iterator it = carsAIMirrorJson.begin(); it != carsAIMirrorJson.end(); ++it)
-	{
-		CarAIMirrorVector[j] = new SDL_Rect();
-		CarAIMirrorVector[j]->x = (*it).at("x");
-		CarAIMirrorVector[j]->y = (*it).at("y");
-		CarAIMirrorVector[j]->w = (*it).at("w");
-		CarAIMirrorVector[j]->h = (*it).at("h");
-		++j;
-	}
+	
 
 	ifstream fileSprite("Files/SpritesRoad.json");
 	json jsnSprite;
@@ -391,7 +365,7 @@ void CtrlMap::loadRoad()
 	fileSprite.close();
 	list<json> spritesJson = jsnSprite;
 	spriteVector = vector<SDL_Rect*>(spritesJson.size());
-	j = 0;
+	int j = 0;
 	for (list<json>::iterator it = spritesJson.begin(); it != spritesJson.end(); ++it)
 	{
 		spriteVector[j] = new SDL_Rect();

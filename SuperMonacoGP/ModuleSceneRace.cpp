@@ -38,6 +38,9 @@ bool ModuleSceneRace::Start()
 
 	ctrlUI = new CtrlUI();
 	ctrlUI->Start();
+
+	ctrlAICars = new CtrlAICars();
+	ctrlAICars->Start();
 	
 	lap = 0;
 	position = 10;
@@ -61,9 +64,12 @@ bool ModuleSceneRace::Start()
 bool ModuleSceneRace::CleanUp()
 {
 	LOG("Unloading space scene");
+	if (ctrlAICars != nullptr)ctrlAICars->CleanUp();
 	if(ctrlCar != nullptr)ctrlCar->CleanUp();
 	if (ctrlUI != nullptr)ctrlUI->CleanUp();
 	if (ctrlMap != nullptr)ctrlMap->CleanUp();
+	delete ctrlAICars;
+	ctrlAICars = nullptr;
 	delete ctrlCar;
 	ctrlCar = nullptr;
 	delete ctrlUI;
@@ -120,7 +126,7 @@ update_status ModuleSceneRace::Update()
 	}
 
 	ctrlUI->Update();
-
+	ctrlAICars->Update();
 	/*if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && App->fade->isFading() == false)
 	{
 		App->fade->FadeToBlack((Module*)App->scene_start, this);
