@@ -49,5 +49,6 @@ typedef unsigned int uint;
 #define FULLSCREEN false
 #define VSYNC true
 #define TITLE "Super Monaco GP"
+#define FPS 60
 
 #endif //__GLOBALS_H__

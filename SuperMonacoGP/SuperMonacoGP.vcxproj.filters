@@ -109,7 +109,9 @@
     <ClCompile Include="AICar.cpp">
       <Filter>Game Modules\ModeuleRace</Filter>
     </ClCompile>
-    <ClCompile Include="CtrlAICars.cpp" />
+    <ClCompile Include="CtrlAICars.cpp">
+      <Filter>Game Modules\ModeuleRace</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -202,6 +204,8 @@
     <ClInclude Include="AICar.h">
       <Filter>Game Modules\ModeuleRace</Filter>
     </ClInclude>
-    <ClInclude Include="CtrlAICars.h" />
+    <ClInclude Include="CtrlAICars.h">
+      <Filter>Game Modules\ModeuleRace</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

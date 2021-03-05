@@ -21,9 +21,13 @@ int main(int argc, char ** argv)
 
 	int main_return = EXIT_FAILURE;
 	main_states state = MAIN_CREATION;
-
+	float maxMilsecPerFrame = 1.0f / FPS * 1000;
+	Uint32 startTicks;
+	Uint32 finishTicks;
+	Uint32  elapsedMS;
 	while (state != MAIN_EXIT)
 	{
+		startTicks = SDL_GetTicks();
 		switch (state)
 		{
 		case MAIN_CREATION:
@@ -51,6 +55,7 @@ int main(int argc, char ** argv)
 
 		case MAIN_UPDATE:
 		{
+			Uint32 startTicks = SDL_GetTicks();
 			int update_return = App->Update();
 
 			if (update_return == UPDATE_ERROR)
@@ -77,8 +82,11 @@ int main(int argc, char ** argv)
 			state = MAIN_EXIT;
 
 			break;
-
 		}
+		finishTicks = SDL_GetTicks();
+		elapsedMS = (finishTicks - startTicks);
+		if (maxMilsecPerFrame > elapsedMS)
+			SDL_Delay(floor(maxMilsecPerFrame - elapsedMS));
 	}
 
 	RELEASE(App);
