@@ -9,6 +9,7 @@
 #include <SDL.h>
 #include <iostream>
 #include "CtrlUI.h"
+#include "AICar.h"
 #include "TextFont.h"
 #include "json.hpp"
 #include <fstream>
@@ -171,6 +172,12 @@ void CtrlUI::loadRects()
 	positionMiniMap->y = 825;
 	positionMiniMap->w = 6;
 	positionMiniMap->h = 7;
+
+	carAIMiniMap = new SDL_Rect();
+	carAIMiniMap->x = 209;
+	carAIMiniMap->y = 825;
+	carAIMiniMap->w = 5;
+	carAIMiniMap->h = 6;
 }
 
 
@@ -324,6 +331,8 @@ void CtrlUI::unloadRects()
 	limitOver = nullptr;
 	delete positionMiniMap;
 	positionMiniMap = nullptr;
+	delete carAIMiniMap;
+	carAIMiniMap = nullptr;
 	delete centerRotate;
 	centerRotate = nullptr;
 	for (int i = 0; i < manual.size(); ++i)
@@ -369,6 +378,13 @@ void CtrlUI::unloadTextFonts()
 
 void CtrlUI::printMiniMap()
 {
-	int posit = App->scene_race->ctrlMap->mapPosition;
-	App->renderer->Blit(uISprites, miniMapPos[posit / 16].first , miniMapPos[posit / 16].second , positionMiniMap);
+	int posit;
+	vector<AICar*>* carsAI = &(App->scene_race->ctrlAICars->AICars);
+	for (auto carAI : *carsAI) {
+		posit = carAI->linePos;
+		App->renderer->Blit(uISprites, miniMapPos[posit / 16].first, miniMapPos[posit / 16].second, carAIMiniMap);
+	}
+
+	posit = App->scene_race->ctrlMap->mapPosition;
+	App->renderer->Blit(uISprites, miniMapPos[posit / 16].first, miniMapPos[posit / 16].second, positionMiniMap);
 }

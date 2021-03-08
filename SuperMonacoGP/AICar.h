@@ -8,6 +8,7 @@ class AICar
 public:
 	AICar();
 	~AICar();
+	int getNextLine();
 private:
 
 public:
@@ -18,10 +19,13 @@ public:
 	SDL_Texture* tex = nullptr;;
 	float spriteX;
 	int lap = 1;//0;
-
-private:
+	int animSprite = 0;
 	int speed;
 	float turn;
+	int divisor = 10;
+
+private:
+	int counter = 0;
 
 };
 

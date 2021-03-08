@@ -56,6 +56,7 @@ private:
 	SDL_Rect* gearMark;
 	SDL_Rect* limitOver;
 	SDL_Rect* positionMiniMap;
+	SDL_Rect* carAIMiniMap;
 
 	SDL_Point* centerRotate;
 

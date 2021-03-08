@@ -52,19 +52,24 @@ bool CtrlAICars::Start() {
 		CarAIMirrorVector[j]->h = (*it).at("h");
 		++j;
 	}
-	AICars = vector<AICar*>(1);
-	AICars[0] = new AICar();
-	
+
+	int n = 5;
+	AICars = vector<AICar*>(n);
 	mapLines = &(App->scene_race->ctrlMap->mapLines);
 	mapMirror = &(App->scene_race->ctrlMap->mapMirror);
 	sizeMap = App->scene_race->ctrlMap->sizeMap;
 
-	AICars[0]->tex = texSprite;
-	AICars[0]->linePos = 0;
-	(*mapLines)[AICars[0]->linePos].addCar(AICars[0]);
-	AICars[0]->line = &(*mapLines)[AICars[0]->linePos];
-	AICars[0]->sprite = CarAIVector[0];
-
+	for (int i = 0; i < n; ++i) {
+		AICars[i] = new AICar();
+		AICars[i]->tex = texSprite;
+		AICars[i]->linePos = 6 + 6*(i/2);
+		(*mapLines)[AICars[i]->linePos].addCar(AICars[i]);
+		AICars[i]->line = &(*mapLines)[AICars[i]->linePos];
+		AICars[i]->sprite = CarAIVector[i % 2];
+		AICars[i]->spriteX = (i % 2) == 0 ? -0.5f : 0.5f;
+		AICars[i]->speed = 6+i;
+	}
+	
 	return true;
 }
 
@@ -90,20 +95,50 @@ bool CtrlAICars::CleanUp()
 
 int speed = 0;
 update_status CtrlAICars::Update() {
-	++speed;
-	if(speed%3 == 0) {
-		AICars[0]->line->removeCar(AICars[0]);
-		++AICars[0]->linePos%sizeMap;
+	int mapPosition = App->scene_race->ctrlMap->mapPosition;
+	for (int i = 0; i < AICars.size(); ++i) {
+		int nextLine = AICars[i]->getNextLine();
 
-		if (App->scene_race->ctrlMap->mapPosition < AICars[0]->linePos && App->scene_race->lap <= AICars[0]->lap) {
-			(*mapLines)[AICars[0]->linePos].addCar(AICars[0]);
-			AICars[0]->line = &(*mapLines)[AICars[0]->linePos];
-			AICars[0]->sprite = CarAIVector[AICars[0]->linePos % 2];
-		} else {
-			int linePos = (*mapMirror).size() - AICars[0]->linePos - 1;
-			(*mapMirror)[linePos].addCar(AICars[0]);
-			AICars[0]->line = &(*mapMirror)[linePos];
-			AICars[0]->sprite = CarAIMirrorVector[AICars[0]->linePos % 2];
+		if (nextLine > 0) {
+			if (nextLine >= sizeMap) ++AICars[i]->lap;
+			AICars[i]->line->removeCar(AICars[i]);
+			AICars[i]->linePos = ((AICars[i]->linePos + 1) % sizeMap);
+			if (mapPosition < AICars[i]->linePos && App->scene_race->lap <= AICars[i]->lap) {
+				Line* line = &(*mapLines)[AICars[i]->linePos];
+				line->addCar(AICars[i]);
+				AICars[i]->line = line;
+				if (line->curve == 0) {
+					AICars[i]->sprite = CarAIVector[0 + AICars[i]->animSprite];
+				}
+				else if (line->curve > 0 && line->curve < 30) {
+					AICars[i]->sprite = CarAIVector[2 + AICars[i]->animSprite];
+				}
+				else if (line->curve > 0) {
+					AICars[i]->sprite = CarAIVector[4 + AICars[i]->animSprite];
+				}
+				else if (line->curve <= -30) {
+					AICars[i]->sprite = CarAIVector[8 + AICars[i]->animSprite];
+				}
+				else {
+					AICars[i]->sprite = CarAIVector[6 + AICars[i]->animSprite];
+				}
+			}
+			else {
+				int linePos = (*mapMirror).size() - AICars[i]->linePos - 1;
+				Line* line = &(*mapMirror)[linePos];
+				line->addCar(AICars[i]);
+				AICars[i]->line = line;
+				if (line->curve == 0) {
+					AICars[i]->sprite = CarAIMirrorVector[0 + AICars[i]->animSprite];
+				}
+				else if (line->curve > 0) {
+					AICars[i]->sprite = CarAIMirrorVector[2 + AICars[i]->animSprite];
+				}
+				else {
+					AICars[i]->sprite = CarAIMirrorVector[4 + AICars[i]->animSprite];
+				}
+			}
+			AICars[i]->animSprite = AICars[i]->animSprite ? 0 : 1;
 		}
 	}
 	
