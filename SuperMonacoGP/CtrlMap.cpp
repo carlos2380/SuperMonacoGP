@@ -40,7 +40,7 @@ bool CtrlMap::Start()
 	playerX = 0.f;
 	playerXMirror = 0.f;
 	worldPosition = -50000;
-	worldPositionMirror = +50000;
+	worldPositionMirror = +50750;
 	lastMapPosition = mapPosition;
 	skySprites = App->textures->Load("Sprites/SkyBox.bmp", 255, 0, 255);
 	raceSprites = App->textures->Load("Sprites/RaceSprites.bmp", 255, 0, 255);
